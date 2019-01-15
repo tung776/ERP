@@ -3155,7 +3155,7 @@ module.exports = function (models, event) {
                     }
 
                     ratesService.getPrevious({
-                        id    : moment(paymentDate).format('YYYY-MM-DD'),
+                        id    :moment(paymentDate).format('YYYY-MM-DD'),
                         dbName: db
                     }, function (err, prevRates) {
                         if (err) {

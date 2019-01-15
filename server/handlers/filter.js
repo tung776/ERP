@@ -3,12 +3,12 @@ var Filters = function (models) {
     'use strict';
 
     var mongoose = require('mongoose');
-    var _ = require('../node_modules/underscore');
+    var _ = require('underscore');
     var objectId = mongoose.Types.ObjectId;
     var async = require('async');
     var CONSTANTS = require('../constants/mainConstants.js');
-    var moment = require('../public/js/libs/moment/moment');
-    var FILTER_CONSTANTS = require('../public/js/constants/filters');
+    var moment = require('moment');
+    var FILTER_CONSTANTS = require(' ../constants/filters');
 
     this.getProjectsDashboardFilters = function (req, res, next) {
         var lastDB = req.session.lastDb;
@@ -3530,8 +3530,8 @@ var Filters = function (models) {
         function dateRange() {
             'use strict';
             var weeksArr = [];
-            var startWeek = moment().isoWeek() - 1;
-            var year = moment().isoWeekYear();
+            var startWeek =moment().isoWeek() - 1;
+            var year =moment().isoWeekYear();
             var week;
             var i;
 
@@ -3554,8 +3554,8 @@ var Filters = function (models) {
         }
 
         if (filter && filter.date && filter.date.value && filter.date.value.length) {
-            _startDate = moment(new Date(filter.date.value[0]));
-            _endDate = moment(new Date(filter.date.value[1]));
+            _startDate =moment(new Date(filter.date.value[0]));
+            _endDate =moment(new Date(filter.date.value[1]));
             startDate = _startDate.isoWeekYear() * 100 + _startDate.isoWeek();
             endDate = _endDate.isoWeekYear() * 100 + _endDate.isoWeek();
         }

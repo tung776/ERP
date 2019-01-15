@@ -6,7 +6,7 @@ var CONSTANTS = require('../constants/mainConstants');
 var FilterMapper = require('../helpers/filterMapper');
 var filterMapper = new FilterMapper();
 
-var moment = require('../public/js/libs/moment/moment');
+var moment = require('moment');
 
 var wTrack = function (models) {
     'use strict';
@@ -838,7 +838,7 @@ var wTrack = function (models) {
         projectionContent = projectionContent.toUpperCase();
 
         var options = req.query;
-        var _dateMoment = moment();
+        var _dateMoment =moment();
         var _endDateMoment;
         var startDate = options.startDate;
         var endDate = options.endDate;
@@ -849,12 +849,12 @@ var wTrack = function (models) {
         var match;
 
         if (!startDate && !endDate) {
-            _endDateMoment = moment(_dateMoment).subtract(1, 'years');
+            _endDateMoment =moment(_dateMoment).subtract(1, 'years');
             startDate = _dateMoment.startOf('month').hours(0).minutes(0);
             endDate = _endDateMoment.endOf('month').hours(23).minutes(59);
         } else {
-            startDate = moment(new Date(startDate)).startOf('day');
-            endDate = moment(new Date(endDate)).endOf('day');
+            startDate =moment(new Date(startDate)).startOf('day');
+            endDate =moment(new Date(endDate)).endOf('day');
         }
 
         startDate = startDate.toDate();
@@ -1204,8 +1204,8 @@ var wTrack = function (models) {
         var waterfallTasks;
         var projectIds;
 
-        var startMomentDate = moment().isoWeekYear(startYear).month(startMonth - 1);
-        var endMomentDate = moment().isoWeekYear(endYear).month(endMonth - 1);
+        var startMomentDate =moment().isoWeekYear(startYear).month(startMonth - 1);
+        var endMomentDate =moment().isoWeekYear(endYear).month(endMonth - 1);
 
         var startWeek = startMomentDate.isoWeek();
         var endWeek = endMomentDate.isoWeek();
@@ -1532,8 +1532,8 @@ var wTrack = function (models) {
         var waterfallTasks;
         var projectIds;
 
-        var startMomentDate = moment().isoWeekYear(startYear).month(startMonth - 1);
-        var endMomentDate = moment().isoWeekYear(endYear).month(endMonth - 1);
+        var startMomentDate =moment().isoWeekYear(startYear).month(startMonth - 1);
+        var endMomentDate =moment().isoWeekYear(endYear).month(endMonth - 1);
 
         var startWeek = startMomentDate.isoWeek();
         var endWeek = endMomentDate.isoWeek();
@@ -1951,7 +1951,7 @@ var wTrack = function (models) {
             var WTrack = models.get(req.session.lastDb, 'wTrack', wTrackSchema);
 
             var endMonth = startMonth;
-            var nowMonth = moment().month() + 1;
+            var nowMonth =moment().month() + 1;
             var endYear = startYear;
 
             var startDate;
@@ -2121,7 +2121,7 @@ var wTrack = function (models) {
             var endMonth = startMonth;
 
             var endYear = parseInt(startYear) + 1;
-            var startWeek = moment().year(startYear).month(startMonth - 1).isoWeek();
+            var startWeek =moment().year(startYear).month(startMonth - 1).isoWeek();
             var match;
             var matchHoliday;
             var matchVacation;
@@ -2374,7 +2374,7 @@ var wTrack = function (models) {
 
                         hire.forEach(function (hireDate) {
                             date = new Date(hireDate);
-                            employee.hire.push(moment(date).year() * 100 + moment(date).month() + 1);
+                            employee.hire.push(moment(date).year() * 100 +moment(date).month() + 1);
                         });
 
                         employee.fire = [];
@@ -2383,7 +2383,7 @@ var wTrack = function (models) {
 
                         fire.forEach(function (hireDate) {
                             date = new Date(hireDate);
-                            employee.fire.push(moment(date).year() * 100 + moment(date).month() + 1);
+                            employee.fire.push(moment(date).year() * 100 +moment(date).month() + 1);
                         });
 
                         employee._id = element._id;
@@ -2411,9 +2411,9 @@ var wTrack = function (models) {
                             });
 
                             holidays.forEach(function (holiday) {
-                                var dateMonth = moment(holiday.date).month() + 1;
-                                var dateYear = moment(holiday.date).year();
-                                var dayNumber = moment(holiday.date).day();
+                                var dateMonth =moment(holiday.date).month() + 1;
+                                var dateYear =moment(holiday.date).year();
+                                var dayNumber =moment(holiday.date).day();
 
                                 if ((dateMonth === month) && (dateYear === year) && (dayNumber !== 0 && dayNumber !== 6)) {
                                     holidaysForMonth += 1;
@@ -2815,16 +2815,16 @@ var wTrack = function (models) {
         };
 
         if (startDate && endDate) {
-            momentStartDate = moment(new Date(startDate));
-            momentEndDate = moment(new Date(endDate));
+           momentStartDate =moment(new Date(startDate));
+           momentEndDate =moment(new Date(endDate));
 
-            startYear = momentStartDate.year();
-            startMonth = momentStartDate.month();
-            startWeek = momentStartDate.isoWeek();
+            startYear =momentStartDate.year();
+            startMonth =momentStartDate.month();
+            startWeek =momentStartDate.isoWeek();
 
-            endYear = momentEndDate.year();
-            endMonth = momentEndDate.month();
-            endWeek = momentEndDate.isoWeek();
+            endYear =momentEndDate.year();
+            endMonth =momentEndDate.month();
+            endWeek =momentEndDate.isoWeek();
 
             startDateByWeeek = startYear * 100 + startWeek;
             startDateByMonth = startYear * 100 + startMonth;
@@ -3653,16 +3653,16 @@ var wTrack = function (models) {
             startDate = new Date(startDate);
             endDate = new Date(endDate);
 
-            momentStartDate = moment(startDate);
-            momentEndDate = moment(endDate);
+           momentStartDate =moment(startDate);
+           momentEndDate =moment(endDate);
 
-            startYear = momentStartDate.year();
-            startMonth = momentStartDate.month();
-            startWeek = momentStartDate.isoWeek();
+            startYear =momentStartDate.year();
+            startMonth =momentStartDate.month();
+            startWeek =momentStartDate.isoWeek();
 
-            endYear = momentEndDate.year();
-            endMonth = momentEndDate.month();
-            endWeek = momentEndDate.isoWeek();
+            endYear =momentEndDate.year();
+            endMonth =momentEndDate.month();
+            endWeek =momentEndDate.isoWeek();
 
             startDateByWeeek = startYear * 100 + startWeek;
             startDateByMonth = startYear * 100 + startMonth;
@@ -4386,7 +4386,7 @@ var wTrack = function (models) {
         projectionContent = projectionContent.toUpperCase();
 
         var options = req.query;
-        var _dateMoment = moment();
+        var _dateMoment =moment();
         var _endDateMoment;
         var startDate = options.startDate;
         var endDate = options.endDate;
@@ -4397,12 +4397,12 @@ var wTrack = function (models) {
         var match;
 
         if (!startDate && !endDate) {
-            _endDateMoment = moment(_dateMoment).subtract(1, 'years');
+            _endDateMoment =moment(_dateMoment).subtract(1, 'years');
             startDate = _dateMoment.startOf('month').hours(0).minutes(0);
             endDate = _endDateMoment.endOf('month').hours(23).minutes(59);
         } else {
-            startDate = moment(new Date(startDate)).startOf('day');
-            endDate = moment(new Date(endDate)).endOf('day');
+            startDate =moment(new Date(startDate)).startOf('day');
+            endDate =moment(new Date(endDate)).endOf('day');
         }
 
         startDate = startDate.toDate();

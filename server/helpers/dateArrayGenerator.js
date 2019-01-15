@@ -1,7 +1,7 @@
 function generator(startDate, endDate) {
     "use strict";
 
-    var moment = require('../public/js/libs/moment/moment');
+    var moment = require('moment');
 
     var startIsoYear = startDate.isoWeekYear();
     var startYear = startDate.year();
@@ -9,7 +9,7 @@ function generator(startDate, endDate) {
     var startMonth = startDate.month() + 1;
     var _startMonth = startMonth;
     var startIsoWeek = startDate.isoWeek();
-    var firstMondeyDate = moment(startDate).day(1);//can be > then startDate, when startDateDay=0
+    var firstMondeyDate =moment(startDate).day(1);//can be > then startDate, when startDateDay=0
 
     var endIsoYear = endDate.isoWeekYear();
     var endYear = endDate.year();
@@ -21,7 +21,7 @@ function generator(startDate, endDate) {
     var needDivide = endYear !== startYear;
 
     var duration = endDate.diff(startDate, 'weeks');
-    var _dateStr = moment(startDate);
+    var _dateStr =moment(startDate);
     var weeks = 0;
     var weeksArr = [];
 

@@ -3,7 +3,7 @@ var WorkflowHandler = require('./workflow');
 var RESPONSES = require('../constants/responses');
 // var oxr = require('open-exchange-rates');
 // var fx = require('money');
-var moment = require('../public/js/libs/moment/moment');
+var moment = require('moment');
 var fs = require('fs');
 var pathMod = require('path');
 var pageHelper = require('../helpers/pageHelper');
@@ -33,7 +33,7 @@ var Module = function (models, event) {
     var rewriteAccess = require('../helpers/rewriteAccess');
     var async = require('async');
     var workflowHandler = new WorkflowHandler(models);
-    var _ = require('../node_modules/underscore');
+    var _ = require('underscore');
     var CONSTANTS = require('../constants/mainConstants.js');
     var JournalEntryService = require('../services/journalEntry')(models);
     var JournalEntryHandler = require('./journalEntry');
@@ -240,7 +240,7 @@ var Module = function (models, event) {
 
         function getRates(parallelResponse, callback) {
             var order = parallelResponse[0];
-            var date = moment(order.orderDate).format('YYYY-MM-DD');
+            var date =moment(order.orderDate).format('YYYY-MM-DD');
 
             ratesService.getById({id: date, dbName: req.session.lastDb}, function (err, result) {
 
@@ -544,7 +544,7 @@ var Module = function (models, event) {
         }
 
         if (data.invoiceDate) {
-            date = moment(new Date(data.invoiceDate));
+            date =moment(new Date(data.invoiceDate));
             date = date.format('YYYY-MM-DD');
         }
 

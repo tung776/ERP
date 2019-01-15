@@ -7,7 +7,7 @@ var mongoose = require('mongoose');
 var _ = require('lodash');
 var CONSTANTS = require('../constants/mainConstants');
 
-var moment = require('../public/js/libs/moment/moment');
+var moment = require('moment');
 
 var dateCalc = require('../helpers/dateManipulator');
 
@@ -1117,10 +1117,10 @@ module.exports = function (models) {
                             var startDate = fetchedBonus['StartDate'] || (result.project ? result.project.StartDate : null);
                             var endDate = fetchedBonus['EndDate'] || (result.project ? result.project.EndDate : null);
 
-                            var startWeek = moment(startDate).isoWeek();
-                            var startYear = moment(startDate).isoWeekYear();
-                            var endWeek = moment(endDate).isoWeek();
-                            var endYear = moment(endDate).isoWeekYear();
+                            var startWeek =moment(startDate).isoWeek();
+                            var startYear =moment(startDate).isoWeekYear();
+                            var endWeek =moment(endDate).isoWeek();
+                            var endYear =moment(endDate).isoWeekYear();
 
                             var query = {
                                 _id: projectId
@@ -1617,7 +1617,7 @@ module.exports = function (models) {
                                 firedParsedArr = firedImported.split('/');
                                 dateString = firedParsedArr[2] + '-' + firedParsedArr[1] + '-' + firedParsedArr[0];
                                 fire = new Date(dateString);
-                                _fire = moment(dateString).year() * 100 + moment(dateString).isoWeek();
+                                _fire =moment(dateString).year() * 100 +moment(dateString).isoWeek();
 
                                 if (!lastFire[key]) {
                                     lastFire[key] = _fire;
@@ -1793,8 +1793,8 @@ module.exports = function (models) {
                     }
 
                     if (fetchedHoliday) {
-                        objectToSave.year = moment(fetchedHoliday.Date).year();
-                        objectToSave.week = moment(fetchedHoliday.Date).isoWeek();
+                        objectToSave.year =moment(fetchedHoliday.Date).year();
+                        objectToSave.week =moment(fetchedHoliday.Date).isoWeek();
                         model = new Holiday(objectToSave);
                         model.save(cb);
                     }
@@ -1902,7 +1902,7 @@ module.exports = function (models) {
                                         'employee._id': objectToSave.employee._id
                                     })
                                         .exec(function (err, result) {
-                                            var dateValue = moment([objectToSave.year, objectToSave.month - 1]);
+                                            var dateValue =moment([objectToSave.year, objectToSave.month - 1]);
                                             var weekKey;
                                             var dayNumber;
 
@@ -1915,9 +1915,9 @@ module.exports = function (models) {
                                                 for (var i = endDay; i >= startDay; i--) {
 
                                                     dateValue.date(i);
-                                                    weekKey = objectToSave.year * 100 + moment(date).isoWeek();
+                                                    weekKey = objectToSave.year * 100 +moment(date).isoWeek();
 
-                                                    dayNumber = moment(dateValue).day();
+                                                    dayNumber =moment(dateValue).day();
 
                                                     if (dayNumber !== 0 && dayNumber !== 6) {
                                                         result.vacations[weekKey] ? result.vacations[weekKey] += 1 : result.vacations[weekKey] = 1;
@@ -1939,9 +1939,9 @@ module.exports = function (models) {
                                                 for (var i = endDay; i >= startDay; i--) {
 
                                                     dateValue.date(i);
-                                                    weekKey = objectToSave.year * 100 + moment(date).isoWeek();
+                                                    weekKey = objectToSave.year * 100 +moment(date).isoWeek();
 
-                                                    dayNumber = moment(dateValue).day();
+                                                    dayNumber =moment(dateValue).day();
 
                                                     if (dayNumber !== 0 && dayNumber !== 6) {
                                                         objectToSave.vacations[weekKey] ? objectToSave.vacations[weekKey] += 1 : objectToSave.vacations[weekKey] = 1;

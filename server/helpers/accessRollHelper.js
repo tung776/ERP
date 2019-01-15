@@ -2,7 +2,7 @@ module.exports = function (models) {
     'use strict';
     var mongoose = require('mongoose');
     var rewriteAccess = require('./rewriteAccess');
-    var _ = require('../node_modules/underscore');
+    var _ = require('underscore');
     var async = require('async');
     var DepartmentSchema = mongoose.Schemas.Department;
     var objectId = mongoose.Types.ObjectId;

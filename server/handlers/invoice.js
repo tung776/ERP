@@ -3,7 +3,7 @@ var WorkflowHandler = require('./workflow');
 var RESPONSES = require('../constants/responses');
 var oxr = require('open-exchange-rates');
 var fx = require('money');
-var moment = require('../public/js/libs/moment/moment');
+var moment = require('moment');
 var fs = require('fs');
 var pathMod = require('path');
 var pageHelper = require('../helpers/pageHelper');
@@ -31,7 +31,7 @@ var Module = function (models, event) {
     var rewriteAccess = require('../helpers/rewriteAccess');
     var async = require('async');
     var workflowHandler = new WorkflowHandler(models);
-    var _ = require('../node_modules/underscore');
+    var _ = require('underscore');
     var CONSTANTS = require('../constants/mainConstants.js');
     var JournalEntryHandler = require('./journalEntry');
     var _journalEntryHandler = new JournalEntryHandler(models, event);
@@ -274,7 +274,7 @@ var Module = function (models, event) {
         var Order = models.get(dbIndex, 'Quotation', OrderSchema);
         var Company = models.get(dbIndex, 'Customer', CustomerSchema);
         var request;
-        var date = moment().format('YYYY-MM-DD');
+        var date =moment().format('YYYY-MM-DD');
         var parallelTasks;
         var waterFallTasks;
 
@@ -689,7 +689,7 @@ var Module = function (models, event) {
 
         delete data.salesPerson;
 
-        date = moment(new Date(data.invoiceDate));
+        date =moment(new Date(data.invoiceDate));
         date = date.format('YYYY-MM-DD');
 
         Invoice = models.get(db, wTrackInvoiceCT, wTrackInvoiceSchema);
@@ -837,8 +837,8 @@ var Module = function (models, event) {
                                 model = 'Invoice';
                                 journal = invoice.journal; // CONSTANTS.INVOICE_JOURNAL;
 
-                                dateForJobs = moment(new Date(data.invoiceDate)).subtract(1, 'seconds');
-                                dateForJobsFinished = moment(new Date(data.invoiceDate)).subtract(2, 'seconds');
+                                dateForJobs =moment(new Date(data.invoiceDate)).subtract(1, 'seconds');
+                                dateForJobsFinished =moment(new Date(data.invoiceDate)).subtract(2, 'seconds');
 
                                 invoiceProducts = invoice.products;
 
@@ -925,8 +925,8 @@ var Module = function (models, event) {
                             model = 'Invoice';
                             journal = invoice.journal; // CONSTANTS.INVOICE_JOURNAL;
 
-                            dateForJobs = moment(new Date(data.invoiceDate)).subtract(1, 'seconds');
-                            dateForJobsFinished = moment(new Date(data.invoiceDate)).subtract(2, 'seconds');
+                            dateForJobs =moment(new Date(data.invoiceDate)).subtract(1, 'seconds');
+                            dateForJobsFinished =moment(new Date(data.invoiceDate)).subtract(2, 'seconds');
 
                             invoiceProducts = invoice.products;
 
@@ -2414,7 +2414,7 @@ var Module = function (models, event) {
         var project = req.query.projectId;
         var currentDbName = req.session ? req.session.lastDb : null;
         var db = currentDbName ? models.connection(currentDbName) : null;
-        var date = moment().format('DD/MM/YYYY');
+        var date =moment().format('DD/MM/YYYY');
 
         db.collection('settings').findOneAndUpdate({
             dbName : currentDbName,
@@ -2705,11 +2705,11 @@ var Module = function (models, event) {
 
     this.chartForProject = function (req, res, next) {
         var Invoice = models.get(req.session.lastDb, 'Invoice', InvoiceSchema);
-        var now = moment();
+        var now =moment();
 
         var query = req.query;
-        var startDate = query.startDate ? moment(new Date(query.startDate)) : moment(now).subtract(1, 'month');
-        var endDate = query.endDate ? moment(new Date(query.endDate)) : now;
+        var startDate = query.startDate ?moment(new Date(query.startDate)) :moment(now).subtract(1, 'month');
+        var endDate = query.endDate ?moment(new Date(query.endDate)) : now;
 
         startDate = startDate.toDate();
         endDate = endDate.toDate();

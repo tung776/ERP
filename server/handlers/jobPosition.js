@@ -9,7 +9,7 @@ var Module = function (models) {
     var async = require('async');
     var objectId = mongoose.Types.ObjectId;
 
-    var _ = require('../node_modules/underscore');
+    var _ = require('underscore');
     var pageHelper = require('../helpers/pageHelper');
 
     this.getFilterValues = function (req, res, next) {

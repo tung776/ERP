@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 var async = require('async');
-var moment = require('../public/js/libs/moment/moment');
+var moment = require('moment');
 var FilterMapper = require('../helpers/filterMapper');
 var filterMapper = new FilterMapper();
 var redisStore = require('../helpers/redisClient');
@@ -57,8 +57,8 @@ var Module = function (models) {
 
     this.syncRates = function (req, res, next) {
         var data = req.query;
-        var startDate = data.startDate && moment(new Date(data.startDate)).format('YYYY-MM-DD') || '2016-05-01';
-        var endDate = data.endDate && moment(new Date(data.endDate)).format('YYYY-MM-DD') || '2016-11-02';
+        var startDate = data.startDate &&moment(new Date(data.startDate)).format('YYYY-MM-DD') || '2016-05-01';
+        var endDate = data.endDate &&moment(new Date(data.endDate)).format('YYYY-MM-DD') || '2016-11-02';
         var getRates;
         var createRates;
         var check = new Date(endDate) - new Date(startDate);
@@ -79,7 +79,7 @@ var Module = function (models) {
             do {
                 datesArray.push(moment(new Date(startDate)).format('YYYY-MM-DD'));
 
-                startDate = moment(new Date(startDate)).add(1, 'day').format('YYYY-MM-DD');
+                startDate =moment(new Date(startDate)).add(1, 'day').format('YYYY-MM-DD');
 
                 check = new Date(endDate) - new Date(startDate);
             } while (check > 0);

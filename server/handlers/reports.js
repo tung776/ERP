@@ -1,8 +1,8 @@
 var mongoose = require('mongoose');
 var async = require('async');
-var moment = require('../public/js/libs/moment/moment');
+var moment = require('moment');
 var _ = require('lodash');
-var reportConst = require('../public/js/constants/customReports');
+var reportConst = require(' ../constants/customReports');
 var REPORT_CONSTANTS = reportConst.reports;
 var TOTAL_CONSTANTS = reportConst.total;
 var ProductSchema = mongoose.Schemas.Products;
@@ -281,8 +281,8 @@ var Module = function (models) {
 
     function getSalesByMonth(options, callback) {
         var dbName = options.dbName;
-        var startDate = options.dateRange && options.dateRange.from && moment(new Date(options.dateRange.from)).add(5, 'hours').startOf('day');
-        var endDate = options.dateRange && options.dateRange.to && moment(new Date(options.dateRange.to)).endOf('day');
+        var startDate = options.dateRange && options.dateRange.from &&moment(new Date(options.dateRange.from)).add(5, 'hours').startOf('day');
+        var endDate = options.dateRange && options.dateRange.to &&moment(new Date(options.dateRange.to)).endOf('day');
         var projectRows = options.rows;
         var sort = {
             month: 1
@@ -429,7 +429,7 @@ var Module = function (models) {
 
             _.forEach(result, function (item) {
                 if (item && item._id) {
-                    item.month = moment(dateParser((item._id).toString())).format('MMMM-YYYY');
+                    item.month =moment(dateParser((item._id).toString())).format('MMMM-YYYY');
                 }
             });
 
@@ -1381,8 +1381,8 @@ var Module = function (models) {
         var groupBy = options.groupBy;
 
         if (options.reportType === 'employeesByHiredPeriod' || options.reportType === 'employeesByFiredPeriod') {
-            startDate = options.dateRange && options.dateRange.from && moment(new Date(options.dateRange.from)).add(5, 'hours').startOf('day');
-            endDate = options.dateRange && options.dateRange.to && moment(new Date(options.dateRange.to)).endOf('day');
+            startDate = options.dateRange && options.dateRange.from &&moment(new Date(options.dateRange.from)).add(5, 'hours').startOf('day');
+            endDate = options.dateRange && options.dateRange.to &&moment(new Date(options.dateRange.to)).endOf('day');
             dateRange = {};
             checkHired = options.reportType === 'employeesByHiredPeriod' ? true : false;
         }
@@ -1476,8 +1476,8 @@ var Module = function (models) {
 
     function getProductsAvailability(options, callback) {
         var dbName = options.dbName;
-        var startDate = options.dateRange && options.dateRange.from ? moment(new Date(options.dateRange.from)).startOf('day') : moment(new Date(options.dateRange[0])).startOf('day');
-        var endDate = options.dateRange && options.dateRange.to ? moment(new Date(options.dateRange.to)).endOf('day') : moment(new Date(options.dateRange[1])).endOf('day');
+        var startDate = options.dateRange && options.dateRange.from ?moment(new Date(options.dateRange.from)).startOf('day') :moment(new Date(options.dateRange[0])).startOf('day');
+        var endDate = options.dateRange && options.dateRange.to ?moment(new Date(options.dateRange.to)).endOf('day') :moment(new Date(options.dateRange[1])).endOf('day');
         var sort;
 
         if (!dbName) {

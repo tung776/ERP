@@ -3,7 +3,7 @@
 var mongoose = require('mongoose');
 var async = require('async');
 var shippingMethodSchema = mongoose.Schemas.shippingMethod;
-var moment = require('../public/js/libs/moment/moment');
+var moment = require('moment');
 
 module.exports = function (models) {
 

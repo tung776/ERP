@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 var async = require('async');
 var objectId = mongoose.Types.ObjectId;
-var moment = require('../public/js/libs/moment/moment');
+var moment = require('moment');
 
 var Employee = function (event, models) {
     'use strict';
@@ -1101,10 +1101,10 @@ var Employee = function (event, models) {
         var Employee = models.get(req.session.lastDb, 'Employees', EmployeeSchema);
         var month = parseInt(req.query.month, 10) + 1;
         var year = parseInt(req.query.year, 10);
-        var startMomentDate = moment().year(year).month(month - 1).startOf('month');
-        var endMomentDate = moment().year(year).month(month - 1).endOf('month');
-        var startDate = year * 100 + moment(startMomentDate).week();
-        var endDate = year * 100 + moment(endMomentDate).week();
+        var startMomentDate =moment().year(year).month(month - 1).startOf('month');
+        var endMomentDate =moment().year(year).month(month - 1).endOf('month');
+        var startDate = year * 100 +moment(startMomentDate).week();
+        var endDate = year * 100 +moment(endMomentDate).week();
         var employeeQueryForEmployeeByDep = {
             $and: [{
                 $or: [{
@@ -1347,8 +1347,8 @@ var Employee = function (event, models) {
         var query = req.query;
         var month = parseInt(query.month, 10) + 1;
         var year = parseInt(query.year, 10);
-        var startMomentDate = moment().year(year).month(month - 1).startOf('month');
-        var endMomentDate = moment().year(year).month(month - 1).endOf('month');
+        var startMomentDate =moment().year(year).month(month - 1).startOf('month');
+        var endMomentDate =moment().year(year).month(month - 1).endOf('month');
         var startDate = new Date(startMomentDate);
         var endDate = new Date(endMomentDate);
 
@@ -1413,8 +1413,8 @@ var Employee = function (event, models) {
         var query = req.query;
         var month = parseInt(query.month, 10) + 1;
         var year = parseInt(query.year, 10);
-        var startMomentDate = moment().year(year).month(month - 1).startOf('month');
-        var endMomentDate = moment().year(year).month(month - 1).endOf('month');
+        var startMomentDate =moment().year(year).month(month - 1).startOf('month');
+        var endMomentDate =moment().year(year).month(month - 1).endOf('month');
         var startDate = new Date(startMomentDate);
         var endDate = new Date(endMomentDate);
 
@@ -1974,7 +1974,7 @@ var Employee = function (event, models) {
                     return cb();
                 }
 
-                transferDate = moment(new Date(updatedDoc.date)).subtract(1, 'days');
+                transferDate =moment(new Date(updatedDoc.date)).subtract(1, 'days');
                 transferDate = transferDate.toDate();
                 employee = updatedDoc.employee;
 

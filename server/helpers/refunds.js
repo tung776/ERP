@@ -1,5 +1,5 @@
 var async = require('async');
-var moment = require('../public/js/libs/moment/moment');
+var moment = require('moment');
 var MAIN_CONSTANTS = require('../constants/mainConstants');
 var _ = require('lodash');
 var GoodsInNotes = function (models) {
@@ -256,7 +256,7 @@ var GoodsInNotes = function (models) {
             return callback(error);
         }
 
-        date = data.date ? moment(new Date(data.date)) : now;
+        date = data.date ?moment(new Date(data.date)) : now;
 
         function getRates(waterfallCallback) {
             ratesService.getById({id: date, dbName: dbName}, function (err, result) {

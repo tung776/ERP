@@ -4,7 +4,7 @@ var RESPONSES = require('../constants/responses');
 var CONSTANTS = require('../constants/mainConstants');
 var oxr = require('open-exchange-rates');
 var fx = require('money');
-var moment = require('../public/js/libs/moment/moment');
+var moment = require('moment');
 
 var Proforma = function (models) {
     'use strict';
@@ -28,7 +28,7 @@ var Proforma = function (models) {
         var Proforma = models.get(dbIndex, 'Proforma', ProformaSchema);
         var Quotation = models.get(dbIndex, 'Quotation', QuotationSchema);
         var request;
-        var date = moment().format('YYYY-MM-DD');
+        var date =moment().format('YYYY-MM-DD');
         var parallelTasks;
         var waterFallTasks;
 

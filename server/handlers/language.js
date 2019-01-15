@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-var moment = require('../public/js/libs/moment/moment');
+var moment = require('moment');
 
 var Nationality = function (event, models) {
     'use strict';

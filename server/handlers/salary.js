@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-var moment = require('../public/js/libs/moment/moment');
+var moment = require('moment');
 var Salary = function (event, models) {
     'use strict';
 
@@ -442,12 +442,12 @@ var Salary = function (event, models) {
             mongoose.connections[4].db.collection('SalaryCash').drop();
             async.eachLimit(fetchedArray, 100, function (fetchedSalary, cb) {
                 var objectToSave = {};
-                var momentYear = moment().year(fetchedSalary._id.year).format('YY');
-                var momentMonth = moment().month(fetchedSalary._id.month - 1).format('MMM');
+                var momentYear =moment().year(fetchedSalary._id.year).format('YY');
+                var momentMonth =moment().month(fetchedSalary._id.month - 1).format('MMM');
 
                 if (fetchedSalary) {
                     objectToSave = {
-                        dataKey       : momentMonth + "/" + momentYear,
+                        dataKey       :momentMonth + "/" +momentYear,
                         month         : fetchedSalary._id.month,
                         year          : fetchedSalary._id.year,
                         calc          : {

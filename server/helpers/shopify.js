@@ -10,7 +10,7 @@ var imageHelper = require('../helpers/imageHelper');
 var ratesRetriever = require('../helpers/ratesRetriever')();
 var RefundsHelper = require('../helpers/refunds');
 var Uploader = require('../services/fileStorage/index');
-var moment = require('../public/js/libs/moment/moment');
+var moment = require('moment');
 var uploader = new Uploader();
 var logger = require('../helpers/logger');
 var WorkflowHandler = require('../handlers/workflow');
@@ -1989,7 +1989,7 @@ module.exports = function (models, event) {
                     }
 
                     ratesService.getPrevious({
-                        id    : moment(paymentDate).format('YYYY-MM-DD'),
+                        id    :moment(paymentDate).format('YYYY-MM-DD'),
                         dbName: db
                     }, function (err, prevRates) {
                         if (err) {

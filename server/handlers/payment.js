@@ -5,7 +5,7 @@ var WorkflowHandler = require('./workflow');
 var _ = require('lodash');
 // var oxr = require('open-exchange-rates');
 // var fx = require('money');
-var moment = require('../public/js/libs/moment/moment');
+var moment = require('moment');
 var MAIN_CONSTANTS = require('../constants/mainConstants');
 
 var purchaseInvoicesSchema = mongoose.Schemas.purchaseInvoices;
@@ -863,7 +863,7 @@ var Module = function (models, event) {
         var paymentCurrency = data.paymentCurrency;
         var fx = {};
 
-        date = moment(date).format('YYYY-MM-DD');
+        date =moment(date).format('YYYY-MM-DD');
 
         ratesService.getById({id: date, dbName: req.session.lastDb}, function (err, result) {
             var rate;
@@ -1641,7 +1641,7 @@ var Module = function (models, event) {
         var data = req.body;
         var workflowHandler = new WorkflowHandler(models);
         var now = new Date();
-        var date = data.date ? moment(new Date(data.date)) : now;
+        var date = data.date ?moment(new Date(data.date)) : now;
         var waterfallTasks;
         var fx = {};
         var request = {
@@ -1848,7 +1848,7 @@ var Module = function (models, event) {
         var invoiceId = body.invoice;
         var orderId = body.order;
         var now = new Date();
-        var date = body.date ? moment(new Date(body.date)) : now;
+        var date = body.date ?moment(new Date(body.date)) : now;
         var mid = body.mid;
         var data = body;
         var isForSale = data.forSale;
@@ -2056,7 +2056,7 @@ var Module = function (models, event) {
                         }
 
                         ratesService.getPrevious({
-                            id    : moment(paymentDate).format('YYYY-MM-DD'),
+                            id    :moment(paymentDate).format('YYYY-MM-DD'),
                             dbName: dbName
                         }, function (err, prevRates) {
                             if (err) {
@@ -2516,7 +2516,7 @@ var Module = function (models, event) {
                     return res.status(200).send(removed);
                 }
 
-                date = moment(removed.date).format('YYYY-MM-DD');
+                date =moment(removed.date).format('YYYY-MM-DD');
 
                 paymentCurrency = removed.currency._id;
 
@@ -2739,7 +2739,7 @@ var Module = function (models, event) {
                 return next(err);
             }
 
-            date = moment(removed.date).format('YYYY-MM-DD');
+            date =moment(removed.date).format('YYYY-MM-DD');
 
             paymentCurrency = removed.currency._id;
 

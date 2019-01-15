@@ -27,7 +27,7 @@ var DIVIDEND_INVOICE = objectId('572347d78ba4fd1330062726');
 // var oxr = require('open-exchange-rates');
 var _ = require('underscore');
 var async = require('async');
-var moment = require('../public/js/libs/moment/moment');
+var moment = require('moment');
 var pageHelper = require('../helpers/pageHelper');
 var FilterMapper = require('../helpers/filterMapper');
 var filterMapper = new FilterMapper();
@@ -137,7 +137,7 @@ var Module = function (models, event) {
             var getRates;
             var createMultiRows;
             var currencyId = body.currency && body.currency._id ? body.currency._id : body.currency;
-            var date = moment(new Date(body.date));
+            var date =moment(new Date(body.date));
             var cb;
             var rates;
             var waterfallTasks;
@@ -220,8 +220,8 @@ var Module = function (models, event) {
             var Model = models.get(dbIndex, 'manualEntry', manualEntrySchema);
             var Currency = models.get(dbIndex, 'currency', CurrencySchema);
             var body = req.body;
-            var now = moment();
-            var date = body.date ? moment(new Date(body.date)) : now;
+            var now =moment();
+            var date = body.date ?moment(new Date(body.date)) : now;
             var currency = body.currency;
             var rates;
             var waterfallTasks;
@@ -303,7 +303,7 @@ var Module = function (models, event) {
                         object.creditFC = 0;
                     }
 
-                    if (el.debit || el.credit && moment(object.date).isBefore(now)) {
+                    if (el.debit || el.credit &&moment(object.date).isBefore(now)) {
                         journalEntry = new Model(object);
                         journalEntry.save(cb);
                     } else {
@@ -637,8 +637,8 @@ var Module = function (models, event) {
                 }
 
                 dateResult = result ? result.date : new Date();
-                newDae = moment(date);
-                newReconcileDate = moment(dateResult);
+                newDae =moment(date);
+                newReconcileDate =moment(dateResult);
                 lessDate = newDae.isBefore(newReconcileDate) ? true : false;
 
                 if (lessDate) {
@@ -688,12 +688,12 @@ var Module = function (models, event) {
             var Model = models.get(req.session.lastDb, journalEntryCT, journalEntrySchema);
             var Employee = models.get(req.session.lastDb, 'Employees', employeeSchema);
             var Vacation = models.get(req.session.lastDb, 'Vacation', vacationSchema);
-            var startDate = moment(new Date()).year(year).month(month - 1).startOf('month');
-            var endDate = moment(new Date()).year(year).month(month - 1).endOf('month');
+            var startDate =moment(new Date()).year(year).month(month - 1).startOf('month');
+            var endDate =moment(new Date()).year(year).month(month - 1).endOf('month');
             var parallelFuncs;
             var waterfallFuncs;
             var wTrack = models.get(req.session.lastDb, 'wTrack', wTrackSchema);
-            var date = moment(endDate).set({
+            var date =moment(endDate).set({
                 hour       : 20,
                 minute     : 0,
                 second     : 0,
@@ -925,7 +925,7 @@ var Module = function (models, event) {
                         return el._id.toString() === employeeId.toString();
                     });
                     var vacations = empObject && empObject.vacations ? empObject.vacations : [];
-                    var localEndDate = moment(endDate).date();
+                    var localEndDate =moment(endDate).date();
                     var localStartKey = 1;
                     var i;
                     var department = '';
@@ -959,17 +959,17 @@ var Module = function (models, event) {
                     var idleHours;
                     var transferObj;
                     var totalInMonth = 0;
-                    var hireKey = moment(new Date(hire[hire.length - 1])).year() * 100 + moment(new Date(hire[hire.length - 1])).month() + 1;
-                    var fireKey = fire[0] ? moment(new Date(fire[fire.length - 1])).year() * 100 + moment(new Date(fire[fire.length - 1])).month() + 1 : Infinity;
-                    var localKey = moment(endDate).year() * 100 + moment(endDate).month() + 1;
+                    var hireKey =moment(new Date(hire[hire.length - 1])).year() * 100 +moment(new Date(hire[hire.length - 1])).month() + 1;
+                    var fireKey = fire[0] ?moment(new Date(fire[fire.length - 1])).year() * 100 +moment(new Date(fire[fire.length - 1])).month() + 1 : Infinity;
+                    var localKey =moment(endDate).year() * 100 +moment(endDate).month() + 1;
 
                     if (hireKey === localKey) {
-                        localStartKey = moment(new Date(hire[hire.length - 1])).date();
-                        startDate = moment(new Date(hire[hire.length - 1]));
+                        localStartKey =moment(new Date(hire[hire.length - 1])).date();
+                        startDate =moment(new Date(hire[hire.length - 1]));
                     }
 
                     if (fireKey === localKey) {
-                        localEndDate = moment(new Date(fire[fire.length - 1])).date();
+                        localEndDate =moment(new Date(fire[fire.length - 1])).date();
                     } else if (fireKey < localKey) {
                         localEndDate = localStartKey - 1;
                     }
@@ -981,7 +981,7 @@ var Module = function (models, event) {
 
                         if ((moment(moment(startDate).add(12, 'hours')).isAfter(moment(transferObj.date))) || (moment(moment(startDate)).isSame(moment(transferObj.date)))) {
                             if (transferObj.status === 'fired') {
-                                if (transfer[i - 1] && moment(startDate).isAfter(transfer[i - 1].date)) {
+                                if (transfer[i - 1] &&moment(startDate).isAfter(transfer[i - 1].date)) {
                                     salaryForDate = transferObj.salary;
                                     weeklyScheduler = transferObj.weeklyScheduler;
                                     department = transferObj.department;
@@ -1009,7 +1009,7 @@ var Module = function (models, event) {
                     });
 
                     for (i = localEndDate; i >= localStartKey; i--) {
-                        checkDate = moment(endDate).date(i).day();
+                        checkDate =moment(endDate).date(i).day();
 
                         if (checkDate === 0) {
                             checkDate = 7;
@@ -1018,8 +1018,8 @@ var Module = function (models, event) {
 
                     }
 
-                    for (i = moment(endDate).date(); i >= 1; i--) {
-                        checkDate = moment(endDate).date(i).day();
+                    for (i =moment(endDate).date(); i >= 1; i--) {
+                        checkDate =moment(endDate).date(i).day();
 
                         if (checkDate === 0) {
                             checkDate = 7;
@@ -1041,7 +1041,7 @@ var Module = function (models, event) {
 
                         if (vacationObject && vacationObject.vacArray) {
                             vacationObject.vacArray.forEach(function (vac, index) {
-                                vacationDate = moment(startDate).date(index + 1);
+                                vacationDate =moment(startDate).date(index + 1);
                                 dayOfWeek = vacationDate.day();
 
                                 if (vac && (vac !== 'P') && (vac !== 'E') && (dayOfWeek !== 6) && (dayOfWeek !== 0)) {
@@ -1104,8 +1104,8 @@ var Module = function (models, event) {
             var Invoice = models.get(dbName, 'wTrackInvoice', invoiceSchema);
             var date = options && options.date || new Date();
             var accounts = options.accounts || [];
-            var localDate = moment(new Date(date)).endOf('day');
-            var jeDate = moment(localDate).subtract(3, 'hours');
+            var localDate =moment(new Date(date)).endOf('day');
+            var jeDate =moment(localDate).subtract(3, 'hours');
             var waterlallTasks;
             var rates;
             var previousRates;
@@ -1116,7 +1116,7 @@ var Module = function (models, event) {
 
             var getPreviousRate = function (wfCb) {
                 ratesService.getPrevious({
-                    id    : moment(localDate).format('YYYY-MM-DD'),
+                    id    :moment(localDate).format('YYYY-MM-DD'),
                     dbName: dbName
                 }, wfCb);
             };
@@ -1206,7 +1206,7 @@ var Module = function (models, event) {
                             var account = el.forSales ? CONSTANTS.ACCOUNT_RECEIVABLE : CONSTANTS.ACCOUNT_PAYABLE;
                             var invoiceDateKey;
                             var localDateKey;
-                            var invoiceDate = moment(new Date(el.invoiceDate));
+                            var invoiceDate =moment(new Date(el.invoiceDate));
 
                             invoiceDateKey = (invoiceDate.year() * 100 + invoiceDate.month()) * 100 + invoiceDate.date();
                             localDateKey = (localDate.year() * 100 + localDate.month()) * 100 + localDate.date();
@@ -1314,7 +1314,7 @@ var Module = function (models, event) {
                     }
 
                     ratesService.getById({
-                        id    : moment(localDate).format('YYYY-MM-DD'),
+                        id    :moment(localDate).format('YYYY-MM-DD'),
                         dbName: dbName
                     }, function (err, ratesObject) {
                         if (err) {
@@ -1331,8 +1331,8 @@ var Module = function (models, event) {
             };
 
             var createForBalances = function (result, cb) {
-                var localStart = moment(new Date(localDate)).startOf('day');
-                var localEnd = moment(new Date(localDate)).endOf('day');
+                var localStart =moment(new Date(localDate)).startOf('day');
+                var localEnd =moment(new Date(localDate)).endOf('day');
 
                 if (!accounts.length) {
                     return cb();
@@ -1575,9 +1575,9 @@ var Module = function (models, event) {
             var query = dateObject || req.body;
             var month = parseInt(query.month, 10);
             var year = parseInt(query.year, 10);
-            var startDate = moment().year(year).month(month - 1).startOf('month');
-            var localDate = moment().year(year).month(month - 1).endOf('month');
-            var jeDate = moment(localDate).subtract(3, 'hours');
+            var startDate =moment().year(year).month(month - 1).startOf('month');
+            var localDate =moment().year(year).month(month - 1).endOf('month');
+            var jeDate =moment(localDate).subtract(3, 'hours');
             var waterlallTasks;
             var productSales;
             var COGS;
@@ -2497,8 +2497,8 @@ var Module = function (models, event) {
             var Model = models.get(req.session.lastDb, journalEntryCT, journalEntrySchema);
             var PaymentMethod = models.get(req.session.lastDb, 'PaymentMethod', PaymentMethodSchema);
             var body = options || req.body;
-            var startDate = body.startDate ? moment(new Date(body.startDate)) : moment().subtract(1, 'month');
-            var endDate = body.endDate ? moment(new Date(body.endDate)) : moment();
+            var startDate = body.startDate ?moment(new Date(body.startDate)) :moment().subtract(1, 'month');
+            var endDate = body.endDate ?moment(new Date(body.endDate)) :moment();
             var check = new Date(endDate) - new Date(startDate);
             var datesArray = [];
             var date;
@@ -2510,7 +2510,7 @@ var Module = function (models, event) {
             do {
                 datesArray.push(moment(new Date(startDate)).format('YYYY-MM-DD'));
 
-                startDate = moment(new Date(startDate)).add(1, 'day').format('YYYY-MM-DD');
+                startDate =moment(new Date(startDate)).add(1, 'day').format('YYYY-MM-DD');
 
                 check = new Date(endDate) - new Date(startDate);
             } while (check >= 0);
@@ -2555,8 +2555,8 @@ var Module = function (models, event) {
                     }
 
                     q = async.queue(function (date, callback) {
-                        dateEnd = moment(new Date(date)).endOf('day');
-                        localDate = moment(dateEnd).subtract(3, 'hours');
+                        dateEnd =moment(new Date(date)).endOf('day');
+                        localDate =moment(dateEnd).subtract(3, 'hours');
 
                         closeDay(req, res, callback, {
                             date    : date,
@@ -2604,16 +2604,16 @@ var Module = function (models, event) {
             var body = req.body;
 
             async.each(body, function (date, cb) {
-                var endDate = moment(date).endOf('month');
-                var startDate = moment(date).startOf('month');
+                var endDate =moment(date).endOf('month');
+                var startDate =moment(date).startOf('month');
 
                 Model.remove({
                     'sourceDocument.model': 'closeMonth',
                     // journal: {$in: CONSTANTS.CLOSE_MONTH_JOURNALS},
                     date                  : {$gte: new Date(startDate), $lte: new Date(endDate)}
                 }, function () {
-                    var month = moment(date).month() + 1;
-                    var year = moment(date).year();
+                    var month =moment(date).month() + 1;
+                    var year =moment(date).year();
                     closeMonth(req, res, next, {month: month, year: year}, cb);
                 });
             }, function (err) {
@@ -2651,12 +2651,12 @@ var Module = function (models, event) {
             var Payment = models.get(dbName, 'InvoicePayment', InvoicePaymentSchema);
             var Job = models.get(dbName, 'jobs', jobsSchema);
             var body = req.body;
-            var dateNow = moment();
+            var dateNow =moment();
             var month = 8;
             var year = 2014;
             /* var month = body.month ? parseInt(body.month, 10) : dateNow.get('month') + 1;
              var year = body.year ? parseInt(body.year, 10) : dateNow.get('year');*/
-            var date = body.date ? moment(new Date(body.date)) : moment().year(year).month(month - 1).endOf('month');
+            var date = body.date ?moment(new Date(body.date)) :moment().year(year).month(month - 1).endOf('month');
             var jobIds = body.jobs;
             var reconcileSalaryEntries;
             var reconcileInvoiceEntries;
@@ -2977,7 +2977,7 @@ var Module = function (models, event) {
                                         }
 
                                         ratesService.getPreviousAndCurrent({
-                                            id    : moment(model.date).format('YYYY-MM-DD'),
+                                            id    :moment(model.date).format('YYYY-MM-DD'),
                                             dbName: dbName
                                         }, function (err, ratesObject) {
                                             if (err) {
@@ -3009,7 +3009,7 @@ var Module = function (models, event) {
                                                     debitAccount = CONSTANTS.ACCOUNT_PAYABLE;
                                                 }
 
-                                                date = moment(new Date(model.date));
+                                                date =moment(new Date(model.date));
 
                                                 date = date.format('YYYY-MM-DD');
                                                 journal = model.journal || CONSTANTS.PAYMENT_JOURNAL;
@@ -3345,11 +3345,11 @@ var Module = function (models, event) {
                             var hoursToRemove = 0;
                             var year = dateByMonth.toString().slice(0, 4);
                             var month = dateByMonth.toString().slice(4);
-                            var endDate = moment().year(year).month(month - 1).endOf('month');
+                            var endDate =moment().year(year).month(month - 1).endOf('month');
                             var checkDate;
-                            var startDate = moment().year(year).month(month - 1).startOf('month');
-                            var entryDate = moment(endDate);
-                            var dateNow = moment();
+                            var startDate =moment().year(year).month(month - 1).startOf('month');
+                            var entryDate =moment(endDate);
+                            var dateNow =moment();
                             var bodySalary;
                             var bodyOvertime;
                             var bodyOverhead;
@@ -3407,8 +3407,8 @@ var Module = function (models, event) {
 
                             transfer = _.sortBy(transfer, 'date');
 
-                            if ((parseInt(year, 10) * 100 + parseInt(month, 10)) === (moment(transfer[0].date).year() * 100 + moment(transfer[0].date).month() + 1)) {
-                                startDate = moment(transfer[0].date);
+                            if ((parseInt(year, 10) * 100 + parseInt(month, 10)) === (moment(transfer[0].date).year() * 100 +moment(transfer[0].date).month() + 1)) {
+                                startDate =moment(transfer[0].date);
                             }
 
                             transfer = _.sortBy(transfer, 'date');
@@ -3418,7 +3418,7 @@ var Module = function (models, event) {
 
                                 if ((moment(moment(startDate).add(12, 'hours')).isAfter(moment(transferObj.date))) || (moment(moment(startDate)).isSame(moment(transferObj.date)))) {
                                     if (transferObj.status === 'fired') {
-                                        if (transfer[i - 1] && moment(startDate).isAfter(transfer[i - 1].date)) {
+                                        if (transfer[i - 1] &&moment(startDate).isAfter(transfer[i - 1].date)) {
                                             salaryForDate = transferObj.salary;
                                             weeklyScheduler = transferObj.weeklyScheduler;
                                             break;
@@ -3452,7 +3452,7 @@ var Module = function (models, event) {
                             });
 
                             for (i = endDate.date(); i >= 1; i--) {
-                                checkDate = moment(endDate).date(i).day();
+                                checkDate =moment(endDate).date(i).day();
 
                                 if (checkDate === 0) {
                                     checkDate = 7;
@@ -3643,7 +3643,7 @@ var Module = function (models, event) {
                             return asyncCb();
                         }
 
-                        date = moment(new Date(goodsNote.status.shippedOn));
+                        date =moment(new Date(goodsNote.status.shippedOn));
 
                         Model.aggregate([{
                             $match: {
@@ -3691,8 +3691,8 @@ var Module = function (models, event) {
 
                             bodyClosedJob.date = new Date(date);
 
-                            startMonthDate = moment(bodyClosedJob.date).startOf('month');
-                            endMonthDate = moment(bodyClosedJob.date).endOf('month');
+                            startMonthDate =moment(bodyClosedJob.date).startOf('month');
+                            endMonthDate =moment(bodyClosedJob.date).endOf('month');
 
                             Model.update({
                                 'sourceDocument._id'  : product,
@@ -3811,8 +3811,8 @@ var Module = function (models, event) {
             var Model = models.get(dbIndex, 'manualEntry', manualEntrySchema);
             var Currency = models.get(dbIndex, 'currency', CurrencySchema);
             var body = req.body;
-            var now = moment();
-            var date = body.date ? moment(new Date(body.date)) : now;
+            var now =moment();
+            var date = body.date ?moment(new Date(body.date)) : now;
             var currency = body.currency;
             var rates;
             var waterfallTasks;
@@ -3877,7 +3877,7 @@ var Module = function (models, event) {
                         object.creditFC = 0;
                     }
 
-                    if (el.debit || el.credit && moment(object.date).isBefore(now)) {
+                    if (el.debit || el.credit &&moment(object.date).isBefore(now)) {
                         journalEntry = new Model(object);
                         journalEntry.save(cb);
                     } else {
@@ -3918,8 +3918,8 @@ var Module = function (models, event) {
             var Model = models.get(req.session.lastDb, journalEntryCT, journalEntrySchema);
             var query = req.query;
             var date = query._id;
-            var startDate = moment(new Date(date)).startOf('month');
-            var endDate = moment(new Date(date)).endOf('month');
+            var startDate =moment(new Date(date)).startOf('month');
+            var endDate =moment(new Date(date)).endOf('month');
 
             if (!date) {
                 return res.status(200).send({journalEntries: []});
@@ -4040,8 +4040,8 @@ var Module = function (models, event) {
             var match;
             var secondMatch = {};
 
-            /*startDate = moment(new Date(startDate)).startOf('day');
-             endDate = moment(new Date(endDate)).endOf('day');*/
+            /*startDate =moment(new Date(startDate)).startOf('day');
+             endDate =moment(new Date(endDate)).endOf('day');*/
 
             var match = filterMapper.mapFilter(filter, {
                 contentType: journalEntryCT,
@@ -4957,7 +4957,7 @@ var Module = function (models, event) {
             var account = query.account;
             var date = query.date;
 
-            date = moment(new Date(date)).endOf('day');
+            date =moment(new Date(date)).endOf('day');
 
             Model.aggregate([{
                 $match: {
@@ -4995,8 +4995,8 @@ var Module = function (models, event) {
             var query = req.query;
             var month = parseInt(query.month, 10);
             var year = parseInt(query.year, 10);
-            var startDate = moment().year(year).month(month - 1).startOf('month');
-            var endDate = moment(startDate).endOf('month');
+            var startDate =moment().year(year).month(month - 1).startOf('month');
+            var endDate =moment(startDate).endOf('month');
             var parallelTasks;
 
             var adminExpenses = function (cb) {
@@ -5794,8 +5794,8 @@ var Module = function (models, event) {
                 contentType: journalEntryCT,
                 keysArray  : ['date']
             });
-            var startDate = filter.date ? new Date(moment(new Date(filter.date.value[0])).startOf('day')) : moment();
-            var endDate = filter.date ? new Date(moment(new Date(filter.date.value[1])).endOf('day')) : moment();
+            var startDate = filter.date ? new Date(moment(new Date(filter.date.value[0])).startOf('day')) :moment();
+            var endDate = filter.date ? new Date(moment(new Date(filter.date.value[1])).endOf('day')) :moment();
 
             liabilities.push(CONSTANTS.ACCOUNT_PAYABLE);
             liabilities = liabilities.objectID();
@@ -6626,8 +6626,8 @@ var Module = function (models, event) {
             var dataKey = query.dataKey;
             var year = parseInt(dataKey.slice(0, 4), 10);
             var month = parseInt(dataKey.slice(4), 10);
-            var date = moment().year(year).month(month - 1).startOf('month');
-            var endDate = moment(date).endOf('month');
+            var date =moment().year(year).month(month - 1).startOf('month');
+            var endDate =moment(date).endOf('month');
 
             Model.aggregate([{
                 $match: {

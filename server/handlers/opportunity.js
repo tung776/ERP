@@ -10,8 +10,8 @@ var Module = function (models, event) {
     var tagsSchema = mongoose.Schemas.Tags;
     var objectId = mongoose.Types.ObjectId;
 
-    var _ = require('../node_modules/underscore');
-    var moment = require('../public/js/libs/moment/moment');
+    var _ = require('underscore');
+    var moment = require('moment');
     var rewriteAccess = require('../helpers/rewriteAccess');
     var accessRoll = require('../helpers/accessRollHelper.js')(models);
     var async = require('async');
@@ -3287,7 +3287,7 @@ var Module = function (models, event) {
         var data = req.query;
         var query;
         var days = data.days;
-        var date = moment().subtract(days, 'days').calendar();
+        var date =moment().subtract(days, 'days').calendar();
 
         optionsObject.$and = [];
 

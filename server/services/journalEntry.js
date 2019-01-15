@@ -2,7 +2,7 @@
 var mongoose = require('mongoose');
 var journalEntrySchema = mongoose.Schemas.journalEntry;
 var manualEntrySchema = mongoose.Schemas.manualEntry;
-var moment = require('../public/js/libs/moment/moment');
+var moment = require('moment');
 var _ = require('underscore');
 var async = require('async');
 var CONSTANTS = require('../constants/mainConstants');
@@ -14,8 +14,8 @@ module.exports = function (models) {
             var JournalEntry;
             var dbName;
             var err;
-            var now = moment().endOf('month');
-            var date = options.date ? moment(new Date(options.date)) : now;
+            var now =moment().endOf('month');
+            var date = options.date ?moment(new Date(options.date)) : now;
             var timeStamp = new Date();
             var timeStampDate = new Date(date);
             var amount = options.amount;
@@ -82,7 +82,7 @@ module.exports = function (models) {
                         debitObject.debitFC = 0;
                     }
 
-                    if (amount && moment(new Date(debitObject.date)).isBefore(now)) {
+                    if (amount &&moment(new Date(debitObject.date)).isBefore(now)) {
                         journalEntry = new JournalEntry(debitObject);
                         journalEntry.save(parallelCb);
                     } else {
@@ -120,7 +120,7 @@ module.exports = function (models) {
                         creditObject.creditFC = 0;
                     }
 
-                    if (amount && moment(new Date(creditObject.date)).isBefore(now)) {
+                    if (amount &&moment(new Date(creditObject.date)).isBefore(now)) {
                         journalEntry = new JournalEntry(creditObject);
                         journalEntry.save(parallelCb);
                     } else {
@@ -148,8 +148,8 @@ module.exports = function (models) {
             var JournalEntry;
             var dbName;
             var err;
-            var now = moment().endOf('month');
-            var date = options.date ? moment(new Date(options.date)) : now;
+            var now =moment().endOf('month');
+            var date = options.date ?moment(new Date(options.date)) : now;
             var timeStamp = new Date();
             var timeStampDate = new Date(date);
             var currency = options.currency;
@@ -223,7 +223,7 @@ module.exports = function (models) {
                     object.creditFC = 0;
                 }
 
-                if (el.debit || el.credit && moment(new Date(object.date)).isBefore(now)) {
+                if (el.debit || el.credit &&moment(new Date(object.date)).isBefore(now)) {
                     journalEntry = new JournalEntry(object);
                     journalEntry.save(cb);
                 } else {

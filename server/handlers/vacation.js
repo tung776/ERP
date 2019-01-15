@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-var moment = require('../public/js/libs/moment/moment');
+var moment = require('moment');
 var CapacityHandler = require('./capacity');
 var CONSTANTS = require('../constants/mainConstants');
 
@@ -15,7 +15,7 @@ var Module = function (event, models) {
     var _ = require('lodash');
 
     function calculateWeeks(array, month, year) {
-        var dateValue; // = moment([year, month - 1]);
+        var dateValue; // =moment([year, month - 1]);
         var resultObj = {};
         var weekKey;
         var dayNumber;
@@ -24,8 +24,8 @@ var Module = function (event, models) {
         if (array.length) {
             for (day = array.length; day >= 0; day--) {
                 if (array[day]) {
-                    dateValue = moment([year, month - 1, day + 1]);
-                    // weekKey = year * 100 + moment(dateValue).isoWeek();
+                    dateValue =moment([year, month - 1, day + 1]);
+                    // weekKey = year * 100 +moment(dateValue).isoWeek();
                     weekKey = dateValue.isoWeekYear() * 100 + dateValue.isoWeek();
 
                     dayNumber = dateValue.day();
@@ -89,7 +89,7 @@ var Module = function (event, models) {
             monthArray = new Array(12);
 
             for (i = 0; i < monthArray.length; i++) {
-                dayMonthCount = moment().set('year', year).set('month', i).endOf('month').date();
+                dayMonthCount =moment().set('year', year).set('month', i).endOf('month').date();
 
                 for (j = 1; j <= dayMonthCount; j++) {
                     day = new Date(year, i, j);
@@ -101,19 +101,19 @@ var Module = function (event, models) {
                 }
             }
 
-            startYear = moment([year, 0, 1]);
-            endYear = moment([year, 11, 31]);
+            startYear =moment([year, 0, 1]);
+            endYear =moment([year, 11, 31]);
         } else {
             monthArray = new Array(13);
-            startMonth = moment().month();
+            startMonth =moment().month();
 
             for (i = 0; i < monthArray.length; i++) {
                 if (i >= startMonth) {
-                    monthYear = moment().year() - 1;
+                    monthYear =moment().year() - 1;
                 } else {
-                    monthYear = moment().year();
+                    monthYear =moment().year();
                 }
-                dayMonthCount = moment().set('year', monthYear).set('month', i).endOf('month').date();
+                dayMonthCount =moment().set('year', monthYear).set('month', i).endOf('month').date();
 
                 for (j = 1; j <= dayMonthCount; j++) {
                     day = new Date(monthYear, i, j);
@@ -124,9 +124,9 @@ var Module = function (event, models) {
                 }
             }
 
-            dayCount = moment().set('year', moment().year()).set('month', moment().month()).endOf('month').date();
-            startYear = moment([moment().year() - 1, moment().month(), 1]);
-            endYear = moment([moment().year(), moment().month(), dayCount]);
+            dayCount =moment().set('year',moment().year()).set('month',moment().month()).endOf('month').date();
+            startYear =moment([moment().year() - 1,moment().month(), 1]);
+            endYear =moment([moment().year(),moment().month(), dayCount]);
         }
 
         leaveDays = vacation + personal + sick + education;
@@ -274,8 +274,8 @@ var Module = function (event, models) {
                     queryObject.year = parseInt(options.year, 10);
                     queryObject.month = parseInt(options.month, 10);
                 } else {
-                    endDate = moment([options.year, 12]);
-                    startDate = moment([options.year, 1]);
+                    endDate =moment([options.year, 12]);
+                    startDate =moment([options.year, 1]);
 
                     // queryObject.year = {'$in': [options.year, (options.year - 1).toString()]};
                     queryObject.year = {$in: [parseInt(options.year, 10), (options.year - 1)]}; // changed from String to Number
@@ -285,7 +285,7 @@ var Module = function (event, models) {
 
                 employeeQuery['employee._id'] = queryObject['employee._id'];
 
-                date = moment([date.getFullYear(), date.getMonth()]);
+                date =moment([date.getFullYear(), date.getMonth()]);
 
                 endDate = new Date(date);
                 endDate.setMonth(endDate.getMonth() + 1);
@@ -369,7 +369,7 @@ var Module = function (event, models) {
                         };
 
                         result.forEach(function (element) {
-                            date = moment([element.year, element.month]);
+                            date =moment([element.year, element.month]);
 
                             if (date >= startDate && date <= endDate) {
                                 resultObj.curYear.push(element);
@@ -408,7 +408,7 @@ var Module = function (event, models) {
         var employee = options.employee;
         var dateByWeek = week + year * 100;
         var dateByWeekField = 'vacations.' + dateByWeek;
-        var date = moment().isoWeekYear(year);
+        var date =moment().isoWeekYear(year);
         var aggregateQuery = [];
         var vacationsWeek = {};
         var daysOfMonth = {};

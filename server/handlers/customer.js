@@ -8,7 +8,7 @@ var Module = function (models, event) {
     var OpportunitySchema = mongoose.Schemas.Opportunities;
     var TasksSchema = mongoose.Schemas.DealTasks;
 
-    var _ = require('../node_modules/underscore');
+    var _ = require('underscore');
     var CONSTANTS = require('../constants/mainConstants');
     var RESPONSES = require('../constants/responses');
     var objectId = mongoose.Types.ObjectId;

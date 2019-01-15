@@ -16,7 +16,7 @@ var TCard = function (event, models) {
 
     var async = require('async');
     var mapObject = require('../helpers/bodyMaper');
-    var moment = require('../public/js/libs/moment/moment');
+    var moment = require('moment');
     var CONSTANTS = require('../constants/mainConstants.js');
     var dateArrayGenerator = require('../helpers/dateArrayGenerator');
 
@@ -498,15 +498,15 @@ var TCard = function (event, models) {
         var Employees = models.get(req.session.lastDb, 'Employees', EmployeeSchema);
         var month = parseInt(req.query.month, 10) + 1;
         var year = parseInt(req.query.year, 10);
-        var startMomentDate = moment().year(year).month(month - 1).startOf('month');
-        var endMomentDate = moment().year(year).month(month - 1).endOf('month');
-        var startDate = year * 100 + moment(startMomentDate).week();
-        var endDate = year * 100 + moment(endMomentDate).week();
+        var startMomentDate =moment().year(year).month(month - 1).startOf('month');
+        var endMomentDate =moment().year(year).month(month - 1).endOf('month');
+        var startDate = year * 100 +moment(startMomentDate).week();
+        var endDate = year * 100 +moment(endMomentDate).week();
         var workedDays = 0;
         var employeeQueryForEmployeeByDep;
         var i;
 
-        for (i = moment(endMomentDate).date(); i >= 1; i--) {
+        for (i =moment(endMomentDate).date(); i >= 1; i--) {
             if ((moment(endMomentDate).date(i).day() !== 6) && (moment(endMomentDate).date(i).day() !== 0)) {
                 workedDays++;
             }
@@ -1221,9 +1221,9 @@ var TCard = function (event, models) {
             var userId = req.session.uId;
 
             async.each(data, function (options, asyncCb) {
-                var startDate = moment(new Date(options.startDate));
+                var startDate =moment(new Date(options.startDate));
                 var startIsoYear = startDate.isoWeekYear();
-                var endDate = moment(new Date(options.endDate));
+                var endDate =moment(new Date(options.endDate));
                 var endIsoYear = options.endDate ? endDate.isoWeekYear() : startIsoYear + 1;
                 var hours = parseInt(options.hours, 10);
                 var project = options.project;
@@ -1243,17 +1243,17 @@ var TCard = function (event, models) {
                     var endDate;
 
                     if (!isFinite(weekCount)) {
-                        return moment();
+                        returnmoment();
                     }
 
-                    endDate = moment(startDate).add(weekCount, 'weeks');
+                    endDate =moment(startDate).add(weekCount, 'weeks');
 
                     return endDate;
                 }
 
                 function dateSplitter(startDate, endDate) {
                     var datesArray = [];
-                    var lastDateInStartWeek = moment(startDate).endOf('isoWeek');
+                    var lastDateInStartWeek =moment(startDate).endOf('isoWeek');
 
                     var _dateObject;
 
@@ -1261,9 +1261,9 @@ var TCard = function (event, models) {
                         var startDate;
                         var endDate;
 
-                        date = moment(date);
+                        date =moment(date);
                         startDate = date.add(1, 'day').hours(0).minutes(0);
-                        endDate = moment(startDate).endOf('isoWeek');
+                        endDate =moment(startDate).endOf('isoWeek');
 
                         return {
                             startDate: startDate,
@@ -1280,12 +1280,12 @@ var TCard = function (event, models) {
                         return datesArray;
                     }
 
-                    startDate = moment(startDate);
-                    endDate = moment(endDate);
+                    startDate =moment(startDate);
+                    endDate =moment(endDate);
 
                     datesArray.push({
-                        startDate: moment(startDate),
-                        endDate  : moment(lastDateInStartWeek)
+                        startDate:moment(startDate),
+                        endDate  :moment(lastDateInStartWeek)
                     });
 
                     while (lastDateInStartWeek < endDate) {
@@ -1440,8 +1440,8 @@ var TCard = function (event, models) {
 
                     if ((endYear * 100 + endMonth) > dateByMonth) {
                         clonedOptions = _.clone(options);
-                        lastDayInMonth = moment(startDate).endOf('month').day();
-                        firstDayInMonth = moment(endDate).startOf('month').day();
+                        lastDayInMonth =moment(startDate).endOf('month').day();
+                        firstDayInMonth =moment(endDate).startOf('month').day();
 
                         options.canFillIt = canFillIt(hours);
                         result.push(filler(startDay, lastDayInMonth, options));
@@ -1499,11 +1499,11 @@ var TCard = function (event, models) {
 
                             result.forEach(function (element) {
                                 var date = element.date;
-                                var d = moment(date);
+                                var d =moment(date);
                                 var year = d.isoWeekYear();
                                 var week = d.isoWeek();
                                 var key = year * 100 + week;
-                                var dayOfWeek = moment(date).day();
+                                var dayOfWeek =moment(date).day();
 
                                 key = key.toString();
 
@@ -1547,8 +1547,8 @@ var TCard = function (event, models) {
                                     for (day = vacArr.length - 1; day >= 0; day--) {
 
                                         if (vacArr[day]) {
-                                            dateValue = moment([year, month - 1, day + 1]);
-                                            weekKey = /*year*/moment(dateValue).isoWeekYear() * 100 + moment(dateValue).isoWeek();
+                                            dateValue =moment([year, month - 1, day + 1]);
+                                            weekKey = /*year*/moment(dateValue).isoWeekYear() * 100 +moment(dateValue).isoWeek();
                                             key = weekKey.toString();
 
                                             dayNumber = dateValue.day();

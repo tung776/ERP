@@ -19,7 +19,7 @@ var Module = function (models, event) {
     var RESPONSES = require('../constants/responses');
     var async = require('async');
     var mapObject = require('../helpers/bodyMaper');
-    var _ = require('../node_modules/underscore');
+    var _ = require('underscore');
     var ratesService = require('../services/rates')(models);
     var goodsOutNotesService = require('../services/goodsOutNotes')(models);
     var goodsInNotesService = require('../services/goodsInNotes')(models);
@@ -35,7 +35,7 @@ var Module = function (models, event) {
     var path = require('path');
     var CONSTANTS = require('../constants/mainConstants.js');
     var pageHelper = require('../helpers/pageHelper');
-    var moment = require('../public/js/libs/moment/moment');
+    var moment = require('moment');
     var ratesRetriever = require('../helpers/ratesRetriever')();
     var redis = require('../helpers/redisClient');
 

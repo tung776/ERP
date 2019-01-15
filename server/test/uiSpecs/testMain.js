@@ -1158,7 +1158,7 @@ require.config({
         constants        : './public/js/constants',
         dataService      : './public/js/dataService',
         tracker          : './public/js/tracker',
-        moment           : './public/js/libs/moment/moment',
+       moment           : './public/js/libs/moment/moment',
         router           : './public/js/router',
         async            : './public/js/libs/async/lib/async',
         libs             : './public/js/libs',

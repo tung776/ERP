@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var WtrackHandler = require('../handlers/dashboard');
 var redisStore = require('../helpers/redisClient');
-var moment = require('../public/js/libs/moment/moment');
+var moment = require('moment');
 var CONSTANTS = require('../constants/mainConstants');
 var MODULES = require('../constants/modules');
 var authStackMiddleware = require('../helpers/checkAuth');
@@ -29,17 +29,17 @@ module.exports = function (models) {
 
         if (filter.startDate && filter.endDate) {
             startDate = new Date(filter.startDate);
-            startDate = moment(startDate);
+            startDate =moment(startDate);
             endDate = new Date(filter.endDate);
-            endDate = moment(endDate);
+            endDate =moment(endDate);
         } else if (filter.date && filter.date.value) {
             startDate = new Date(filter.date.value[0]);
-            startDate = moment(startDate);
+            startDate =moment(startDate);
             endDate = new Date(filter.date.value[1]);
-            endDate = moment(endDate);
+            endDate =moment(endDate);
         } else {
-            startDate = moment().subtract(CONSTANTS.DASH_VAC_WEEK_BEFORE, 'weeks');
-            endDate = moment().add(CONSTANTS.DASH_VAC_WEEK_AFTER, 'weeks');
+            startDate =moment().subtract(CONSTANTS.DASH_VAC_WEEK_BEFORE, 'weeks');
+            endDate =moment().add(CONSTANTS.DASH_VAC_WEEK_AFTER, 'weeks');
         }
 
         startByWeek = startDate.isoWeekYear() * 100 + startDate.isoWeek();

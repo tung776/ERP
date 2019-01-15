@@ -1,6 +1,6 @@
 module.exports = (function () {
     'use strict';
-    var moment = require('../public/js/libs/moment/moment');
+    var moment = require('moment');
     var dateFormat = 'MMMM Do YYYY';
 
     var journalEntry = {
@@ -17,7 +17,7 @@ module.exports = (function () {
         },
         formatters: {
             'Accounting date': function (date) {
-                return moment(date).utc().format(dateFormat);
+                returnmoment(date).utc().format(dateFormat);
             }
         }
     };
@@ -83,11 +83,11 @@ module.exports = (function () {
 
         formatters: {
             'Created Date': function (date) {
-                return moment(date).format(dateFormat);
+                returnmoment(date).format(dateFormat);
             },
 
             'Edited Date': function (date) {
-                return moment(date).format(dateFormat);
+                returnmoment(date).format(dateFormat);
             }
         }
 
@@ -153,23 +153,23 @@ module.exports = (function () {
 
         formatters: {
             'Date Birth': function (date) {
-                return moment(date).utc().format(dateFormat);
+                returnmoment(date).utc().format(dateFormat);
             },
 
             'Created Date': function (date) {
-                return moment(date).utc().format(dateFormat);
+                returnmoment(date).utc().format(dateFormat);
             },
 
             'Creation Date': function (date) {
-                return moment(date).utc().format(dateFormat);
+                returnmoment(date).utc().format(dateFormat);
             },
 
             'Edited By Date': function (date) {
-                return moment(date).utc().format(dateFormat);
+                returnmoment(date).utc().format(dateFormat);
             },
 
             'Contract End Date': function (date) {
-                return moment(date).utc().format(dateFormat);
+                returnmoment(date).utc().format(dateFormat);
             },
 
             'Is Lead': function (number) {
@@ -312,11 +312,11 @@ module.exports = (function () {
 
         formatters: {
             'Created Date': function (date) {
-                return moment(date).utc().format(dateFormat);
+                returnmoment(date).utc().format(dateFormat);
             },
 
             'Edited Date': function (date) {
-                return moment(date).utc().format(dateFormat);
+                returnmoment(date).utc().format(dateFormat);
             }
         }
     };
@@ -354,11 +354,11 @@ module.exports = (function () {
 
         formatters: {
             'Created Date': function (date) {
-                return moment(date).utc().format(dateFormat);
+                returnmoment(date).utc().format(dateFormat);
             },
 
             'Edited Date': function (date) {
-                return moment(date).utc().format(dateFormat);
+                returnmoment(date).utc().format(dateFormat);
             }
         }
     };
@@ -402,15 +402,15 @@ module.exports = (function () {
 
         formatters: {
             'Invoice Date': function (date) {
-                return moment(date).utc().format(dateFormat);
+                returnmoment(date).utc().format(dateFormat);
             },
 
             'Created Date': function (date) {
-                return moment(date).utc().format(dateFormat);
+                returnmoment(date).utc().format(dateFormat);
             },
 
             'Edited Date': function (date) {
-                return moment(date).utc().format(dateFormat);
+                returnmoment(date).utc().format(dateFormat);
             }
         }
 
@@ -465,15 +465,15 @@ module.exports = (function () {
 
         formatters: {
             'Date of Birthday': function (date) {
-                return moment(date).utc().format(dateFormat);
+                returnmoment(date).utc().format(dateFormat);
             },
 
             'Created Date': function (date) {
-                return moment(date).utc().format(dateFormat);
+                returnmoment(date).utc().format(dateFormat);
             },
 
             'Edited Date': function (date) {
-                return moment(date).utc().format(dateFormat);
+                returnmoment(date).utc().format(dateFormat);
             }
         }
     };
@@ -504,19 +504,19 @@ module.exports = (function () {
         },
         formatters : {
             'Target End Date': function (date) {
-                return moment(date).utc().format(dateFormat);
+                returnmoment(date).utc().format(dateFormat);
             },
             'Start Date'     : function (date) {
-                return moment(date).utc().format(dateFormat);
+                returnmoment(date).utc().format(dateFormat);
             },
             'End Date'       : function (date) {
-                return moment(date).utc().format(dateFormat);
+                returnmoment(date).utc().format(dateFormat);
             },
             'Created By Date': function (date) {
-                return moment(date).utc().format(dateFormat);
+                returnmoment(date).utc().format(dateFormat);
             },
             'Edited By Date' : function (date) {
-                return moment(date).utc().format(dateFormat);
+                returnmoment(date).utc().format(dateFormat);
             }
         }
     };
@@ -561,15 +561,15 @@ module.exports = (function () {
 
         formatters: {
             'Start Date': function (date) {
-                return moment(date).utc().format(dateFormat);
+                returnmoment(date).utc().format(dateFormat);
             },
 
             'Created Date': function (date) {
-                return moment(date).utc().format(dateFormat);
+                returnmoment(date).utc().format(dateFormat);
             },
 
             'Edited Date': function (date) {
-                return moment(date).utc().format(dateFormat);
+                returnmoment(date).utc().format(dateFormat);
             }
         }
     };
@@ -610,11 +610,11 @@ module.exports = (function () {
 
         formatters: {
             'Created Date': function (date) {
-                return moment(date).utc().format(dateFormat);
+                returnmoment(date).utc().format(dateFormat);
             },
 
             'Edited Date': function (date) {
-                return moment(date).utc().format(dateFormat);
+                returnmoment(date).utc().format(dateFormat);
             }
         }
     };

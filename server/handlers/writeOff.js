@@ -4,7 +4,7 @@ var RESPONSES = require('../constants/responses');
 var CONSTANTS = require('../constants/mainConstants');
 var oxr = require('open-exchange-rates');
 var fx = require('money');
-var moment = require('../public/js/libs/moment/moment');
+var moment = require('moment');
 var objectId = mongoose.Types.ObjectId;
 var fs = require('fs');
 
@@ -22,7 +22,7 @@ var WriteOffObj = function (models, event) {
     var workflowHandler = new WorkflowHandler(models);
     var JournalEntryHandler = require('./journalEntry');
     var _journalEntryHandler = new JournalEntryHandler(models, event);
-    var _ = require('../node_modules/underscore');
+    var _ = require('underscore');
     var ratesService = require('../services/rates')(models);
     var ratesRetriever = require('../helpers/ratesRetriever')();
 
@@ -31,7 +31,7 @@ var WriteOffObj = function (models, event) {
         var WriteOff = models.get(dbIndex, 'writeOff', WriteOffSchema);
         var JobsModel = models.get(dbIndex, 'jobs', JobsSchema);
         var request;
-        var date = moment().format('YYYY-MM-DD');
+        var date =moment().format('YYYY-MM-DD');
         var data = req.body;
         var products = data.products;
         var parallelTasks;

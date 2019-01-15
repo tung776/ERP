@@ -4,7 +4,7 @@ var mongoose = require('mongoose');
 var async = require('async');
 var _ = require('underscore');
 var RatesSchema = mongoose.Schemas.rates;
-var moment = require('../public/js/libs/moment/moment');
+var moment = require('moment');
 var redisStore = require('../helpers/redisClient');
 
 module.exports = function (models) {
@@ -42,7 +42,7 @@ module.exports = function (models) {
 
             Model = models.get(dbName, 'rates', RatesSchema);
 
-            body._id = moment(new Date(body._id));
+            body._id =moment(new Date(body._id));
             body._id = body._id.format('YYYY-MM-DD');
 
             Model.findById(body._id, function (err, result) {
@@ -102,7 +102,7 @@ module.exports = function (models) {
 
             Model = models.get(dbName, 'rates', RatesSchema);
 
-            id = moment(new Date(id));
+            id =moment(new Date(id));
             id = id.format('YYYY-MM-DD');
 
             redisStore.readFromStorage('', id, function (err, data) {
@@ -207,7 +207,7 @@ module.exports = function (models) {
                 return callback(err);
             }
 
-            date = moment(date);
+            date =moment(date);
             date = date.format('YYYY-MM-DD');
 
             currencyRatesHelper.get({dbName: dbName, date: date}, function (err, ratesObject) {
@@ -277,7 +277,7 @@ module.exports = function (models) {
 
             Model = models.get(dbName, 'rates', RatesSchema);
 
-            id = moment(new Date(id));
+            id =moment(new Date(id));
             id = id.format('YYYY-MM-DD');
 
             redisStore.readFromStorage('', id, function (err, data) {

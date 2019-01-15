@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 var async = require('async');
-var moment = require('../public/js/libs/moment/moment');
+var moment = require('moment');
 
 var ManufacturingOrder = function (models, event) {
     'use strict';

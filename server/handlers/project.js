@@ -3,8 +3,8 @@ module.exports = function (models, event) {
 
     var mongoose = require('mongoose');
     var accessRoll = require('../helpers/accessRollHelper.js')(models);
-    var _ = require('../node_modules/underscore');
-    var moment = require('../public/js/libs/moment/moment');
+    var _ = require('underscore');
+    var moment = require('moment');
     var async = require('async');
     var CONSTANTS = require('../constants/mainConstants.js');
     var Mailer = require('../helpers/mailer');
@@ -1865,7 +1865,7 @@ module.exports = function (models, event) {
                         wTrack = result ? result[0] : null;
 
                         if (wTrack) {
-                            newDate = moment().year(wTrack.year).isoWeek(wTrack.week);
+                            newDate =moment().year(wTrack.year).isoWeek(wTrack.week);
 
                             for (i = 1; i <= 7; i++) {
                                 day = wTrack[i];
@@ -1895,7 +1895,7 @@ module.exports = function (models, event) {
                         wTrack = result ? result[0] : null;
 
                         if (wTrack) {
-                            newDate = moment().year(wTrack.year).isoWeek(wTrack.week);
+                            newDate =moment().year(wTrack.year).isoWeek(wTrack.week);
 
                             if (wTrack['7']) {
                                 newDate = newDate.day(7);

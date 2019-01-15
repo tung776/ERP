@@ -5,7 +5,7 @@ var Module = function (models, event) {
     var HolidaySchema = mongoose.Schemas.Holiday;
     var async = require('async');
     var mapObject = require('../helpers/bodyMaper');
-    var moment = require('../public/js/libs/moment/moment');
+    var moment = require('moment');
     var pageHelper = require('../helpers/pageHelper');
 
     function getHolidayFilter(req, res, next) {
@@ -71,7 +71,7 @@ var Module = function (models, event) {
         var options = req.query;
         var year = parseInt(options.year, 10);
         var week = parseInt(options.week, 10);
-        var date = moment([year, 2]);
+        var date =moment([year, 2]);
         var holidaysWeek = {};
         var startDate;
         var endDate;
@@ -107,7 +107,7 @@ var Module = function (models, event) {
             }
 
             result.forEach(function (holiday) {
-                date = moment(holiday.date);
+                date =moment(holiday.date);
                 day = date.isoWeekday();
                 holidaysWeek[day] = 'H';
             });
@@ -138,7 +138,7 @@ var Module = function (models, event) {
         };
 
         if (data.date) {
-            data.dateByMonth = moment(new Date(data.date)).year() * 100 + moment(new Date(data.date)).month() + 1;
+            data.dateByMonth =moment(new Date(data.date)).year() * 100 +moment(new Date(data.date)).month() + 1;
         }
 
         Holiday.findByIdAndUpdate(id, {$set: data}, {new: true}, function (err, response) {
@@ -164,13 +164,13 @@ var Module = function (models, event) {
 
             if (data.date) {
                 date = data.date;
-                date = moment(new Date(date));
+                date =moment(new Date(date));
 
                 data.year = date.isoWeekYear();
                 data.week = date.isoWeek();
                 data.day = date.day();
 
-                data.dateByMonth = moment(new Date(data.date)).year() * 100 + moment(new Date(data.date)).month() + 1;
+                data.dateByMonth =moment(new Date(data.date)).year() * 100 +moment(new Date(data.date)).month() + 1;
             }
 
             data.editedBy = {
@@ -249,13 +249,13 @@ var Module = function (models, event) {
         var date;
 
         body.date = new Date(body.date);
-        date = moment(body.date);
+        date =moment(body.date);
 
         body.year = date.isoWeekYear();
         body.week = date.isoWeek();
         body.day = date.day();
 
-        body.dateByMonth = moment(date).year() * 100 + moment(date).month() + 1;
+        body.dateByMonth =moment(date).year() * 100 +moment(date).month() + 1;
 
         Holiday = new HolidayModel(body);
 

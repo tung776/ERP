@@ -1,6 +1,6 @@
 var request = require('supertest');
 var expect = require('chai').expect;
-var moment = require('../../public/js/libs/moment/moment');
+var moment = require('../moment');
 
 var url = 'http://localhost:8089/';
 var CONSTANTS = require('../../constants/mainConstants');
@@ -39,8 +39,8 @@ describe('Dashboard Vacation Specs', function () {
                 .expect(200)
                 .end(function (err, res) {
                     var body = res.body;
-                    var dateByWeekStart = moment().subtract(CONSTANTS.DASH_VAC_WEEK_BEFORE, 'weeks');
-                    var dateByWeekEnd = moment().add(CONSTANTS.DASH_VAC_WEEK_AFTER, 'weeks');
+                    var dateByWeekStart =moment().subtract(CONSTANTS.DASH_VAC_WEEK_BEFORE, 'weeks');
+                    var dateByWeekEnd =moment().add(CONSTANTS.DASH_VAC_WEEK_AFTER, 'weeks');
                     var duration = dateByWeekEnd.diff(dateByWeekStart, 'weeks');
                     var departmentDashboard;
                     var employee;
@@ -114,10 +114,10 @@ describe('Dashboard Vacation Specs', function () {
                      expect(hired)
                      .to.have.property('date');
 
-                     hireDate = moment(hired.date);
+                     hireDate =moment(hired.date);
                      hireWeekDate = hireDate.isoWeek() - 1 + 100 * hireDate.isoWeekYear();
                      hireDate = hireDate.valueOf();
-                     now = moment().valueOf();
+                     now =moment().valueOf();
 
                      expect(employee.lastHire)
                      .to.be.equal(hireWeekDate);
@@ -219,8 +219,8 @@ describe('Dashboard Vacation Specs', function () {
                 .expect(200)
                 .end(function (err, res) {
                     var body = res.body;
-                    var dateByWeekStart = moment(startTime);
-                    var dateByWeekEnd = moment(endTime);
+                    var dateByWeekStart =moment(startTime);
+                    var dateByWeekEnd =moment(endTime);
                     var duration = dateByWeekEnd.diff(dateByWeekStart, 'weeks');
                     var departmentDashboard;
                     var employee;
@@ -295,10 +295,10 @@ describe('Dashboard Vacation Specs', function () {
                      expect(hired)
                      .to.have.property('date');
 
-                     hireDate = moment(hired.date);
+                     hireDate =moment(hired.date);
                      hireWeekDate = hireDate.isoWeek() - 1 + 100 * hireDate.isoWeekYear();
                      hireDate = hireDate.valueOf();
-                     now = moment().valueOf();
+                     now =moment().valueOf();
 
                      expect(employee.lastHire)
                      .to.be.equal(hireWeekDate);
@@ -412,8 +412,8 @@ describe('Dashboard Vacation Specs', function () {
                 .expect(200)
                 .end(function (err, res) {
                     var body = res.body;
-                    var dateByWeekStart = moment().subtract(CONSTANTS.DASH_VAC_WEEK_BEFORE, 'weeks');
-                    var dateByWeekEnd = moment().add(CONSTANTS.DASH_VAC_WEEK_AFTER, 'weeks');
+                    var dateByWeekStart =moment().subtract(CONSTANTS.DASH_VAC_WEEK_BEFORE, 'weeks');
+                    var dateByWeekEnd =moment().add(CONSTANTS.DASH_VAC_WEEK_AFTER, 'weeks');
                     var duration = dateByWeekEnd.diff(dateByWeekStart, 'weeks');
                     var departmentDashboard;
                     var employee;
@@ -488,10 +488,10 @@ describe('Dashboard Vacation Specs', function () {
                     expect(hired)
                         .to.have.property('date');
 
-                    hireDate = moment(hired.date);
+                    hireDate =moment(hired.date);
                     hireWeekDate = hireDate.isoWeek() - 1 + 100 * hireDate.isoWeekYear();
                     hireDate = hireDate.valueOf();
-                    now = moment().valueOf();
+                    now =moment().valueOf();
 
                     expect(employee.lastHire)
                         .to.be.equal(hireWeekDate);
@@ -593,8 +593,8 @@ describe('Dashboard Vacation Specs', function () {
                 .expect(200)
                 .end(function (err, res) {
                     var body = res.body;
-                    var dateByWeekStart = moment().subtract(CONSTANTS.DASH_VAC_WEEK_BEFORE, 'weeks');
-                    var dateByWeekEnd = moment().add(CONSTANTS.DASH_VAC_WEEK_AFTER, 'weeks');
+                    var dateByWeekStart =moment().subtract(CONSTANTS.DASH_VAC_WEEK_BEFORE, 'weeks');
+                    var dateByWeekEnd =moment().add(CONSTANTS.DASH_VAC_WEEK_AFTER, 'weeks');
 
                     if (err) {
                         return done(err);
@@ -619,8 +619,8 @@ describe('Dashboard Vacation Specs', function () {
                 .expect(200)
                 .end(function (err, res) {
                     var body = res.body;
-                    var dateByWeekStart = moment().subtract(CONSTANTS.DASH_VAC_WEEK_BEFORE, 'weeks');
-                    var dateByWeekEnd = moment().add(CONSTANTS.DASH_VAC_WEEK_AFTER, 'weeks');
+                    var dateByWeekStart =moment().subtract(CONSTANTS.DASH_VAC_WEEK_BEFORE, 'weeks');
+                    var dateByWeekEnd =moment().add(CONSTANTS.DASH_VAC_WEEK_AFTER, 'weeks');
                     var duration = dateByWeekEnd.diff(dateByWeekStart, 'weeks');
                     var departmentDashboard;
                     var employee;
@@ -695,10 +695,10 @@ describe('Dashboard Vacation Specs', function () {
                     expect(hired)
                         .to.have.property('date');
 
-                    hireDate = moment(hired.date);
+                    hireDate =moment(hired.date);
                     hireWeekDate = hireDate.isoWeek() - 1 + 100 * hireDate.isoWeekYear();
                     hireDate = hireDate.valueOf();
-                    now = moment().valueOf();
+                    now =moment().valueOf();
 
                     expect(employee.lastHire)
                         .to.be.equal(hireWeekDate);
@@ -802,8 +802,8 @@ describe('Dashboard Vacation Specs', function () {
                 .expect(200)
                 .end(function (err, res) {
                     var body = res.body;
-                    var dateByWeekStart = moment().subtract(CONSTANTS.DASH_VAC_WEEK_BEFORE, 'weeks');
-                    var dateByWeekEnd = moment().add(CONSTANTS.DASH_VAC_WEEK_AFTER, 'weeks');
+                    var dateByWeekStart =moment().subtract(CONSTANTS.DASH_VAC_WEEK_BEFORE, 'weeks');
+                    var dateByWeekEnd =moment().add(CONSTANTS.DASH_VAC_WEEK_AFTER, 'weeks');
                     var duration = dateByWeekEnd.diff(dateByWeekStart, 'weeks');
                     var departmentDashboard;
                     var employee;
@@ -878,10 +878,10 @@ describe('Dashboard Vacation Specs', function () {
                     expect(hired)
                         .to.have.property('date');
 
-                    hireDate = moment(hired.date);
+                    hireDate =moment(hired.date);
                     hireWeekDate = hireDate.isoWeek() - 1 + 100 * hireDate.isoWeekYear();
                     hireDate = hireDate.valueOf();
-                    now = moment().valueOf();
+                    now =moment().valueOf();
 
                     expect(employee.lastHire)
                         .to.be.equal(hireWeekDate);

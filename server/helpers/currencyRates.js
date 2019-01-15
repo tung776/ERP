@@ -2,7 +2,7 @@
 var request = require('request');
 var async = require('async');
 var oxr = require('open-exchange-rates');
-var moment = require('../public/js/libs/moment/moment');
+var moment = require('moment');
 var oxrHelper = require('./currency');
 var appId1 = 'b81387a200c2463e9ae3d31cc60eda62';
 var appId2 = 'b81387a200c2463e9ae3d31cc60eda62';
@@ -15,7 +15,7 @@ module.exports = function (models) {
         var currencyService = require('../services/currency')(models);
 
         this.get = function (opt, cb) {
-            var now = moment();
+            var now =moment();
             var baseUrl = 'http://api.fixer.io/latest?base=';
             var waterfallTasks;
             var getLatestRates;
@@ -39,14 +39,14 @@ module.exports = function (models) {
 
             if (typeof date === 'function') {
                 cb = date;
-                date = moment();
+                date =moment();
             } else if (!isNaN((new Date(date)).getTime())) {
-                date = moment(date);
+                date =moment(date);
             } else {
                 date = new Date();
             }
 
-            date = moment(date) || now;
+            date =moment(date) || now;
             date = date.format('YYYY-MM-DD');
 
             if (setDate) {

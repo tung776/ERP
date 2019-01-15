@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-var moment = require('../public/js/libs/moment/moment');
+var moment = require('moment');
 
 var Module = function (models) {
     'use strict';
@@ -345,8 +345,8 @@ var Module = function (models) {
         var queryObject = {_id: ObjectId(id)};
         var month = parseInt(data.month, 10);
         var year = parseInt(data.year, 10);
-        var date = moment().year(year).month(month - 1).startOf('month');
-        var endDate = moment(date).endOf('month');
+        var date =moment().year(year).month(month - 1).startOf('month');
+        var endDate =moment(date).endOf('month');
 
         endDate = new Date(endDate);
 
@@ -567,8 +567,8 @@ var Module = function (models) {
         var key = 'salaryReport' + filter + startDate.toString() + endDate.toString();
         var redisStore = require('../helpers/redisClient');
         var waterfallTasks;
-        var startDateKey = moment(startDate).year() * 100 + moment(startDate).week(); // todo isoWeek (changed on week)
-        var endDateKey = moment(endDate).year() * 100 + moment(endDate).week(); // todo isoWeek (changed on week)
+        var startDateKey =moment(startDate).year() * 100 +moment(startDate).week(); // todo isoWeek (changed on week)
+        var endDateKey =moment(endDate).year() * 100 +moment(endDate).week(); // todo isoWeek (changed on week)
         var filterMapper = new FilterMapper();
 
         function checkFilter(callback) {
@@ -762,8 +762,8 @@ var Module = function (models) {
         var employees;
         var ids = {};
         var i;
-        var date = moment().year(year).month(month - 1).startOf('month');
-        var endDate = moment(date).endOf('month');
+        var date =moment().year(year).month(month - 1).startOf('month');
+        var endDate =moment(date).endOf('month');
         var employeesIds = [];
         var employeeQueryForEmployeeByDep;
         var startDateKey = date.isoWeekYear() * 100 + date.isoWeek();
@@ -958,7 +958,7 @@ var Module = function (models) {
                 var dateToCreate = endDate;
                 var hireKey;
                 var fireKey;
-                var localKey = moment(dateToCreate).year() * 100 + moment(dateToCreate).month() + 1;
+                var localKey =moment(dateToCreate).year() * 100 +moment(dateToCreate).month() + 1;
                 var payrollStructureType = empObject.payrollStructureType || {};
                 var earnings = payrollStructureType.earnings || [];
                 var deductions = payrollStructureType.deductions || [];
@@ -980,21 +980,21 @@ var Module = function (models) {
                 lastFire = lastFire && lastFire.length ? lastFire[0] : {};
                 firstHire = firstHire && firstHire.length ? firstHire[0] : {};
 
-                hireKey = moment(new Date(firstHire.date)).year() * 100 + moment(new Date(firstHire.date)).month() + 1;
-                fireKey = fire[0] ? moment(new Date(lastFire)).year() * 100 + moment(new Date(lastFire)).month() + 1 : Infinity;
+                hireKey =moment(new Date(firstHire.date)).year() * 100 +moment(new Date(firstHire.date)).month() + 1;
+                fireKey = fire[0] ?moment(new Date(lastFire)).year() * 100 +moment(new Date(lastFire)).month() + 1 : Infinity;
 
                 if (hireKey === localKey) {
-                    daysInMonth = moment(dateToCreate).endOf('month').date();
+                    daysInMonth =moment(dateToCreate).endOf('month').date();
                     payForDay = salary / daysInMonth;
 
-                    salary = payForDay * (daysInMonth - moment(new Date(hire[0].date)).date() + 1);
+                    salary = payForDay * (daysInMonth -moment(new Date(hire[0].date)).date() + 1);
                 }
 
                 if (fireKey === localKey) {
-                    daysInMonth = moment(dateToCreate).endOf('month').date();
+                    daysInMonth =moment(dateToCreate).endOf('month').date();
                     payForDay = salary / daysInMonth;
 
-                    salary = payForDay * moment(new Date(fire[0])).date();
+                    salary = payForDay *moment(new Date(fire[0])).date();
                 } else if (fireKey < localKey) {
                     salary = 0;
                 }
@@ -1378,8 +1378,8 @@ var Module = function (models) {
      var employees;
      var ids = {};
      var i;
-     var date = moment().year(year).month(month - 1).startOf('month');
-     var endDate = moment(date).endOf('month');
+     var date =moment().year(year).month(month - 1).startOf('month');
+     var endDate =moment(date).endOf('month');
      var employeesIds = [];
 
      date = new Date(date);
@@ -1420,9 +1420,9 @@ var Module = function (models) {
      var daysInMonth;
      var payForDay;
      var department;
-     var hireKey = moment(new Date(hire[0].date)).year() * 100 + moment(new Date(hire[0].date)).month() + 1;
-     var fireKey = fire[0] ? moment(new Date(fire[0])).year() * 100 + moment(new Date(fire[0])).month() + 1 : Infinity;
-     var localKey = moment(dateToCreate).year() * 100 + moment(dateToCreate).month() + 1;
+     var hireKey =moment(new Date(hire[0].date)).year() * 100 +moment(new Date(hire[0].date)).month() + 1;
+     var fireKey = fire[0] ?moment(new Date(fire[0])).year() * 100 +moment(new Date(fire[0])).month() + 1 : Infinity;
+     var localKey =moment(dateToCreate).year() * 100 +moment(dateToCreate).month() + 1;
 
      journalEntry.removeByDocId({
      'sourceDocument._id': elem._id,
@@ -1443,17 +1443,17 @@ var Module = function (models) {
      }
 
      if (hireKey === localKey) {
-     daysInMonth = moment(dateToCreate).endOf('month').date();
+     daysInMonth =moment(dateToCreate).endOf('month').date();
      payForDay = salary / daysInMonth;
 
-     salary = payForDay * (daysInMonth - moment(new Date(hire[0].date)).date() + 1);
+     salary = payForDay * (daysInMonth -moment(new Date(hire[0].date)).date() + 1);
      }
 
      if (fireKey === localKey) {
-     daysInMonth = moment(dateToCreate).endOf('month').date();
+     daysInMonth =moment(dateToCreate).endOf('month').date();
      payForDay = salary / daysInMonth;
 
-     salary = payForDay * moment(new Date(fire[0])).date();
+     salary = payForDay *moment(new Date(fire[0])).date();
      } else if (fireKey < localKey) {
      salary = 0;
      }

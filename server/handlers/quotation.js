@@ -21,13 +21,13 @@ var Module = function (models, event) {
     var RESPONSES = require('../constants/responses');
     var async = require('async');
     var mapObject = require('../helpers/bodyMaper');
-    var _ = require('../node_modules/underscore');
+    var _ = require('underscore');
     var HistoryService = require('../services/history.js')(models);
     var currencyHalper = require('../helpers/currency');
     var path = require('path');
     var CONSTANTS = require('../constants/mainConstants.js');
     var pageHelper = require('../helpers/pageHelper');
-    var moment = require('../public/js/libs/moment/moment');
+    var moment = require('moment');
 
     var FilterMapper = require('../helpers/filterMapper');
     var filterMapper = new FilterMapper();

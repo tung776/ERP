@@ -3,7 +3,7 @@ var WorkflowHandler = require('./workflow');
 var RESPONSES = require('../constants/responses');
 var CONSTANTS = require('../constants/mainConstants');
 var fx = require('money');
-var moment = require('../public/js/libs/moment/moment');
+var moment = require('moment');
 
 var Proforma = function (models) {
     'use strict';
@@ -22,7 +22,7 @@ var Proforma = function (models) {
         var dbIndex = req.session.lastDb;
         var ExpensesInvoice = models.get(dbIndex, 'expensesInvoice', ExpensesInvoiceSchema);
         var request;
-        var date = moment().format('YYYY-MM-DD');
+        var date =moment().format('YYYY-MM-DD');
         var data = req.body;
         var parallelTasks;
         var waterFallTasks;

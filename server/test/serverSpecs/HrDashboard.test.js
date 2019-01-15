@@ -1,6 +1,6 @@
 var request = require('supertest');
 var expect = require('chai').expect;
-var moment = require('../../public/js/libs/moment/moment');
+var moment = require('../moment');
 var url = 'http://localhost:8089/';
 var aggent;
 
@@ -36,7 +36,7 @@ describe('Dashboard Vacation Specs', function () {
                 .expect(200)
                 .end(function (err, res) {
                     var body = res.body;
-                    var dateStart = moment().subtract(12, 'month').startOf('month');
+                    var dateStart =moment().subtract(12, 'month').startOf('month');
                     var hiredEmployees;
                     var firedEmployees;
                     var dateStartHired;
