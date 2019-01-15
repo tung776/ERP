@@ -8,7 +8,7 @@ var Filters = function (models) {
     var async = require('async');
     var CONSTANTS = require('../constants/mainConstants.js');
     var moment = require('moment');
-    var FILTER_CONSTANTS = require(' ../constants/filters');
+    var FILTER_CONSTANTS = require('../constants/filters');
 
     this.getProjectsDashboardFilters = function (req, res, next) {
         var lastDB = req.session.lastDb;
