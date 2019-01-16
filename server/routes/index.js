@@ -417,7 +417,7 @@ module.exports = async function(app, mainDb) {
      HTTP/1.1 200 OK
      "OK"
      */
-  app.get("/api//account/authenticated", function(req, res, next) {
+  app.get("/api/account/authenticated", function(req, res, next) {
     if (req.session && req.session.loggedIn) {
       res.send(200);
     } else {
@@ -425,13 +425,13 @@ module.exports = async function(app, mainDb) {
     }
   });
 
-  app.get("/api//download/:path", function(req, res) {
+  app.get("/api/download/:path", function(req, res) {
     var path = req.param("path");
 
     res.download(path);
   });
 
-  app.get("/api//logout", function(req, res, next) {
+  app.get("/api/logout", function(req, res, next) {
     var session = req.session;
 
     if (session) {
@@ -446,7 +446,7 @@ module.exports = async function(app, mainDb) {
     res.redirect("/#login");
   });
 
-  app.get("/api//clearCashStorage", function(req, res, next) {
+  app.get("/api/clearCashStorage", function(req, res, next) {
     redisStore.removeAllStorages(function(err) {
       if (err) {
         return next(err);
@@ -465,14 +465,14 @@ module.exports = async function(app, mainDb) {
     });
   });
 
-  app.post("/api//consumer", magento.getConsumerKeyAndSecret);
-  app.get("/api//callback", magento.getOAuthAccessToken);
+  app.post("/api/consumer", magento.getConsumerKeyAndSecret);
+  app.get("/api/callback", magento.getOAuthAccessToken);
 
-  app.get("/api//sync", syncHelper.syncAll);
+  app.get("/api/sync", syncHelper.syncAll);
 
-  app.get("/api//addToSync", syncHelper.getToSync);
+  app.get("/api/addToSync", syncHelper.getToSync);
 
-  app.post("/api//track", function(req, res) {
+  app.post("/api/track", function(req, res) {
     var RegExp = /production|test_demo/;
     var body = req.body;
     var ip = req.headers ? req.headers["x-real-ip"] : req.ip;
@@ -508,7 +508,7 @@ module.exports = async function(app, mainDb) {
     }
   });
 
-  app.get("/api//stopserver", function() {
+  app.get("/api/stopserver", function() {
     process.exit(1);
   });
 
