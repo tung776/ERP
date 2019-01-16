@@ -627,7 +627,7 @@ var User = function(event, models) {
   }
 
   this.login = function(req, res, next) {
-    var data = req.body;
+    var data = req.body.data;
     var UserModel = models.get(data.dbId, "Users", userSchema);
     var login = data.login || data.email;
     var ip = req.headers ? req.headers["x-real-ip"] : req.ip;

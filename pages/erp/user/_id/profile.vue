@@ -580,6 +580,16 @@
 
 <script>
 export default {
+  async mounted() {
+    try {
+      const result = await this.$axios.get("users/current");
+      console.log("result = ", result.data.user);
+      this.$store.dispatch("auth/setUser", result.data.user);
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
   layout(context) {
     return "erp";
   }
