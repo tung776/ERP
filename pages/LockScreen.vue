@@ -46,11 +46,5 @@
 </template>
 
 <script>
-export default {
-  layout: "blank",
-  // OR
-  layout(context) {
-    return "blank";
-  }
-};
+export default {};
 </script>

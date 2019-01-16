@@ -8,12 +8,6 @@ const nuxt = new Nuxt(config);
 config.dev = !(process.env.NODE_ENV === "production");
 
 module.exports = async function(app, mainDb) {
-  if (config.dev) {
-    const builder = new Builder(nuxt);
-    await builder.build();
-  }
-  app.use(nuxt.render);
-
   var event = require("../helpers/eventstHandler")(app, mainDb);
   var RESPONSES = require("../constants/responses");
   var CONSTANTS = require("../constants/mainConstants");
@@ -225,110 +219,110 @@ module.exports = async function(app, mainDb) {
   //     res.sendfile('index.html');
   // });
 
-  app.use("/filter", filterRouter);
-  app.use("/products", productRouter);
-  app.use("/orders", orderRouter);
-  app.use("/invoices", invoiceRouter);
-  app.use("/invoice", invoicesRouter);
-  app.use("/proforma", proformaRouter);
-  app.use("/expensesInvoice", expensesInvoiceRouter);
-  app.use("/dividendInvoice", dividendInvoiceRouter);
-  app.use("/supplier", supplierRouter);
-  app.use("/quotations", quotationRouter);
-  app.use("/destination", destinationRouter);
-  app.use("/incoterm", incotermRouter);
-  app.use("/invoicingControl", invoicingControlRouter);
-  app.use("/order", ordersRouter);
-  app.use("/goodsOutNotes", goodsOutRouter);
-  app.use("/goodsInNotes", goodsInRouter);
-  app.use("/stockTransactions", stockTransactionRouter);
-  app.use("/stockInventory", stockInventoryRouter);
-  app.use("/paymentTerm", paymentTermRouter);
-  app.use("/deliverTo", deliverToTermRouter);
-  app.use("/weeklyScheduler", weeklySchedulerRouter);
-  app.use("/scheduledPay", scheduledPayRouter);
-  app.use("/payrollComponentTypes", payrollComponentTypesRouter);
-  app.use("/workflows", workflowRouter);
-  app.use("/payments", paymentRouter);
-  app.use("/period", periodRouter);
-  app.use("/organizationSettings", orgSettingsRouter);
-  app.use("/paymentMethod", paymentMethodRouter);
-  app.use("/importFile", importFileRouter);
-  app.use("/wTrack", wTrackRouter);
-  app.use("/projects", projectRouter);
-  app.use("/employees", employeeRouter);
-  app.use("/nationality", nationalityRouter);
-  app.use("/language", languageRouter);
-  app.use("/applications", applicationRouter);
-  app.use("/departments", departmentRouter);
-  app.use("/revenue", revenueRouter);
-  app.use("/salaryReport", salaryReportRouter);
-  app.use("/opportunities", opportunityRouter);
-  app.use("/leads", leadsRouter);
-  app.use("/jobPositions", jobPositionRouter);
-  app.use("/holiday", holidayRouter);
-  app.use("/vacation", vacationRouter);
-  app.use("/monthHours", monthHoursRouter);
-  app.use("/modules", modulesRouter);
-  app.use("/bonusType", bonusTypeRouter);
-  app.use("/industry", industryRouter);
-  app.use("/dashboard", dashboardRouter);
-  app.use("/dealTasks", dealTasksRouter);
-  app.use("/category", productCategoriesRouter);
-  app.use("/customers", customersRouter);
-  app.use("/companies", customersRouter);
-  app.use("/persons", personsRouter);
-  app.use("/capacity", capacityRouter);
-  app.use("/payroll", payRollRouter);
-  app.use("/jobs", jobsRouter);
-  app.use("/paymentType", paymentTypeRouter);
-  app.use("/payrollExprnses", payrollExprnsesRouter);
-  app.use("/chartOfAccount", chartOfAccountRouter);
-  app.use("/currency", currencyRouter);
-  app.use("/projectPosition", prPositionRouter);
-  app.use("/projectMember", projectMemberRouter);
-  app.use("/journals", journalRouter);
-  app.use("/journalEntries", journalEntriesRouter);
-  app.use("/campaigns", campaignRouter);
-  app.use("/degrees", degreesRouter);
-  app.use("/profiles", profilesRouter);
-  app.use("/tasks", tasksRouter);
-  app.use("/tags", tagRouter);
-  app.use("/users", userRouter);
-  app.use("/writeOff", writeOffRouter);
-  app.use("/payrollStructureTypes", payrollStructureTypesRouter);
-  app.use("/cashTransfer", cashTransferRouter);
-  app.use("/countries", countriesRouter);
-  app.use("/contractJobs", contractJobsRouter);
-  app.use("/projectsDashboard", projectsDashboardRouter);
-  app.use("/followers", followersRouter);
-  app.use("/customChart", customChartRouter);
-  app.use("/dashboards", customDashboardRouter);
-  app.use("/accountTypes", accountTypesRouter);
-  app.use("/warehouse", warehouseRouter);
-  app.use("/accountsCategories", accountsCategoriesRouter);
-  app.use("/priceList", priceListRouter);
-  app.use("/purchaseOrders", purchaseOrdersRouter);
-  app.use("/purchaseInvoices", purchaseInvoicesRouter);
-  app.use("/channels", channelRouter);
-  app.use("/taxSettings", taxSettingsRouter);
-  app.use("/rates", ratesRouter);
-  app.use("/reports", reportsRouter);
-  app.use("/shippingMethod", shippingMethodRouter);
-  app.use("/image", imagesRouter);
-  app.use("/stockReturns", stockReturnsRouter);
-  app.use("/expensesCategories", expensesCategoriesRouter);
-  app.use("/clearDemoData", demoDataRouter);
-  app.use("/syncLogs", syncLogsRouter);
-  app.use("/manufacturingOrders", manufacturingOrderRouter);
-  app.use("/workCentre", workCentresRouter);
-  app.use("/routing", routingRouter);
-  app.use("/billOfMaterials", billOfMaterials);
+  app.use("/api/filter", filterRouter);
+  app.use("/api/products", productRouter);
+  app.use("/api/orders", orderRouter);
+  app.use("/api/invoices", invoiceRouter);
+  app.use("/api/invoice", invoicesRouter);
+  app.use("/api/proforma", proformaRouter);
+  app.use("/api/expensesInvoice", expensesInvoiceRouter);
+  app.use("/api/dividendInvoice", dividendInvoiceRouter);
+  app.use("/api/supplier", supplierRouter);
+  app.use("/api/quotations", quotationRouter);
+  app.use("/api/destination", destinationRouter);
+  app.use("/api/incoterm", incotermRouter);
+  app.use("/api/invoicingControl", invoicingControlRouter);
+  app.use("/api/order", ordersRouter);
+  app.use("/api/goodsOutNotes", goodsOutRouter);
+  app.use("/api/goodsInNotes", goodsInRouter);
+  app.use("/api/stockTransactions", stockTransactionRouter);
+  app.use("/api/stockInventory", stockInventoryRouter);
+  app.use("/api/paymentTerm", paymentTermRouter);
+  app.use("/api/deliverTo", deliverToTermRouter);
+  app.use("/api/weeklyScheduler", weeklySchedulerRouter);
+  app.use("/api/scheduledPay", scheduledPayRouter);
+  app.use("/api/payrollComponentTypes", payrollComponentTypesRouter);
+  app.use("/api/workflows", workflowRouter);
+  app.use("/api/payments", paymentRouter);
+  app.use("/api/period", periodRouter);
+  app.use("/api/organizationSettings", orgSettingsRouter);
+  app.use("/api/paymentMethod", paymentMethodRouter);
+  app.use("/api/importFile", importFileRouter);
+  app.use("/api/wTrack", wTrackRouter);
+  app.use("/api/projects", projectRouter);
+  app.use("/api/employees", employeeRouter);
+  app.use("/api/nationality", nationalityRouter);
+  app.use("/api/language", languageRouter);
+  app.use("/api/applications", applicationRouter);
+  app.use("/api/departments", departmentRouter);
+  app.use("/api/revenue", revenueRouter);
+  app.use("/api/salaryReport", salaryReportRouter);
+  app.use("/api/opportunities", opportunityRouter);
+  app.use("/api/leads", leadsRouter);
+  app.use("/api/jobPositions", jobPositionRouter);
+  app.use("/api/holiday", holidayRouter);
+  app.use("/api/vacation", vacationRouter);
+  app.use("/api/monthHours", monthHoursRouter);
+  app.use("/api/modules", modulesRouter);
+  app.use("/api/bonusType", bonusTypeRouter);
+  app.use("/api/industry", industryRouter);
+  app.use("/api/dashboard", dashboardRouter);
+  app.use("/api/dealTasks", dealTasksRouter);
+  app.use("/api/category", productCategoriesRouter);
+  app.use("/api/customers", customersRouter);
+  app.use("/api/companies", customersRouter);
+  app.use("/api/persons", personsRouter);
+  app.use("/api/capacity", capacityRouter);
+  app.use("/api/payroll", payRollRouter);
+  app.use("/api/jobs", jobsRouter);
+  app.use("/api/paymentType", paymentTypeRouter);
+  app.use("/api/payrollExprnses", payrollExprnsesRouter);
+  app.use("/api/chartOfAccount", chartOfAccountRouter);
+  app.use("/api/currency", currencyRouter);
+  app.use("/api/projectPosition", prPositionRouter);
+  app.use("/api/projectMember", projectMemberRouter);
+  app.use("/api/journals", journalRouter);
+  app.use("/api/journalEntries", journalEntriesRouter);
+  app.use("/api/campaigns", campaignRouter);
+  app.use("/api/degrees", degreesRouter);
+  app.use("/api/profiles", profilesRouter);
+  app.use("/api/tasks", tasksRouter);
+  app.use("/api/tags", tagRouter);
+  app.use("/api/users", userRouter);
+  app.use("/api/writeOff", writeOffRouter);
+  app.use("/api/payrollStructureTypes", payrollStructureTypesRouter);
+  app.use("/api/cashTransfer", cashTransferRouter);
+  app.use("/api/countries", countriesRouter);
+  app.use("/api/contractJobs", contractJobsRouter);
+  app.use("/api/projectsDashboard", projectsDashboardRouter);
+  app.use("/api/followers", followersRouter);
+  app.use("/api/customChart", customChartRouter);
+  app.use("/api/dashboards", customDashboardRouter);
+  app.use("/api/accountTypes", accountTypesRouter);
+  app.use("/api/warehouse", warehouseRouter);
+  app.use("/api/accountsCategories", accountsCategoriesRouter);
+  app.use("/api/priceList", priceListRouter);
+  app.use("/api/purchaseOrders", purchaseOrdersRouter);
+  app.use("/api/purchaseInvoices", purchaseInvoicesRouter);
+  app.use("/api/channels", channelRouter);
+  app.use("/api/taxSettings", taxSettingsRouter);
+  app.use("/api/rates", ratesRouter);
+  app.use("/api/reports", reportsRouter);
+  app.use("/api/shippingMethod", shippingMethodRouter);
+  app.use("/api/image", imagesRouter);
+  app.use("/api/stockReturns", stockReturnsRouter);
+  app.use("/api/expensesCategories", expensesCategoriesRouter);
+  app.use("/api/clearDemoData", demoDataRouter);
+  app.use("/api/syncLogs", syncLogsRouter);
+  app.use("/api/manufacturingOrders", manufacturingOrderRouter);
+  app.use("/api/workCentre", workCentresRouter);
+  app.use("/api/routing", routingRouter);
+  app.use("/api/billOfMaterials", billOfMaterials);
 
-  app.use("/webhooks", webHooksRouter);
+  app.use("/api/webhooks", webHooksRouter);
 
   // <editor-fold desc="Integration">
-  app.use("/integration", integrationRouter);
+  app.use("/api/integration", integrationRouter);
   // </editor-fold>
 
   /**
@@ -382,14 +376,14 @@ module.exports = async function(app, mainDb) {
          }
      }
      */
-  app.get("/getDBS", function(req, res) {
+  app.get("/api/getDBS", function(req, res) {
     res.send(200, {
       dbsNames: dbsNames
     });
   });
 
-  app.post("/exportToPdf", exportToPdf.post);
-  app.get("/exportToPdf", exportToPdf.get);
+  app.post("/api/exportToPdf", exportToPdf.post);
+  app.get("/api/exportToPdf", exportToPdf.get);
 
   /**
      *@api {get} /currentDb/ Request CurrentDb
@@ -403,7 +397,7 @@ module.exports = async function(app, mainDb) {
      HTTP/1.1 200 OK
      "vasyadb"
      */
-  app.get("/currentDb", function(req, res, next) {
+  app.get("/api/currentDb", function(req, res, next) {
     if (req.session && req.session.lastDb) {
       res.status(200).send(req.session.lastDb);
     } else {
@@ -423,7 +417,7 @@ module.exports = async function(app, mainDb) {
      HTTP/1.1 200 OK
      "OK"
      */
-  app.get("/account/authenticated", function(req, res, next) {
+  app.get("/api//account/authenticated", function(req, res, next) {
     if (req.session && req.session.loggedIn) {
       res.send(200);
     } else {
@@ -431,13 +425,13 @@ module.exports = async function(app, mainDb) {
     }
   });
 
-  app.get("/download/:path", function(req, res) {
+  app.get("/api//download/:path", function(req, res) {
     var path = req.param("path");
 
     res.download(path);
   });
 
-  app.get("/logout", function(req, res, next) {
+  app.get("/api//logout", function(req, res, next) {
     var session = req.session;
 
     if (session) {
@@ -452,7 +446,7 @@ module.exports = async function(app, mainDb) {
     res.redirect("/#login");
   });
 
-  app.get("/clearCashStorage", function(req, res, next) {
+  app.get("/api//clearCashStorage", function(req, res, next) {
     redisStore.removeAllStorages(function(err) {
       if (err) {
         return next(err);
@@ -471,14 +465,14 @@ module.exports = async function(app, mainDb) {
     });
   });
 
-  app.post("/consumer", magento.getConsumerKeyAndSecret);
-  app.get("/callback", magento.getOAuthAccessToken);
+  app.post("/api//consumer", magento.getConsumerKeyAndSecret);
+  app.get("/api//callback", magento.getOAuthAccessToken);
 
-  app.get("/sync", syncHelper.syncAll);
+  app.get("/api//sync", syncHelper.syncAll);
 
-  app.get("/addToSync", syncHelper.getToSync);
+  app.get("/api//addToSync", syncHelper.getToSync);
 
-  app.post("/track", function(req, res) {
+  app.post("/api//track", function(req, res) {
     var RegExp = /production|test_demo/;
     var body = req.body;
     var ip = req.headers ? req.headers["x-real-ip"] : req.ip;
@@ -514,7 +508,7 @@ module.exports = async function(app, mainDb) {
     }
   });
 
-  app.get("/stopserver", function() {
+  app.get("/api//stopserver", function() {
     process.exit(1);
   });
 
@@ -552,6 +546,11 @@ module.exports = async function(app, mainDb) {
       logger.error(err.message + "\n" + err.stack);
     }
   }
+  if (config.dev) {
+    const builder = new Builder(nuxt);
+    await builder.build();
+  }
+  app.use(nuxt.render);
 
   app.use(notFound);
   app.use(errorHandler);

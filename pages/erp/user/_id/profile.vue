@@ -509,14 +509,7 @@
                       <a
                         href="https://www.creative-tim.com/product/material-dashboard-pro-angular2?affiliate_id=97705"
                         class="ad-click-event"
-                      >
-                        <img
-                          src="/uploads/images/free_templates/creative-tim-material-angular.png"
-                          alt="Material Dashboard Pro"
-                          class="media-object"
-                          style="width: 150px;height: auto;border-radius: 4px;box-shadow: 0 1px 3px rgba(0,0,0,.15);"
-                        >
-                      </a>
+                      ></a>
                     </div>
                     <div class="media-body ml-3">
                       <div class="clearfix">
@@ -552,14 +545,7 @@
                       <a
                         href="https://www.creative-tim.com/product/now-ui-kit-pro?affiliate_id=97705"
                         class="ad-click-event"
-                      >
-                        <img
-                          src="/uploads/images/free_templates/now_ui_kit.jpg"
-                          alt="Now UI Kit"
-                          class="media-object"
-                          style="width: 150px;height: auto;border-radius: 4px;box-shadow: 0 1px 3px rgba(0,0,0,.15);"
-                        >
-                      </a>
+                      ></a>
                     </div>
                     <div class="media-body ml-3">
                       <div class="clearfix">

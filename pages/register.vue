@@ -75,11 +75,5 @@
 </template>
 
 <script>
-export default {
-  layout: "ecommerce",
-  // OR
-  layout(context) {
-    return "ecommerce";
-  }
-};
+export default {};
 </script>

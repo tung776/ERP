@@ -67,10 +67,9 @@
 
 <script>
 export default {
-  layout: "blank",
-  // OR
-  layout(context) {
-    return "blank";
+  async mounted() {
+    const dbs = await this.$axios.get("getDBS");
+    console.log("dbs = ", dbs);
   }
 };
 </script>

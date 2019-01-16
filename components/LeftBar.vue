@@ -2,7 +2,7 @@
   <div>
     <aside class="main-sidebar sidebar-dark-primary elevation-4" style="min-height: 512px;">
       <!-- Brand Logo -->
-      <a href="index3.html" class="brand-link">
+      <nuxt-link to="/erp" class="brand-link">
         <img
           src="/img/logoCatTuong.png"
           alt="SonCatTuong"
@@ -10,7 +10,7 @@
           style="opacity: .8"
         >
         <span class="brand-text font-weight-light">SERP</span>
-      </a>
+      </nuxt-link>
 
       <!-- Sidebar -->
       <div class="sidebar">
@@ -20,57 +20,22 @@
             <img src="/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
           </div>
           <div class="info">
-            <a href="#" class="d-block">Thanh Tùng</a>
+            <nuxt-link to="/erp/user/1/profile" class="d-block">Thanh Tùng</nuxt-link>
           </div>
         </div>
-
-        <!-- Sidebar Menu -->
-        <nav class="mt-2">
-          <ul
-            class="nav nav-pills nav-sidebar flex-column"
-            data-widget="treeview"
-            role="menu"
-            data-accordion="false"
-          >
-            <!-- Add icons to the links using the .nav-icon class
-            with font-awesome or any other icon font library-->
-            <li class="nav-item has-treeview menu-open">
-              <a href="#" class="nav-link active">
-                <i class="nav-icon fa fa-dashboard"></i>
-                <p>
-                  Bàn Làm Việc
-                  <i class="right fa fa-angle-left"></i>
-                </p>
-              </a>
-              <ul class="nav nav-treeview">
-                <li class="nav-item">
-                  <a href="#" class="nav-link active">
-                    <i class="fa fa-circle-o nav-icon"></i>
-                    <p>Active Page</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="#" class="nav-link">
-                    <i class="fa fa-circle-o nav-icon"></i>
-                    <p>Inactive Page</p>
-                  </a>
-                </li>
-              </ul>
-            </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link">
-                <i class="nav-icon fa fa-th"></i>
-                <p>
-                  Simple Link
-                  <span class="right badge badge-danger">New</span>
-                </p>
-              </a>
-            </li>
-          </ul>
-        </nav>
-        <!-- /.sidebar-menu -->
+        <side-bar-menu/>
       </div>
       <!-- /.sidebar -->
     </aside>
   </div>
 </template>
+
+<script>
+import SideBarMenu from "~/components/SideBarMenu";
+
+export default {
+  components: {
+    SideBarMenu
+  }
+};
+</script>
