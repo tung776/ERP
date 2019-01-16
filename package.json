@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.0.0",
+    "admin-lte": "^3.0.0-alpha.2",
     "amqp": "^0.2.7",
     "async": "^2.6.1",
     "body-parser": "^1.18.3",
