@@ -26,6 +26,16 @@
               <span class="fa fa-lock input-group-text"></span>
             </div>
           </div>
+          <div class="input-group mb-3">
+            <select class="form-control" v-model="form.dbId">Chọn cơ sở dữ liệu
+              <option v-for="db in dbs" :key="db.DBname">{{db.DBname}}</option>
+            </select>
+          </div>
+          <!--message -->
+          <div slot="message">
+            <message-control :message="message"/>
+          </div>
+          <!--end message -->
           <div class="row">
             <div class="col-8">
               <div class="checkbox icheck">
@@ -73,6 +83,7 @@
 </template>
 
 <script>
+import MessageControl from "@/components/MessageControl";
 export default {
   // middleware: "guest",
 
@@ -81,31 +92,47 @@ export default {
       form: {
         login: "",
         pass: "",
-        dbId: "saas"
+        dbId: ""
       },
-      error: null
+      dbs: [],
+      message: {
+        type: "",
+        content: "",
+        title: ""
+      }
     };
   },
 
   methods: {
     async login() {
       try {
-        const { email, password } = this.form;
-        const respon = await this.$axios.post("users/login", {
-          data: this.form
-        });
-        this.$store.dispatch("auth/setLogged", true);
-        this.$router.push("/");
+        await this.$store.dispatch("auth/login", this.form);
+        this.$router.push("/erp");
       } catch (err) {
         console.log(err);
-        this.error = err.response.data.error;
+        this.message = {
+          content: "Đăng nhập thất bại",
+          type: "error"
+        };
       }
     }
   },
 
   async mounted() {
-    const dbs = await this.$axios.get("getDBS");
-    console.log("dbs = ", dbs);
+    try {
+      const result = await this.$axios.get("getDBS");
+      console.log("result = ", result.data.dbsNames);
+      this.dbs = result.data.dbsNames;
+    } catch (error) {
+      this.message = {
+        type: "error",
+        content: "Không tìm thấy cơ sở dữ liệu trên Server"
+      };
+    }
+  },
+
+  components: {
+    MessageControl
   }
 };
 </script>

@@ -1,47 +1,64 @@
-export const getters = {
-  authenticated(state) {
-    return state.loggedIn;
-  },
+export const actions = {
+    setUser({
+        commit
+    }, user) {
+        commit("SET_USER", user);
+    },
 
-  user(state) {
-    return state.user;
-  }
+    setToken({
+        commit
+    }, token) {
+        commit("SET_TOKEN", token);
+    },
+    setLogged({
+        commit
+    }, _boolean) {
+        commit("SET_LOGGED", _boolean);
+    },
+
+    async login({
+        commit
+    }, data) {
+        const respon = await this.$axios.post("users/login", {
+            data: data
+        });
+        commit("SET_USER", respon.data.user)
+        commit("SET_LOGGED", true)
+    }
+
+};
+
+export const getters = {
+    authenticated(state) {
+        return state.loggedIn;
+    },
+
+    user(state) {
+        return state.user;
+    }
 };
 
 export const state = () => ({
-  token: null,
-  user: Object,
-  loggedIn: false
+    token: null,
+    user: Object,
+    loggedIn: false
 });
 
 export const mutations = {
-  SET_TOKEN(state, token) {
-    state.token = token;
-    if (token) {
-      state.loggedIn = true;
-    } else {
-      state.loggedIn = false;
+    SET_TOKEN(state, token) {
+        state.token = token;
+        if (token) {
+            state.loggedIn = true;
+        } else {
+            state.loggedIn = false;
+        }
+    },
+
+    SET_USER(state, user) {
+        state.user = user;
+    },
+
+    SET_LOGGED(state, _boolean) {
+        state.loggedIn = _boolean;
     }
-  },
-
-  SET_USER(state, user) {
-    state.user = user;
-  },
-
-  SET_LOGGED(state, _boolean) {
-    state.loggedIn = _boolean;
-  }
-};
-
-export const actions = {
-  setUser({ commit }, user) {
-    commit("SET_USER", user);
-  },
-
-  setToken({ commit }, token) {
-    commit("SET_TOKEN", token);
-  },
-  setLogged({ commit }, _boolean) {
-    commit("SET_LOGGED", _boolean);
-  }
 };

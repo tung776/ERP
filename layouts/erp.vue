@@ -11,6 +11,7 @@
       <!-- /.content-header -->
       <!-- Main content -->
       <div class="content">
+        <div slot="message-slot"></div>
         <nuxt/>
       </div>
       <!-- /.content -->
@@ -31,6 +32,9 @@ export default {
     Footer,
     RightBar,
     LeftBar
+  },
+  layout(context) {
+    return "default";
   }
 };
 </script>
