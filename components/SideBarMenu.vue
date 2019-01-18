@@ -94,13 +94,30 @@
         </li>
         <!-- End Nhân Sự -->
         <li class="nav-item">
-          <nuxt-link to="#" class="nav-link">
+          <button @click="logout" class="nav-link">
             <i class="nav-icon fa fa-sign-out"></i>
             <p>Thoát</p>
-          </nuxt-link>
+          </button>
         </li>
       </ul>
     </nav>
     <!-- /.sidebar-menu -->
   </div>
 </template>
+
+<script>
+export default {
+  methods: {
+    async logout() {
+      try {
+        await this.$axios.get("/logout");
+      } catch (error) {
+        console.log("error = ", error);
+      }
+      const unSetStorageUser = require("~/utils/auth").unSetStorageUser;
+      unSetStorageUser();
+      this.$router.push("/");
+    }
+  }
+};
+</script>

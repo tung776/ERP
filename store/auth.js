@@ -1,14 +1,29 @@
+import {
+    setStorageUser
+} from '@/utils/auth'
+
 export const actions = {
     setUser({
         commit
     }, user) {
         commit("SET_USER", user);
+        if (user) {
+            commit("SET_LOGGED", true);
+        } else {
+            commit("SET_LOGGED", false);
+        }
+
     },
 
     setToken({
         commit
     }, token) {
         commit("SET_TOKEN", token);
+        if (token) {
+            commit("SET_LOGGED", true);
+        } else {
+            commit("SET_LOGGED", false);
+        }
     },
     setLogged({
         commit
@@ -22,7 +37,9 @@ export const actions = {
         const respon = await this.$axios.post("users/login", {
             data: data
         });
-        commit("SET_USER", respon.data.user)
+        const user = respon.data.user;
+        await setStorageUser(user)
+        commit("SET_USER", user)
         commit("SET_LOGGED", true)
     }
 

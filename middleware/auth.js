@@ -1,9 +1,17 @@
+import checkAuth from './check-auth';
+
 export default function({
     store,
+    req,
     redirect
 }) {
-    console.log('store = ', store.getters["auth/authenticated"])
-    if (!store.getters["auth/authenticated"]) {
-        return redirect("/login")
+    checkAuth(store, req);
+    if (!store.state.auth.loggedIn) {
+        if (!process.server) {
+            const unSetStorageUser = require("~/utils/auth").unSetStorageUser;
+            unSetStorageUser();
+        }
+        return redirect("/login");
     }
+
 }

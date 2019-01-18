@@ -102,6 +102,12 @@ export default {
       }
     };
   },
+  // async asyncData ({ req, res }) {
+  //   // Please check if you are on the server side before
+  //   // using req and res
+  //   console.log('req.session = ', req.session)
+
+  // },
 
   methods: {
     async login() {
@@ -121,7 +127,6 @@ export default {
   async mounted() {
     try {
       const result = await this.$axios.get("getDBS");
-      console.log("result = ", result.data.dbsNames);
       this.dbs = result.data.dbsNames;
     } catch (error) {
       this.message = {
