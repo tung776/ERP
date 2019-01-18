@@ -1,22 +1,28 @@
 <template>
-  <section class="container">
-    <div>
-      <logo/>
-      <h1 class="title">ERP</h1>
-      <h2 class="subtitle">Cat Tuong Enterprise Resource Planning</h2>
-      <div class="links">
-        <a href="https://nuxtjs.org/" target="_blank" class="button--green">Documentation</a>
-        <a href="https://github.com/nuxt/nuxt.js" target="_blank" class="button--grey">GitHub</a>
-      </div>
-    </div>
-  </section>
+  <div>
+    <header/>
+    <menu/>
+    <herro/>
+    <feature-products/>
+    <contact-us/>
+  </div>
 </template>
 
 <script>
-import Logo from "~/components/Logo.vue";
+import Header from "@/components/ecommerce/header";
+import Footer from "@/components/ecommerce/footer";
+import Herro from "@/components/ecommerce/herro";
+import Menu from "@/components/ecommerce/menu";
+import FeatureProducts from "@/components/ecommerce/FeatureProducts";
+import ContactUs from "@/components/ecommerce/ContactUs";
 export default {
   components: {
-    Logo
+    Header,
+    Footer,
+    Herro,
+    Menu,
+    FeatureProducts,
+    ContactUs
   },
   // OR
   layout(context) {

@@ -27,6 +27,7 @@ import Footer from "@/components/Footer";
 import LeftBar from "@/components/LeftBar";
 import RightBar from "@/components/RightBar";
 export default {
+  middleware: "auth",
   components: {
     NavBar,
     Footer,
