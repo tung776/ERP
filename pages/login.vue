@@ -84,6 +84,7 @@
 
 <script>
 import MessageControl from "@/components/MessageControl";
+import { setStorageUser } from "@/utils/auth";
 export default {
   // middleware: "guest",
 
@@ -102,17 +103,17 @@ export default {
       }
     };
   },
-  // async asyncData ({ req, res }) {
-  //   // Please check if you are on the server side before
-  //   // using req and res
-  //   console.log('req.session = ', req.session)
-
-  // },
 
   methods: {
     async login() {
       try {
-        await this.$store.dispatch("auth/login", this.form);
+        const respon = await this.$axios.post("users/login", {
+          data: this.form
+        });
+        const user = respon.data.user;
+        await setStorageUser(user);
+        await this.$store.dispatch("auth/setUser", user);
+        await this.$store.dispatch("auth/setLogged", true);
         this.$router.push("/erp");
       } catch (err) {
         console.log(err);

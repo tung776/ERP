@@ -1,8 +1,9 @@
-import {
-    setStorageUser
-} from '@/utils/auth'
-
 export const actions = {
+    // setUserDetail({
+    //     commit
+    // }, user) {
+    //     commit("SET_USER_DETAIL", user);
+    // },
     setUser({
         commit
     }, user) {
@@ -29,19 +30,9 @@ export const actions = {
         commit
     }, _boolean) {
         commit("SET_LOGGED", _boolean);
-    },
-
-    async login({
-        commit
-    }, data) {
-        const respon = await this.$axios.post("users/login", {
-            data: data
-        });
-        const user = respon.data.user;
-        await setStorageUser(user)
-        commit("SET_USER", user)
-        commit("SET_LOGGED", true)
     }
+
+
 
 };
 
@@ -57,7 +48,8 @@ export const getters = {
 
 export const state = () => ({
     token: null,
-    user: Object,
+    user: null,
+    // userDetail: Object,
     loggedIn: false
 });
 
@@ -74,6 +66,10 @@ export const mutations = {
     SET_USER(state, user) {
         state.user = user;
     },
+
+    // SET_USER_DETAIL(state, user) {
+    //     state.userDetail = user
+    // },
 
     SET_LOGGED(state, _boolean) {
         state.loggedIn = _boolean;

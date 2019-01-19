@@ -1,4 +1,4 @@
-module.exports = function (model) {
+module.exports = function(model) {
     'use strict';
     var nodeScheduler = require('node-schedule');
     var mongoose = require('mongoose');
@@ -7,7 +7,7 @@ module.exports = function (model) {
     var logWriter = require('../helpers/logger');
 
     var rule = {
-        hour  : 9,
+        hour: 9,
         minute: 49
     };
 
@@ -24,9 +24,13 @@ module.exports = function (model) {
         };
         var projectObject = {
             $project: {
-                day      : {$dayOfMonth: '$dateBirth'},
-                month    : {$month: '$dateBirth'},
-                age      : 1,
+                day: {
+                    $dayOfMonth: '$dateBirth'
+                },
+                month: {
+                    $month: '$dateBirth'
+                },
+                age: 1,
                 dateBirth: 1
             }
         };
@@ -56,7 +60,7 @@ module.exports = function (model) {
                 new: false
             };
 
-            employeesModel.findByIdAndUpdate(id, update, options, function (err, result) {
+            employeesModel.findByIdAndUpdate(id, update, options, function(err, result) {
                 if (err) {
                     logWriter.log('Scheduler.updateBirthday findByIdAndUpdate Err ' + err);
                     console.log(err);
@@ -64,7 +68,7 @@ module.exports = function (model) {
             });
         }
 
-        employeesModel.aggregate([matchInObject, projectObject, matchOutObject], function (err, resObject) {
+        employeesModel.aggregate([matchInObject, projectObject, matchOutObject], function(err, resObject) {
 
             if (err) {
                 logWriter.log('Scheduler.findBirthdayToday findBirthdayToday aggregate Err ' + err);
@@ -72,7 +76,7 @@ module.exports = function (model) {
             } else if (resObject && resObject.length) {
                 resObject.forEach(updateBirthday);
             } else {
-                logWriter.log('Scheduler.findBirthdayToday Today No Birthday');
+                // logWriter.log('Scheduler.findBirthdayToday Today No Birthday');
                 console.log('Today No Birthday');
             }
 
@@ -82,7 +86,7 @@ module.exports = function (model) {
     function updateYearEmployees() {
         var dbsObject = this.dbsObject;
 
-        async.each(dbsObject, function (connection, eachCb) {
+        async.each(dbsObject, function(connection, eachCb) {
             var dbId = connection.name;
 
             findBirthdayToday(model.get(dbId, 'Employees', employeeSchema));
@@ -93,7 +97,7 @@ module.exports = function (model) {
     function Scheduler(dbsObject) {
         this.dbsObject = dbsObject;
 
-        this.initEveryDayScheduler = function () {
+        this.initEveryDayScheduler = function() {
             var _updateYearEmployees = updateYearEmployees.bind(this);
 
             if (!process.env.INITED_SCHEDULER) {

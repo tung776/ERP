@@ -20,7 +20,10 @@
             <img src="/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
           </div>
           <div class="info">
-            <nuxt-link :to="{path: '/erp/user/{{user._id}}/profile'}" class="d-block">{{user.login}}</nuxt-link>
+            <nuxt-link
+              :to="{name:'erp-user-id-profile', params:{id:user._id}}"
+              class="d-block"
+            >{{user.login}}</nuxt-link>
           </div>
         </div>
         <side-bar-menu/>

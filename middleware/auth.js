@@ -1,15 +1,15 @@
 import checkAuth from './check-auth';
 
-export default function({
+export default async function({
     store,
     req,
     redirect
 }) {
-    checkAuth(store, req);
+    await checkAuth(store, req);
     if (!store.state.auth.loggedIn) {
         if (!process.server) {
             const unSetStorageUser = require("~/utils/auth").unSetStorageUser;
-            unSetStorageUser();
+            await unSetStorageUser();
         }
         return redirect("/login");
     }

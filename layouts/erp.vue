@@ -34,6 +34,7 @@ export default {
     RightBar,
     LeftBar
   },
+
   layout(context) {
     return "default";
   }

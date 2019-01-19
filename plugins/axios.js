@@ -1,11 +1,15 @@
 export default function({
     $axios,
-    store
+    store,
+    redirect
 }) {
     $axios.baseURL = "http://localhost:8089/api/";
     $axios.onError(error => {
         if (error.response.status === 400) {
             store.dispatch("validation/setErrors", error.response.data.errors);
+        }
+        if (error.response.status === 404 || error.response.status === 401) {
+            redirect('login')
         }
         if (error.response.status === 422) {
             store.dispatch("validation/setErrors", error.response.data.errors);

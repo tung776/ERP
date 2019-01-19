@@ -7,6 +7,35 @@
         data-widget="treeview"
         role="menu"
         data-accordion="false"
+        v-for="module in modules"
+        :key="module.mnanme"
+      >
+        <nuxt-link
+          v-if="module.single == true || module.link == true"
+          to="{path: '/erp/${module.href}'}"
+          class="nav-link"
+        >
+          <i class="nav-icon fa fa-dashboard"></i>
+          <p>Bàn Làm Việc</p>
+        </nuxt-link>
+        <div v-if="module.single !== true || module.link !== true">
+          <ul v-for="item in module.subModules" :key="item.mname">
+            <nuxt-link
+              v-if="module.single == true || module.link == true"
+              to="{path: '/erp/${module.href}'}"
+              class="nav-link"
+            >
+              <i class="nav-icon fa fa-dashboard"></i>
+              <p>Bàn Làm Việc</p>
+            </nuxt-link>
+          </ul>
+        </div>
+      </ul>
+      <ul
+        class="nav nav-pills nav-sidebar flex-column"
+        data-widget="treeview"
+        role="menu"
+        data-accordion="false"
       >
         <!-- Add icons to the links using the .nav-icon class
         with font-awesome or any other icon font library-->
@@ -107,6 +136,20 @@
 
 <script>
 export default {
+  data() {
+    return {
+      modules: []
+    }
+  }
+  async mounted() {
+    try {
+      const result = await this.$axios.get('/api/modules/')
+      this.modules = result.data;
+
+    } catch (error) {
+      
+    }
+  },
   methods: {
     async logout() {
       try {
