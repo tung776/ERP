@@ -16,7 +16,7 @@
           class="nav-link"
         >
           <i class="nav-icon fa fa-dashboard"></i>
-          <p>Bàn Làm Việc</p>
+          <p>{{module.mname}}</p>
         </nuxt-link>
         <div v-if="module.single !== true || module.link !== true">
           <ul v-for="item in module.subModules" :key="item.mname">
@@ -26,7 +26,7 @@
               class="nav-link"
             >
               <i class="nav-icon fa fa-dashboard"></i>
-              <p>Bàn Làm Việc</p>
+              <p>{{item.mname}}</p>
             </nuxt-link>
           </ul>
         </div>
@@ -139,16 +139,26 @@ export default {
   data() {
     return {
       modules: []
-    }
-  }
+    };
+  },
   async mounted() {
     try {
-      const result = await this.$axios.get('/api/modules/')
-      this.modules = result.data;
-
-    } catch (error) {
-      
-    }
+      const menu = await this.$axios.get("modules");
+      const organizationSettings = await this.$axios.get(
+        "organizationSettings"
+      );
+      const userCurrent = await this.$axios.get("users/current");
+      this.modules = menu.data;
+      /**
+       * date: "2019-01-19T03:18:11.356Z"
+email: "info@thinkmobiles.com"
+eventType: "userFlow"
+login: "superAdmin"
+message: "dashboards"
+mobilePhone: "+312456987545"
+name: "dashboards"
+       */
+    } catch (error) {}
   },
   methods: {
     async logout() {
