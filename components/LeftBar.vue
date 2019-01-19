@@ -21,9 +21,9 @@
           </div>
           <div class="info">
             <nuxt-link
-              :to="{name:'erp-user-id-profile', params:{id:user._id}}"
+              :to="{name:'erp-user-id-profile', params:{id:user.uId}}"
               class="d-block"
-            >{{user.login}}</nuxt-link>
+            >{{user.uName}}</nuxt-link>
           </div>
         </div>
         <side-bar-menu/>
@@ -40,5 +40,12 @@ export default {
   components: {
     SideBarMenu
   }
+  // data() {
+  //   console.log("this.$store.state.auth.user = ", this.$store.state.auth.user);
+  //   const userInfor = this.$store.state.auth.user;
+  //   return {
+  //     userInfor
+  //   };
+  // }
 };
 </script>
