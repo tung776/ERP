@@ -1052,3 +1052,10 @@
         }]
     }
 }
+
+
+
+
+
+
+{ "data": [{ "_id": "USD", "decPlace": 2, "symbol": "$", "name": "USD" }, { "_id": "EUR", "decPlace": 2, "symbol": "€", "name": "EUR" }] }

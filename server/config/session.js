@@ -1,8 +1,7 @@
 "use strict";
 
 module.exports = function(connection, Store) {
-  process.env.SESSION_MAX_AGE = 31 * 24 * 60 * 60 * 10;
-  process.env.SESSION_MAX_AGE = 0;
+  process.env.SESSION_MAX_AGE = 31 * 24 * 60 * 60 * 1000;
 
   return {
     name: "pwd",
