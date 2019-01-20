@@ -10,7 +10,7 @@
       >
         <!-- Add icons to the links using the .nav-icon class
         with font-awesome or any other icon font library-->
-        <li v-for="module in modules" :key="module.mname" class="nav-item has-treeview">
+        <li v-for="module in Modules" :key="module.mname" class="nav-item has-treeview">
           <nuxt-link to="#" class="nav-link">
             <i class="nav-icon fa fa-credit-card-alt"></i>
             <p>
@@ -43,30 +43,6 @@
 
 <script>
 export default {
-  data() {
-    return {
-      modules: []
-    };
-  },
-  async mounted() {
-    try {
-      const menu = await this.$axios.get("modules");
-      const organizationSettings = await this.$axios.get(
-        "organizationSettings"
-      );
-      // const userCurrent = await this.$axios.get("users/current");
-      this.modules = menu.data;
-      /**
-       * date: "2019-01-19T03:18:11.356Z"
-email: "info@thinkmobiles.com"
-eventType: "userFlow"
-login: "superAdmin"
-message: "dashboards"
-mobilePhone: "+312456987545"
-name: "dashboards"
-       */
-    } catch (error) {}
-  },
   methods: {
     async logout() {
       try {

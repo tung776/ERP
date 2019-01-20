@@ -28,6 +28,25 @@ import LeftBar from "@/components/LeftBar";
 import RightBar from "@/components/RightBar";
 export default {
   middleware: "auth",
+
+  async mounted() {
+    try {
+      const organizationSettings = await this.$axios.get(
+        "organizationSettings"
+      );
+      const currentUser = await this.$axios.get("users/current");
+      const menu = await this.$axios.get("modules");
+
+      await this.$store.dispatch(
+        "settings/setOrganizationSetting",
+        organizationSettings.data
+      );
+      await this.$store.dispatch("user/setCurrentUser", currentUser.data);
+      await this.$store.dispatch("modules/setModules", menu.data);
+    } catch (error) {
+      console.log("Đã có lỗi: ", error);
+    }
+  },
   components: {
     NavBar,
     Footer,

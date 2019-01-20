@@ -186,33 +186,10 @@
 <script>
 export default {
   data() {
+    console.log("currentUser = ", this.$store.state.user.currentUser.user);
     return {
-      userDetail: {
-        _id: "",
-        email: "",
-        imageSrc: "",
-        login: "",
-        compnay: "",
-        lastAccess: "",
-        mobilePhone: "",
-        relatedEmployee: null,
-        website: "",
-        kanbanSettings: null,
-        profile: null,
-        credentials: null,
-        tasks: null
-      }
+      userDetail: this.$store.state.user.currentUser.user
     };
-  },
-  async mounted() {
-    try {
-      const result = await this.$axios.get("users/current");
-      console.log("result = ", result.data.user);
-      this.userDetail = result.data.user;
-      // this.$store.dispatch("auth/setUserDetail", result.data.user);
-    } catch (error) {
-      console.log(error);
-    }
   },
 
   layout(context) {

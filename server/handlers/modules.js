@@ -3,7 +3,7 @@ var async = require('async');
 var redisStore = require('../helpers/redisClient');
 var objectId = mongoose.Types.ObjectId;
 
-var Module = function (models) {
+var Module = function(models) {
     'use strict';
 
     var userSchema = mongoose.Schemas.User;
@@ -17,10 +17,10 @@ var Module = function (models) {
                     }
                 }, {
                     $lookup: {
-                        from        : 'Profile',
-                        localField  : 'profile',
+                        from: 'Profile',
+                        localField: 'profile',
                         foreignField: '_id',
-                        as          : 'profile'
+                        as: 'profile'
                     }
                 }, {
                     $project: {
@@ -38,8 +38,10 @@ var Module = function (models) {
                         profileAccess: {
                             $filter: {
                                 input: '$profileAccess',
-                                as   : 'access',
-                                cond : {$eq: ['$$access.access.read', true]}
+                                as: 'access',
+                                cond: {
+                                    $eq: ['$$access.access.read', true]
+                                }
                             }
                         },
 
@@ -53,10 +55,10 @@ var Module = function (models) {
                     }
                 }, {
                     $lookup: {
-                        from        : 'modules',
-                        localField  : '_id',
+                        from: 'modules',
+                        localField: '_id',
                         foreignField: '_id',
-                        as          : 'module'
+                        as: 'module'
                     }
                 }, {
                     $project: {
@@ -75,16 +77,16 @@ var Module = function (models) {
                     }
                 }, {
                     $project: {
-                        _id     : '$module._id',
-                        mname   : '$module.mname',
-                        href    : '$module.href',
+                        _id: '$module._id',
+                        mname: '$module.mname',
+                        href: '$module.href',
                         sequence: '$module.sequence',
-                        parrent : {
+                        parrent: {
                             $cond: ['$module.single', '$module._id', '$module.parrent']
                         },
 
                         single: '$module.single',
-                        link  : '$module.link'
+                        link: '$module.link'
                     }
                 }, {
                     $sort: {
@@ -92,7 +94,7 @@ var Module = function (models) {
                     }
                 }, {
                     $group: {
-                        _id       : '$parrent',
+                        _id: '$parrent',
                         subModules: {
                             $push: '$$ROOT'
                         }
@@ -105,10 +107,10 @@ var Module = function (models) {
                     }
                 }, {
                     $lookup: {
-                        from        : 'modules',
-                        localField  : '_id',
+                        from: 'modules',
+                        localField: '_id',
                         foreignField: '_id',
-                        as          : 'module'
+                        as: 'module'
                     }
 
                 }, {
@@ -121,10 +123,11 @@ var Module = function (models) {
                         },
 
                         subModules: {
-                            mname : 1,
-                            href  : 1,
+                            mname: 1,
+                            href: 1,
                             single: 1,
-                            link  : 1
+                            link: 1,
+                            _id: 1
                         },
 
                         _id: 0
@@ -139,11 +142,11 @@ var Module = function (models) {
                     }
                 }, {
                     $project: {
-                        _id       : '$module._id',
-                        mname     : '$module.mname',
-                        href      : '$module.href',
-                        single    : '$module.single',
-                        link      : '$module.link',
+                        _id: '$module._id',
+                        mname: '$module.mname',
+                        href: '$module.href',
+                        single: '$module.single',
+                        link: '$module.link',
                         subModules: 1
                     }
                 }],
@@ -152,11 +155,11 @@ var Module = function (models) {
             );
     }
 
-    this.getAllModulesByProfile = function (req, res, next) {
+    this.getAllModulesByProfile = function(req, res, next) {
         var userId = req.session ? req.session.uId : null;
         var key = req.session.profileId;
 
-        getModules(req, userId, function (err, modules) {
+        getModules(req, userId, function(err, modules) {
             if (err) {
                 return next(err);
             }

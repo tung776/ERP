@@ -8,9 +8,7 @@ const User = {
         vue.mixin({
             computed: {
                 ...mapGetters({
-                    user: "auth/user",
-                    authenticated: "auth/authenticated",
-                    currentUser: "user/currentUser"
+                    Modules: "modules/Modules"
                 })
             }
         });
