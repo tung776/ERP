@@ -13,7 +13,7 @@
         </div>
       </a>
       
-      <a href="javascript:;" class="_overviewPanelLink">
+      <a href="/Accounting" class="_overviewPanelLink">
         <div id="accountingView" class="_overviewPanel mainSettings">
           <div class="_overviewImg">
             <img src="/img/erp_icons-04.svg" alt>
@@ -25,7 +25,7 @@
         </div>
       </a>
       
-      <a href="javascript:;" class="_overviewPanelLink">
+      <a href="ProductionConfig" class="_overviewPanelLink">
         <div id="productsView" class="_overviewPanel mainSettings">
           <div class="_overviewImg">
             <img src="/img/erp_icons-05.svg" alt>
