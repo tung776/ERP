@@ -38,13 +38,21 @@ module.exports = {
             //     rel: 'stylesheet',
             //     href: 'https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css'
             // },
-            // {
-            //     rel: 'stylesheet',
-            //     href: 'https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css'
-            // },
+            {
+                rel: 'stylesheet',
+                href: 'https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css'
+            },
             {
                 rel: "stylesheet",
                 href: "https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+            },
+            {
+                rel: 'stylesheet',
+                href: '/plugins/datepicker/datepicker3.css'
+            },
+            {
+                rel: "stylesheet",
+                href: "plugins/daterangepicker/daterangepicker-bs3.css"
             },
             {
                 rel: "stylesheet",
@@ -99,6 +107,10 @@ module.exports = {
             // },
             {
                 src: "/plugins/ckeditor/ckeditor.js",
+                type: "text/javascript"
+            },
+            {
+                src: "/plugins/datepicker/bootstrap-datepicker.js",
                 type: "text/javascript"
             },
             {

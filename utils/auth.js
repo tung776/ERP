@@ -69,6 +69,8 @@ export const getUserFromSession = (req, store) => {
 
     const user = {
         uId,
+        _id: uId,
+        login: uName,
         uName,
         profileId,
         kanbanSettings,
