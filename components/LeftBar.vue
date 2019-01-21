@@ -19,9 +19,9 @@
           <div class="image">
             <img src="/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
           </div>
-          <div class="info">
+          <div class="info" v-if="user">
             <nuxt-link
-              :to="{name:'erp-user-id-profile', params:{id:user.uId}}"
+              :to="{name:'erp-user-id-profile', params:{id:user._id ? user._id : user.uId}}"
               class="d-block"
             >{{user.uName}}</nuxt-link>
           </div>

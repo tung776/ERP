@@ -10,8 +10,14 @@
       >
         <!-- Add icons to the links using the .nav-icon class
         with font-awesome or any other icon font library-->
+        <li class="nav-item">
+          <nuxt-link to="/erp/Dashboards/dashboards" class="nav-link">
+            <i class="nav-icon fa fa-credit-card-alt"></i>
+            <p>Bàn Làm Việc</p>
+          </nuxt-link>
+        </li>
         <li v-for="module in Modules" :key="module.mname" class="nav-item has-treeview">
-          <nuxt-link to="#" class="nav-link">
+          <nuxt-link v-if="module.mname!=='Dashboards'" to="#" class="nav-link">
             <i class="nav-icon fa fa-credit-card-alt"></i>
             <p>
               {{module.mname}}
@@ -19,7 +25,7 @@
             </p>
           </nuxt-link>
 
-          <ul class="nav nav-treeview">
+          <ul v-if="module.mname!=='Dashboards'" class="nav nav-treeview">
             <li v-for="item in module.subModules" :key="item.mname" class="nav-item">
               <nuxt-link :to="{path: `/erp/${module.mname}/${item.href}`}" class="nav-link">
                 <i class="fa fa-circle-o nav-icon"></i>

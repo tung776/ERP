@@ -1,7 +1,7 @@
 <template>
   <div class="small-box bg-info">
     <div class="inner">
-      <h3>{{card.title}}</h3>
+      <h4>{{card.title}}</h4>
 
       <p>{{card.content}}</p>
     </div>
