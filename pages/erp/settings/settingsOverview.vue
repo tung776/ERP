@@ -1,7 +1,7 @@
 <template>
   <div id="content-holder" class="content-holder">
     <div class="_overviewPanelWrap">
-      <a href="/OrganizationProfile" class="_overviewPanelLink">
+      <a href="organizationSettings" class="_overviewPanelLink">
         <div id="organizationView" class="_overviewPanel mainSettings">
           <div class="_overviewImg">
             <img src="/img/erp_icons-01.svg" alt>
@@ -13,7 +13,7 @@
         </div>
       </a>
       
-      <a href="/Accounting" class="_overviewPanelLink">
+      <a href="Accounts" class="_overviewPanelLink">
         <div id="accountingView" class="_overviewPanel mainSettings">
           <div class="_overviewImg">
             <img src="/img/erp_icons-04.svg" alt>
@@ -25,7 +25,7 @@
         </div>
       </a>
       
-      <a href="ProductionConfig" class="_overviewPanelLink">
+      <a href="productsSettings" class="_overviewPanelLink">
         <div id="productsView" class="_overviewPanel mainSettings">
           <div class="_overviewImg">
             <img src="/img/erp_icons-05.svg" alt>
@@ -37,7 +37,7 @@
         </div>
       </a>
       
-      <a href="javascript:;" class="_overviewPanelLink">
+      <a href="settingsEmployee" class="_overviewPanelLink">
         <div id="employeesView" class="_overviewPanel mainSettings">
           <div class="_overviewImg">
             <img src="/img/erp_icons-08.svg" alt>
@@ -49,7 +49,7 @@
         </div>
       </a>
       
-      <a href="javascript:;" class="_overviewPanelLink">
+      <a href="Profiles" class="_overviewPanelLink">
         <div id="profilesView" class="_overviewPanel mainSettings">
           <div class="_overviewImg">
             <img src="/img/erp_icons-02.svg" alt>
@@ -61,7 +61,7 @@
         </div>
       </a>
       
-      <a href="javascript:;" class="_overviewPanelLink">
+      <a href="Users" class="_overviewPanelLink">
         <div id="usersView" class="_overviewPanel mainSettings">
           <div class="_overviewImg">
             <img src="/img/erp_icons-03.svg" alt>
@@ -73,7 +73,7 @@
         </div>
       </a>
       
-      <a href="javascript:;" class="_overviewPanelLink">
+      <a href="Departments" class="_overviewPanelLink">
         <div id="departmentsView" class="_overviewPanel mainSettings">
           <div class="_overviewImg">
             <img src="/img/erp_icons-07.svg" alt>
@@ -85,7 +85,7 @@
         </div>
       </a>
       
-      <a href="javascript:;" class="_overviewPanelLink">
+      <a href="Workflows" class="_overviewPanelLink">
         <div id="workflowsView" class="_overviewPanel mainSettings">
           <div class="_overviewImg">
             <img src="/img/erp_icons-06.svg" alt>
@@ -97,7 +97,7 @@
         </div>
       </a>
       
-      <a href="javascript:;" class="_overviewPanelLink">
+      <a href="Integrations" class="_overviewPanelLink">
         <div id="integrationsView" class="_overviewPanel mainSettings">
           <div class="_overviewImg">
             <img src="/img/erp_icons-01.svg" alt>
@@ -111,6 +111,14 @@
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  layout(contex) {
+    return "erp";
+  }
+};
+</script>
 
 <style scoped>
 ._overviewPanelWrap {

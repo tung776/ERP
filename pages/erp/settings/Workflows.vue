@@ -267,3 +267,11 @@
     <div id="timeRecivingDataFromServer">Created in 188 ms</div>
   </div>
 </template>
+
+<script>
+export default {
+  layout(contex) {
+    return "erp";
+  }
+};
+</script>

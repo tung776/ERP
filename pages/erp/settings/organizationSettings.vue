@@ -251,7 +251,11 @@
 </template>
 
 <script>
-export default {};
+export default {
+  layout(contex) {
+    return "erp";
+  }
+};
 </script>
 
 <style scoped>

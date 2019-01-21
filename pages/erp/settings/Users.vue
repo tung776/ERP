@@ -21,23 +21,28 @@
           <th class="centerCell">
             <span>Avatar</span>
           </th>
-          <th class="oe_sortable" data-sort="login">Login
+          <th class="oe_sortable" data-sort="login">
+            Login
             <span class="arrow down"></span>
             <span class="arrow up"></span>
           </th>
-          <th class="oe_sortable" data-sort="email">Email
+          <th class="oe_sortable" data-sort="email">
+            Email
             <span class="arrow down"></span>
             <span class="arrow up"></span>
           </th>
-          <th class="oe_sortable" data-sort="department">Department
+          <th class="oe_sortable" data-sort="department">
+            Department
             <span class="arrow down"></span>
             <span class="arrow up"></span>
           </th>
-          <th class="oe_sortable" data-sort="profile">Profile Name
+          <th class="oe_sortable" data-sort="profile">
+            Profile Name
             <span class="arrow down"></span>
             <span class="arrow up"></span>
           </th>
-          <th class="oe_sortable sortDn" data-sort="lastAccess">Last access
+          <th class="oe_sortable sortDn" data-sort="lastAccess">
+            Last access
             <span class="arrow down"></span>
             <span class="arrow up"></span>
           </th>
@@ -68,3 +73,11 @@
     </table>
   </div>
 </template>
+
+<script>
+export default {
+  layout(contex) {
+    return "erp";
+  }
+};
+</script>
