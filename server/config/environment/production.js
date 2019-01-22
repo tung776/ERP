@@ -1,4 +1,4 @@
-process.env.HOST = "http://localhost:8089/";
+process.env.HOST = "http://soncattuong.edu.vn:8089/";
 process.env.TRACKER_HOST = "http://localhost:8088";
 process.env.MAIN_DB_HOST = "localhost";
 process.env.MAIN_DB_NAME = "mainDB";

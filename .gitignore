@@ -37,7 +37,7 @@ build/Release
 # Dependency directories
 node_modules/
 jspm_packages/
-
+server/config/environment/production.js
 # TypeScript v1 declaration files
 typings/
 
@@ -79,3 +79,4 @@ dist
 
 # IDE
 .idea
+server/config/environment/production.js
