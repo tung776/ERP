@@ -5,7 +5,7 @@
         <div class="col-lg-8 col-12">
           <div class="row">
             <!-- ./col -->
-            <div class="col-lg-3 col-6">
+            <div class="col-lg-4 col-6">
               <!-- small box -->
               <small-box
                 :card="{
@@ -17,7 +17,7 @@
               />
             </div>
             <!-- ./col -->
-            <div class="col-lg-3 col-6">
+            <div class="col-lg-4 col-6">
               <!-- small box -->
               <small-box
                 :card="{
@@ -29,7 +29,7 @@
               />
             </div>
             <!-- ./col -->
-            <div class="col-lg-3 col-6">
+            <div class="col-lg-4 col-6">
               <!-- small box -->
               <small-box
                 :card="{
@@ -40,8 +40,11 @@
                 footer: 'Chi Tiết' }"
               />
             </div>
+          </div>
+          <!-- row -->
+          <div class="row">
             <!-- ./col -->
-            <div class="col-lg-3 col-6">
+            <div class="col-lg-4 col-6">
               <!-- small box -->
               <small-box
                 :card="{
@@ -52,11 +55,8 @@
                 footer: 'Chi Tiết' }"
               />
             </div>
-          </div>
-          <!-- row -->
-          <div class="row">
             <!-- ./col -->
-            <div class="col-lg-3 col-6">
+            <div class="col-lg-4 col-6">
               <!-- small box -->
               <small-box
                 :card="{
@@ -68,7 +68,7 @@
               />
             </div>
             <!-- ./col -->
-            <div class="col-lg-3 col-6">
+            <div class="col-lg-4 col-6">
               <!-- small box -->
               <small-box
                 :card="{
@@ -79,8 +79,11 @@
                 footer: 'Chi Tiết' }"
               />
             </div>
+          </div>
+          <!-- row -->
+          <div class="row">
             <!-- ./col -->
-            <div class="col-lg-3 col-6">
+            <div class="col-lg-4 col-6">
               <!-- small box -->
               <small-box
                 :card="{
@@ -92,7 +95,7 @@
               />
             </div>
             <!-- ./col -->
-            <div class="col-lg-3 col-6">
+            <div class="col-lg-4 col-6">
               <!-- small box -->
               <small-box
                 :card="{
@@ -103,11 +106,8 @@
                 footer: 'Chi Tiết' }"
               />
             </div>
-          </div>
-          <!-- row -->
-          <div class="row">
             <!-- ./col -->
-            <div class="col-lg-3 col-6">
+            <div class="col-lg-4 col-6">
               <!-- small box -->
               <small-box
                 :card="{

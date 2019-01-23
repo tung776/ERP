@@ -37,6 +37,10 @@
               id="organizationName"
               placeholder="Tên tổ chức"
             >
+            <error-message
+              v-if="errorArray && errorArray.name.length > 0"
+              :message="{content: errorArray.name[0]}"
+            />
           </div>
           <div class="col-lg-3 col-12 card-body">
             <label for>Lĩnh Vực</label>
@@ -50,7 +54,7 @@
           <div class="col-lg-3 col-12 card-body">
             <label for>Địa Chỉ</label>
           </div>
-          <div class="col-lg-9 col-12 card-body">
+          <div class="col-lg-9 col-12">
             <div class="row">
               <div class="col-lg-12 card-body">
                 <label for>Đường</label>
@@ -62,6 +66,10 @@
                   id="address-street"
                   placeholder="Số nhà và tên đường"
                 >
+                <error-message
+                  v-if="errorArray && errorArray.address.street.length > 0"
+                  :message="{content: errorArray.address.street[0]}"
+                />
               </div>
             </div>
             <div class="row">
@@ -89,14 +97,9 @@
               </div>
               <div class="col-lg-4 card-body">
                 <label for>Quốc Gia</label>
-                <input
-                  v-model="form.address.country"
-                  required
-                  type="text"
-                  class="form-control"
-                  id="address-country"
-                  placeholder="Quốc Gia"
-                >
+                <select class="form-control" v-model="form.country">Chọn cơ sở dữ liệu
+                  <option v-for="country in countries" :key="country._id">{{country.name}}</option>
+                </select>
               </div>
             </div>
             <div class="row">
@@ -109,17 +112,25 @@
                   id="address-zip"
                   placeholder="Mã Bưu Chính"
                 >
+                <error-message
+                  v-if="errorArray && errorArray.address.zip.length > 0"
+                  :message="{content: errorArray.address.zip[0]}"
+                />
               </div>
               <div class="col-lg-6 card-body">
                 <label for>Điện Thoại</label>
                 <input
                   required
-                  v-model="form.address.phone"
+                  v-model="form.phone"
                   type="text"
                   class="form-control"
                   id="address-phone"
                   placeholder="Số Điện Thoại"
                 >
+                <error-message
+                  v-if="errorArray && errorArray.phone.length > 0"
+                  :message="{content: errorArray.phone[0]}"
+                />
               </div>
             </div>
             <div class="row">
@@ -167,7 +178,7 @@
               <div class="col-lg-4 col-6">
                 <label for>Chọn Liên Hệ Chính</label>
                 <select class="form-control" v-model="form.contact">Chọn cơ sở dữ liệu
-                  <option v-for="contact in contacts" :key="contact._id">{{contact.name}}</option>
+                  <option v-for="contact in contacts" :key="contact._id">{{contact.login}}</option>
                 </select>
               </div>
               <div class="col-lg-4 col-6">
@@ -187,10 +198,14 @@
           <div class="col-lg-9 col-12 card-body">
             <div class="row">
               <div class="col-lg-6">
-                <label for>Loại Tiền Tệ</label>
+                <label for>Loại Tiền</label>
                 <select class="form-control" v-model="form.currency">Chọn cơ sở dữ liệu
                   <option v-for="currency in currencies" :key="currency._id">{{currency.name}}</option>
                 </select>
+                <error-message
+                  v-if="errorArray && errorArray.currency.length > 0"
+                  :message="{content: errorArray.currency[0]}"
+                />
               </div>
               <div class="col-lg-6">
                 <label for>Ngày Bắt Đầu</label>
@@ -202,6 +217,10 @@
                   data-inputmask="'alias': 'dd/mm/yyyy'"
                   data-mask
                 >
+                <error-message
+                  v-if="errorArray && errorArray.startDate.length > 0"
+                  :message="{content: errorArray.startDate[0]}"
+                />
               </div>
             </div>
           </div>
@@ -222,6 +241,7 @@
 
 <script>
 import Validation from "@/utils/Validation";
+import ErrorMessage from "@/components/ErrorMessage";
 
 export default {
   data() {
@@ -259,10 +279,11 @@ export default {
         },
         startDate: ""
       },
-      errors: null,
-      currencies:[],
-      contacts:[],
-      industries:[]
+      errorArray: null,
+      countries: [],
+      contacts: [],
+      industries: [],
+      currencies: []
     };
   },
   layout(contex) {
@@ -270,11 +291,16 @@ export default {
   },
   async mounted() {
     try {
-      this.currencies = await this.$axios.get('/api/getForDd/').data
-      this.contacts = await this.axios.get('/api/forDd/').data
-      this.industries = await this.$axios.get('/api/industry/').data
+      let result = await this.$axios.get("/countries/getForDd/");
+      this.countries = result.data.data;
+      result = await this.$axios.get("/users/forDd/");
+      this.contacts = result.data.data;
+      result = await this.$axios.get("/industry/");
+      this.industries = result.data.data;
+      result = await this.$axios.get("/currency/getForDd/");
+      this.currencies = result.data.data;
     } catch (error) {
-      console.log("Đã có lỗi: ", error)
+      console.log("Đã có lỗi: ", error);
     }
   },
   methods: {
@@ -297,56 +323,103 @@ export default {
       await reader.readAsDataURL(file);
     },
     async submit() {
-      this.errors = this.validate(this.form)
-      if(this.errors.length > 0) return
+      this.errorArray = null;
+      this.errorArray = this.validate(this.form);
+      console.log("this.errorArray ", this.errorArray);
+      if (!this.errorArray && this.errorArray.length > 0) return;
       if (!this.form._id === "") return;
-      try {
-        const result = await this.$axios
-          .put(`/api/organizationSettings/${this.form._id}`, {
-            data: this.form
-          })
-          .then(response => {
-            console.log(response);
-          });
-      } catch (error) {
-        console.log("error: ", error);
-      }
+      // try {
+      //   const result = await this.$axios
+      //     .put(`/api/organizationSettings/${this.form._id}`, {
+      //       data: this.form
+      //     })
+      //     .then(response => {
+      //       console.log(response);
+      //     });
+      // } catch (error) {
+      //   console.log("error: ", error);
+      // }
     },
     async cancel() {},
     validate(attrs) {
-      var errors
-      Validation.checkGroupsNameField(errors, true, attrs.name, "Company");
-      Validation.checkPhoneField(errors, false, attrs.phone, "Phone");
+      var errorList = {};
+      errorList.company = [];
+      Validation.checkGroupsNameField(
+        errorList.company,
+        true,
+        attrs.name,
+        "Company"
+      );
+      errorList.phone = [];
+      Validation.checkPhoneField(errorList.phone, true, attrs.phone, "Phone");
+      errorList.address = {};
+      errorList.address.country = [];
       Validation.checkCountryCityStateField(
-        errors,
-        false,
+        errorList.address.country,
+        true,
         attrs.address.country,
         "Country"
       );
+      errorList.address.state = [];
       Validation.checkCountryCityStateField(
-        errors,
-        false,
+        errorList.address.state,
+        true,
         attrs.address.state,
         "State"
       );
+      errorList.address.city = [];
       Validation.checkCountryCityStateField(
-        errors,
-        false,
+        errorList.address.city,
+        true,
         attrs.address.city,
         "City"
       );
+      errorList.address.street = [];
       Validation.checkStreetField(
-        errors,
-        false,
+        errorList.address.street,
+        true,
         attrs.address.street,
         "Street"
       );
-      Validation.checkZipField(errors, false, attrs.address.zip, "Zip");
+      errorList.address.zip = [];
+      Validation.checkZipField(
+        errorList.address.zip,
+        true,
+        attrs.address.zip,
+        "Zip"
+      );
 
-      if (errors.length > 0) {
-        return errors;
-      }
+      errorList.currency = [];
+      Validation.checkRequireField(
+        errorList.currency,
+        attrs.currency,
+        "Loại Tiền tệ"
+      );
+
+      errorList.country = [];
+      Validation.checkRequireField(
+        errorList.country,
+        attrs.country,
+        "Quốc Gia"
+      );
+
+      errorList.startDate = [];
+      Validation.checkRequireField(
+        errorList.startDate,
+        attrs.startDate,
+        "startDate"
+      );
+
+      errorList.name = [];
+      Validation.checkRequireField(errorList.name, attrs.name, "name");
+
+      // if (errorList && errorList.length > 0) {
+      return errorList;
+      // }
     }
+  },
+  components: {
+    ErrorMessage
   }
 };
 </script>
