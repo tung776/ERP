@@ -1,4 +1,4 @@
-module.exports = function (mainDb, dbsNames) {
+module.exports = function(mainDb, dbsNames) {
     'use strict';
 
     var http = require('http');
@@ -16,7 +16,7 @@ module.exports = function (mainDb, dbsNames) {
     var sessionConfig = require('./config/session')(mainDb, MemoryStore);
     var crypto = require('crypto');
 
-    var allowCrossDomain = function (req, res, next) {
+    var allowCrossDomain = function(req, res, next) {
         var browser = req.headers['user-agent'];
 
         if (/Trident|Edge/.test(browser)) {
@@ -36,7 +36,7 @@ module.exports = function (mainDb, dbsNames) {
         next();
 
     };
-    var chackMobile = function (req, res, next) {
+    var chackMobile = function(req, res, next) {
         var client = req.headers['user-agent'];
         var regExp = /mobile/i;
 
@@ -58,10 +58,10 @@ module.exports = function (mainDb, dbsNames) {
     // app.use(compression());
     app.use(logger('dev'));
     app.use(bodyParser.json({
-        strict : false,
+        strict: false,
         inflate: true,
-        limit  : 1024 * 1024 * 200,
-        verify : function (req, res, buf) {
+        limit: 1024 * 1024 * 200,
+        verify: function(req, res, buf) {
             var shopHMAC = req.get('x-shopify-hmac-sha256');
 
             if (!shopHMAC) {
@@ -75,7 +75,10 @@ module.exports = function (mainDb, dbsNames) {
             req.buf = buf;
         }
     }));
-    app.use(bodyParser.urlencoded({extended: false, limit: 1024 * 1024 * 200}));
+    app.use(bodyParser.urlencoded({
+        extended: false,
+        limit: 1024 * 1024 * 200
+    }));
     app.use(cookieParser('PaaS'));
     app.use('/developer/apidocs', express.static(__dirname + '/apidoc'));
 
@@ -87,6 +90,10 @@ module.exports = function (mainDb, dbsNames) {
     app.use(express.static(path.join(__dirname, 'public')));
     app.use('/customImages', express.static(path.join(__dirname, 'customImages')));
 
+    if (app.get('env') === 'production') {
+        app.set('trust proxy', 1) // trust first proxy
+        sessionConfig.cookie.secure = true // serve secure cookies
+    }
     app.use(session(sessionConfig));
 
     app.use(allowCrossDomain);

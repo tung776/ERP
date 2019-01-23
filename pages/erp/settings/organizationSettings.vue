@@ -17,7 +17,7 @@
                 <i class="fa fa-bookmark-o"></i>
               </span>
               <div class="info-box-content">
-                <img :src="form.image" class="img-fluid logo" alt>
+                <img :src="form.imageSrc" class="img-fluid logo" alt>
               </div>
 
               <div class="info-box-content">
@@ -31,7 +31,7 @@
           </div>
           <div class="col-lg-9 col-12 card-body">
             <input
-              v-model="form.organizationName"
+              v-model="form.name"
               type="text"
               class="form-control"
               id="organizationName"
@@ -42,13 +42,10 @@
             <label for>Lĩnh Vực</label>
           </div>
           <div class="col-lg-9 col-12 card-body">
-            <input
-              v-model="form.industry"
-              type="text"
-              class="form-control"
-              id="organizationName"
-              placeholder="Lĩnh Vực"
-            >
+            <label for>Lĩnh Vực</label>
+            <select class="form-control" v-model="form.industry">Chọn cơ sở dữ liệu
+              <option v-for="industry in industries" :key="industry._id">{{industry.name}}</option>
+            </select>
           </div>
           <div class="col-lg-3 col-12 card-body">
             <label for>Địa Chỉ</label>
@@ -59,9 +56,10 @@
                 <label for>Đường</label>
                 <input
                   v-model="form.address.street"
+                  required
                   type="text"
                   class="form-control"
-                  id="organizationName"
+                  id="address-street"
                   placeholder="Số nhà và tên đường"
                 >
               </div>
@@ -73,7 +71,7 @@
                   v-model="form.address.state"
                   type="text"
                   class="form-control"
-                  id="organizationName"
+                  id="address-state"
                   placeholder="Quận Huyện"
                 >
               </div>
@@ -82,9 +80,10 @@
                 <label for>Tỉnh/Thành</label>
                 <input
                   v-model="form.address.city"
+                  required
                   type="text"
                   class="form-control"
-                  id="organizationName"
+                  id="address-city"
                   placeholder="Tỉnh / thành phố"
                 >
               </div>
@@ -92,9 +91,10 @@
                 <label for>Quốc Gia</label>
                 <input
                   v-model="form.address.country"
+                  required
                   type="text"
                   class="form-control"
-                  id="organizationName"
+                  id="address-country"
                   placeholder="Quốc Gia"
                 >
               </div>
@@ -103,20 +103,21 @@
               <div class="col-lg-6 card-body">
                 <label for>Mã Bưu Chính</label>
                 <input
-                  v-model="form.address.zipcode"
+                  v-model="form.address.zip"
                   type="text"
                   class="form-control"
-                  id="organizationName"
+                  id="address-zip"
                   placeholder="Mã Bưu Chính"
                 >
               </div>
               <div class="col-lg-6 card-body">
                 <label for>Điện Thoại</label>
                 <input
+                  required
                   v-model="form.address.phone"
                   type="text"
                   class="form-control"
-                  id="organizationName"
+                  id="address-phone"
                   placeholder="Số Điện Thoại"
                 >
               </div>
@@ -126,19 +127,21 @@
                 <label for>Fax</label>
                 <input
                   v-model="form.address.fax"
+                  required
                   type="text"
                   class="form-control"
-                  id="organizationName"
+                  id="address-fax"
                   placeholder="Số Fax"
                 >
               </div>
               <div class="col-lg-6 card-body">
                 <label for>Website</label>
                 <input
-                  v-model="form.address.website"
+                  v-model="form.website"
+                  required
                   type="text"
                   class="form-control"
-                  id="organizationName"
+                  id="website"
                   placeholder="Website"
                 >
               </div>
@@ -150,18 +153,31 @@
           </div>
           <div class="col-lg-9 col-12 card-body">
             <div class="row">
-              <div class="col-lg-6">
-                <label for>Liên hệ</label>
+              <div class="col-lg-4 col-6">
+                <label for>Tên Liên Hệ</label>
                 <input
-                  v-model="form.login"
+                  v-model="form.contactName"
                   type="text"
                   class="form-control"
-                  id="organizationName"
-                  placeholder="Liên Hệ"
+                  id="contactName"
+                  required
+                  placeholder="contactName"
                 >
               </div>
-              <div class="col-lg-6">
-                <h4>Các email được gửi tự động sử dụng tài khoản này</h4>
+              <div class="col-lg-4 col-6">
+                <label for>Chọn Liên Hệ Chính</label>
+                <select class="form-control" v-model="form.contact">Chọn cơ sở dữ liệu
+                  <option v-for="contact in contacts" :key="contact._id">{{contact.name}}</option>
+                </select>
+              </div>
+              <div class="col-lg-4 col-6">
+                <div class="form-group">
+                  <label for>Liên Hệ Chính</label>
+                  <select class="form-control" v-model="form.defaultEmail">Chọn cơ sở dữ liệu
+                    <option value="true">true</option>
+                    <option value="false">false</option>
+                  </select>
+                </div>
               </div>
             </div>
           </div>
@@ -172,15 +188,16 @@
             <div class="row">
               <div class="col-lg-6">
                 <label for>Loại Tiền Tệ</label>
-                <select class="form-control">
-                  <option>VNĐ</option>
-                  <option>USD</option>
+                <select class="form-control" v-model="form.currency">Chọn cơ sở dữ liệu
+                  <option v-for="currency in currencies" :key="currency._id">{{currency.name}}</option>
                 </select>
               </div>
               <div class="col-lg-6">
                 <label for>Ngày Bắt Đầu</label>
                 <input
-                  type="text"
+                  v-model="form.startDate"
+                  required
+                  type="date"
                   class="form-control"
                   data-inputmask="'alias': 'dd/mm/yyyy'"
                   data-mask
@@ -192,8 +209,8 @@
       </div>
       <div class="card-footer center">
         <div class="col-lg-6 offset-lg-3">
-          <button class="btn btn-primary btn-lg">Lưu Thay Đổi</button>
-          <button class="btn btn-default float-right btn-lg">Hủy Thay Đổi</button>
+          <button @click="submit" class="btn btn-primary btn-lg">Lưu Thay Đổi</button>
+          <button @click="cancel" class="btn btn-default float-right btn-lg">Hủy Thay Đổi</button>
         </div>
       </div>
     </div>
@@ -204,6 +221,8 @@
 </template>
 
 <script>
+import Validation from "@/utils/Validation";
+
 export default {
   data() {
     return {
@@ -239,13 +258,25 @@ export default {
           country: ""
         },
         startDate: ""
-      }
+      },
+      errors: null,
+      currencies:[],
+      contacts:[],
+      industries:[]
     };
   },
   layout(contex) {
     return "erp";
   },
-  mounted() {},
+  async mounted() {
+    try {
+      this.currencies = await this.$axios.get('/api/getForDd/').data
+      this.contacts = await this.axios.get('/api/forDd/').data
+      this.industries = await this.$axios.get('/api/industry/').data
+    } catch (error) {
+      console.log("Đã có lỗi: ", error)
+    }
+  },
   methods: {
     async onImageChange(e) {
       try {
@@ -261,14 +292,60 @@ export default {
       let reader = new FileReader();
       let vm = this.form;
       reader.onload = e => {
-        vm.image = e.target.result;
+        vm.imageSrc = e.target.result;
       };
       await reader.readAsDataURL(file);
     },
-    async uploadImage() {
-      axios.post("/image/store", { image: this.image }).then(response => {
-        console.log(response);
-      });
+    async submit() {
+      this.errors = this.validate(this.form)
+      if(this.errors.length > 0) return
+      if (!this.form._id === "") return;
+      try {
+        const result = await this.$axios
+          .put(`/api/organizationSettings/${this.form._id}`, {
+            data: this.form
+          })
+          .then(response => {
+            console.log(response);
+          });
+      } catch (error) {
+        console.log("error: ", error);
+      }
+    },
+    async cancel() {},
+    validate(attrs) {
+      var errors
+      Validation.checkGroupsNameField(errors, true, attrs.name, "Company");
+      Validation.checkPhoneField(errors, false, attrs.phone, "Phone");
+      Validation.checkCountryCityStateField(
+        errors,
+        false,
+        attrs.address.country,
+        "Country"
+      );
+      Validation.checkCountryCityStateField(
+        errors,
+        false,
+        attrs.address.state,
+        "State"
+      );
+      Validation.checkCountryCityStateField(
+        errors,
+        false,
+        attrs.address.city,
+        "City"
+      );
+      Validation.checkStreetField(
+        errors,
+        false,
+        attrs.address.street,
+        "Street"
+      );
+      Validation.checkZipField(errors, false, attrs.address.zip, "Zip");
+
+      if (errors.length > 0) {
+        return errors;
+      }
     }
   }
 };
