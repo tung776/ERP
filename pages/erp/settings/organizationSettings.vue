@@ -47,8 +47,16 @@
           </div>
           <div class="col-lg-9 col-12 card-body">
             <label for>Lĩnh Vực</label>
-            <select class="form-control" v-model="form.industry">Chọn cơ sở dữ liệu
-              <option v-for="industry in industries" :key="industry._id">{{industry.name}}</option>
+            <select class="form-control" v-model="form.industry">
+              <template v-for="industry in industries">
+                <option
+                  v-if="form.industry && form.industry.name == industry.name"
+                  :key="industry._id"
+                  :value="industry"
+                  selected="selected"
+                >{{industry.name}}</option>
+                <option v-else :key="industry._id" :value="industry">{{industry.name}}</option>
+              </template>
             </select>
           </div>
           <div class="col-lg-3 col-12 card-body">
@@ -97,9 +105,16 @@
               </div>
               <div class="col-lg-4 card-body">
                 <label for>Quốc Gia</label>
-                <p>{{form.address.country}}</p>
                 <select class="form-control" v-model="form.address.country">Chọn cơ sở dữ liệu
-                  <option v-for="country in countries" :key="country._id">{{country.name}}</option>
+                  <template v-for="country in countries">
+                    <option
+                      v-if="form.address && form.address.country == country.name"
+                      :value="country.name"
+                      :key="country._id"
+                      selected="selected"
+                    >{{country.name}}</option>
+                    <option v-else :value="country.name" :key="country._id">{{country.name}}</option>
+                  </template>
                 </select>
               </div>
             </div>
@@ -178,14 +193,23 @@
               </div>
               <div class="col-lg-4 col-6">
                 <label for>Chọn Liên Hệ Chính</label>
-                <select class="form-control" v-model="form.contact">Chọn cơ sở dữ liệu
-                  <option v-for="contact in contacts" :key="contact._id">{{contact.login}}</option>
+                
+                <select class="form-control" v-model="form.contact">
+                  <template v-for="contact in contacts">
+                    <option
+                      v-if="form.contact && form.contact == contact._id"
+                      :key="contact._id"
+                      :value="contact._id"
+                      selected="selected"
+                    >{{contact.login}}</option>
+                    <option v-else :key="contact._id" :value="contact._id">{{contact.login}}</option>
+                  </template>
                 </select>
               </div>
               <div class="col-lg-4 col-6">
                 <div class="form-group">
                   <label for>Liên Hệ Chính</label>
-                  <select class="form-control" v-model="form.defaultEmail">Chọn cơ sở dữ liệu
+                  <select class="form-control" v-model="form.defaultEmail">
                     <option value="true">true</option>
                     <option value="false">false</option>
                   </select>
@@ -200,18 +224,16 @@
             <div class="row">
               <div class="col-lg-6">
                 <label for>Loại Tiền</label>
-                <p>{{this.form.currency}}</p>
-                <select
-                  class="form-control"
-                  v-model="form.currency"
-                  :required="true"
-                >Chọn cơ sở dữ liệu
-                  <option
-                    v-for="currency in currencies"
-                    :key="currency._id"
-                    :value="currency"
-                    :selected="currency._id == 'USD'"
-                  >{{currency.name}}</option>
+                <select class="form-control" v-model="form.currency" :required="true">
+                  <template v-for="currency in currencies">
+                    <option
+                      v-if="form.currency && form.currency._id == currency._id"
+                      :key="currency._id"
+                      :value="currency"
+                      selected="selected"
+                    >{{currency.name}}</option>
+                    <option v-else :key="currency._id" :value="currency">{{currency.name}}</option>
+                  </template>
                 </select>
                 <error-message
                   v-if="errorArray && errorArray.currency.length > 0"
@@ -303,7 +325,8 @@ export default {
       countries: [],
       contacts: [],
       industries: [],
-      currencies: []
+      currencies: [],
+      languages: []
     };
   },
   layout(contex) {
@@ -315,10 +338,12 @@ export default {
       this.countries = result.data.data;
       result = await this.$axios.get("/users/forDd/");
       this.contacts = result.data.data;
+
       result = await this.$axios.get("/industry/");
       this.industries = result.data.data;
       result = await this.$axios.get("/currency/getForDd/");
       this.currencies = result.data.data;
+      // result = await this.$axios.get("/languages");
       if (
         this.$store.state.settings ||
         !this.$store.state.settings.organizationSetting
@@ -336,6 +361,20 @@ export default {
       this.form.address = {
         ...this.$store.state.settings.organizationSetting.address
       };
+
+      this.currencies.forEach(cu => {
+        if (cu._id == this.form.currency._id) {
+          this.form.currency = cu;
+          return;
+        }
+      });
+      if (this.form.contact && this.form.contact._id) {
+        this.contacts.forEach(ct => {
+          if (this.form.contact._id == ct._id) {
+            this.form.contact = ct._id;
+          }
+        });
+      }
     } catch (error) {
       console.log("Đã có lỗi: ", error);
       this.message = {
@@ -366,7 +405,7 @@ export default {
     async submit() {
       this.errorArray = null;
       this.errorArray = this.validate(this.form);
-      console.log("this.errorArray ", this.errorArray);
+      // console.log("this.errorArray ", this.errorArray);
       if (!this.errorArray && this.errorArray.length > 0) return;
       if (!this.form._id === "") return;
       try {

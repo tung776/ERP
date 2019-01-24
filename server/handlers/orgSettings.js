@@ -33,6 +33,9 @@ var Module = function(models) {
       .populate("bankAccount")
       .populate("paymentTerms")
       .populate("workInProgress")
+      .populate("user")
+      .populate("language")
+      // .populate("contact")
 
       .exec(function(err, settings) {
         if (err) {
@@ -44,7 +47,6 @@ var Module = function(models) {
   };
 
   this.update = function(req, res, next) {
-    console.log('organizationSetting body = ', req.body)
     var OrgSettings = models.get(
       req.session.lastDb,
       "orgSettings",
@@ -52,6 +54,10 @@ var Module = function(models) {
     );
     var body = req.body;
     var id = req.params.id;
+    if (!body.user && req.user) {
+      body.user = req.user;
+    }
+    console.log("contact = ", body.contact);
 
     OrgSettings.findByIdAndUpdate(id, body, { new: true }, function(
       err,
