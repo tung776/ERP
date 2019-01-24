@@ -97,7 +97,8 @@
               </div>
               <div class="col-lg-4 card-body">
                 <label for>Quốc Gia</label>
-                <select class="form-control" v-model="form.country">Chọn cơ sở dữ liệu
+                <p>{{form.address.country}}</p>
+                <select class="form-control" v-model="form.address.country">Chọn cơ sở dữ liệu
                   <option v-for="country in countries" :key="country._id">{{country.name}}</option>
                 </select>
               </div>
@@ -199,8 +200,18 @@
             <div class="row">
               <div class="col-lg-6">
                 <label for>Loại Tiền</label>
-                <select class="form-control" v-model="form.currency">Chọn cơ sở dữ liệu
-                  <option v-for="currency in currencies" :key="currency._id">{{currency.name}}</option>
+                <p>{{this.form.currency}}</p>
+                <select
+                  class="form-control"
+                  v-model="form.currency"
+                  :required="true"
+                >Chọn cơ sở dữ liệu
+                  <option
+                    v-for="currency in currencies"
+                    :key="currency._id"
+                    :value="currency"
+                    :selected="currency._id == 'USD'"
+                  >{{currency.name}}</option>
                 </select>
                 <error-message
                   v-if="errorArray && errorArray.currency.length > 0"
@@ -226,6 +237,9 @@
           </div>
         </div>
       </div>
+      <div slot="message">
+        <message-control :message="message"/>
+      </div>
       <div class="card-footer center">
         <div class="col-lg-6 offset-lg-3">
           <button @click="submit" class="btn btn-primary btn-lg">Lưu Thay Đổi</button>
@@ -242,6 +256,7 @@
 <script>
 import Validation from "@/utils/Validation";
 import ErrorMessage from "@/components/ErrorMessage";
+import MessageControl from "@/components/MessageControl";
 
 export default {
   data() {
@@ -280,6 +295,11 @@ export default {
         startDate: ""
       },
       errorArray: null,
+      message: {
+        type: "",
+        content: "",
+        title: ""
+      },
       countries: [],
       contacts: [],
       industries: [],
@@ -299,8 +319,29 @@ export default {
       this.industries = result.data.data;
       result = await this.$axios.get("/currency/getForDd/");
       this.currencies = result.data.data;
+      if (
+        this.$store.state.settings ||
+        !this.$store.state.settings.organizationSetting
+      ) {
+        const organizationSetting = await this.$axios.get(
+          "organizationSettings"
+        );
+        await this.$store.dispatch(
+          "settings/setOrganizationSetting",
+          organizationSetting.data.data
+        );
+      }
+
+      this.form = { ...this.$store.state.settings.organizationSetting };
+      this.form.address = {
+        ...this.$store.state.settings.organizationSetting.address
+      };
     } catch (error) {
       console.log("Đã có lỗi: ", error);
+      this.message = {
+        content: "Khởi tạo dữ liệu thất bại",
+        type: "error"
+      };
     }
   },
   methods: {
@@ -328,17 +369,19 @@ export default {
       console.log("this.errorArray ", this.errorArray);
       if (!this.errorArray && this.errorArray.length > 0) return;
       if (!this.form._id === "") return;
-      // try {
-      //   const result = await this.$axios
-      //     .put(`/api/organizationSettings/${this.form._id}`, {
-      //       data: this.form
-      //     })
-      //     .then(response => {
-      //       console.log(response);
-      //     });
-      // } catch (error) {
-      //   console.log("error: ", error);
-      // }
+      try {
+        const result = await this.$axios
+          .put(`/organizationSettings/${this.form._id}`, this.form)
+          .then(response => {
+            console.log(response);
+          });
+      } catch (error) {
+        console.log("error: ", error);
+        this.message = {
+          content: "ưu dữ liệu thất bại",
+          type: "error"
+        };
+      }
     },
     async cancel() {},
     validate(attrs) {
@@ -419,7 +462,8 @@ export default {
     }
   },
   components: {
-    ErrorMessage
+    ErrorMessage,
+    MessageControl
   }
 };
 </script>

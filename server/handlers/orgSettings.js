@@ -44,6 +44,7 @@ var Module = function(models) {
   };
 
   this.update = function(req, res, next) {
+    console.log('organizationSetting body = ', req.body)
     var OrgSettings = models.get(
       req.session.lastDb,
       "orgSettings",

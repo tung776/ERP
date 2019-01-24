@@ -39,7 +39,7 @@ export default {
 
       await this.$store.dispatch(
         "settings/setOrganizationSetting",
-        organizationSettings.data
+        organizationSettings.data.data
       );
       await this.$store.dispatch("user/setCurrentUser", currentUser.data);
       await this.$store.dispatch("modules/setModules", menu.data);
