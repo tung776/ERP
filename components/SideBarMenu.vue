@@ -16,24 +16,30 @@
             <p>Bàn Làm Việc</p>
           </nuxt-link>
         </li>
-        <li v-for="module in Modules" :key="module.mname" class="nav-item has-treeview">
-          <nuxt-link v-if="module.mname!=='Dashboards'" to="#" class="nav-link">
-            <i class="nav-icon fa fa-credit-card-alt"></i>
-            <p>
-              {{module.mname}}
-              <i class="right fa fa-angle-left"></i>
-            </p>
-          </nuxt-link>
+        <template v-for="module in Modules">
+          <li
+            :key="module.mname"
+            :class="isClick[module.mname] ? 'nav-item has-treeview menu-open' :'nav-item has-treeview'"
+            @click="itemClicked($event, $attrs, module.mname)"
+          >
+            <nuxt-link v-if="module.mname!=='Dashboards'" to="#" class="nav-link" name="menu">
+              <i class="nav-icon fa fa-credit-card-alt"></i>
+              <p>
+                {{module.mname}}
+                <i class="right fa fa-angle-left"></i>
+              </p>
+            </nuxt-link>
 
-          <ul v-if="module.mname!=='Dashboards'" class="nav nav-treeview">
-            <li v-for="item in module.subModules" :key="item.mname" class="nav-item">
-              <nuxt-link :to="{path: `/erp/${module.mname}/${item.href}`}" class="nav-link">
-                <i class="fa fa-circle-o nav-icon"></i>
-                <p>{{item.mname}}</p>
-              </nuxt-link>
-            </li>
-          </ul>
-        </li>
+            <ul v-if="module.mname!=='Dashboards'" class="nav nav-treeview">
+              <li v-for="item in module.subModules" :key="item.mname" class="nav-item">
+                <nuxt-link :to="{path: `/erp/${module.mname}/${item.href}`}" class="nav-link">
+                  <i class="fa fa-circle-o nav-icon"></i>
+                  <p>{{item.mname}}</p>
+                </nuxt-link>
+              </li>
+            </ul>
+          </li>
+        </template>
 
         <li class="nav-item">
           <button @click="logout" class="nav-link">
@@ -49,6 +55,11 @@
 
 <script>
 export default {
+  data() {
+    return {
+      isClick: []
+    };
+  },
   methods: {
     async logout() {
       try {
@@ -59,6 +70,13 @@ export default {
       const unSetStorageUser = require("~/utils/auth").unSetStorageUser;
       unSetStorageUser();
       this.$router.push("/");
+    },
+    itemClicked(e, attrs, moduleName) {
+      if (this.isClick[moduleName]) {
+        this.isClick[moduleName] = false;
+      } else {
+        this.isClick[moduleName] = true;
+      }
     }
   }
 };
