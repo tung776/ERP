@@ -19,8 +19,9 @@
         <template v-for="module in Modules">
           <li
             :key="module.mname"
-            :class="isClick[module.mname] ? 'nav-item has-treeview menu-open' :'nav-item has-treeview'"
-            @click="itemClicked($event, $attrs, module.mname)"
+            class="nav-item has-treeview"
+            v-bind:class="{ 'menu-open': selected == module}"
+            v-on:click="itemClicked(module)"
           >
             <nuxt-link v-if="module.mname!=='Dashboards'" to="#" class="nav-link" name="menu">
               <i class="nav-icon fa fa-credit-card-alt"></i>
@@ -57,8 +58,19 @@
 export default {
   data() {
     return {
-      isClick: []
+      isClick: [],
+      selected: null
     };
+  },
+  watch: {
+    isClick: function(value) {
+      console.log("value");
+      // Modules.forEach(module => {
+      //   isClick[module.mname] = false;
+      // });
+      // console.log(isClick);
+      return this.isClick;
+    }
   },
   methods: {
     async logout() {
@@ -71,11 +83,14 @@ export default {
       unSetStorageUser();
       this.$router.push("/");
     },
-    itemClicked(e, attrs, moduleName) {
-      if (this.isClick[moduleName]) {
-        this.isClick[moduleName] = false;
+    itemClicked(module) {
+      const name = module.mname;
+      if (this.isClick[name]) {
+        this.isClick[name] = false;
+        this.selected = null;
       } else {
-        this.isClick[moduleName] = true;
+        this.isClick[name] = true;
+        this.selected = module;
       }
     }
   }
