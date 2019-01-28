@@ -62,16 +62,7 @@ export default {
       selected: null
     };
   },
-  watch: {
-    isClick: function(value) {
-      console.log("value");
-      // Modules.forEach(module => {
-      //   isClick[module.mname] = false;
-      // });
-      // console.log(isClick);
-      return this.isClick;
-    }
-  },
+
   methods: {
     async logout() {
       try {
