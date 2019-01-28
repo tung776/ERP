@@ -243,7 +243,7 @@
               <div class="col-lg-6">
                 <label for>Ngày Bắt Đầu</label>
                 <input
-                  v-model="form.startDate"
+                  v-model="form.startDateDMY"
                   required
                   type="date"
                   class="form-control"
@@ -279,6 +279,7 @@
 import Validation from "@/utils/Validation";
 import ErrorMessage from "@/components/ErrorMessage";
 import MessageControl from "@/components/MessageControl";
+import dateFormat from "@/utils/dateFormat";
 
 export default {
   data() {
@@ -314,7 +315,8 @@ export default {
           street: "",
           country: ""
         },
-        startDate: ""
+        startDate: "",
+        startDateDMY: ""
       },
       errorArray: null,
       message: {
@@ -375,6 +377,11 @@ export default {
           }
         });
       }
+
+      this.form.startDateDMY = dateFormat.isoDateToYMD(
+        this.form.startDate,
+        "-"
+      );
     } catch (error) {
       console.log("Đã có lỗi: ", error);
       this.message = {
@@ -408,6 +415,8 @@ export default {
       // console.log("this.errorArray ", this.errorArray);
       if (!this.errorArray && this.errorArray.length > 0) return;
       if (!this.form._id === "") return;
+      this.form.startDate = dateFormat.toIsoDate(this.form.startDateDMY);
+      // console.log(`${this.form.startDate} vs ${this.form.startDateDMY}`);
       try {
         const result = await this.$axios
           .put(`/organizationSettings/${this.form._id}`, this.form)

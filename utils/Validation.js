@@ -25,36 +25,34 @@ var LOGIN_MIN_LENGTH = 4;
 var WORKFLOW_MIN_LENGTH = 3;
 
 var errorMessages = {
-  userName: "value incorrect. Only A-Z, a-z symbols allowed",
-  invalidNameMsg:
-    "field value incorrect. It should start with letter or number",
+  userName: "Giá trị không chính xác. Chỉ sử dụng các ký tự A-Z, a-z",
+  invalidNameMsg: "Giá trị không chính xác. Chỉ sử dụng số hặc ký tự a-z",
   invalidLoginMsg:
-    "field value incorrect. Only A-Z, a-z, 0-9, _ @ symbols allowed",
-  notNumberMsg: "field should contain a valid integer value",
+    "Giá trị không chính xác. Chỉ chấp nhận các ký tự a-z A-Z, số _ hoặc @",
+  notNumberMsg: "Chỉ chấp nhận các giá trị số nguyên",
   notPriceMsg:
-    "field should contain a valid price value with only two digest after dot and contain only the following symbols: 0-9, .",
-  invalidCountryMsg:
-    "field should contain only letters, whitespaces and " - " sign",
+    "Giá chỉ chứa các số 0-9 và chỉ nên có 2 ký tự sau dấu , vd 10.000,00",
+  invalidCountryMsg: "Các giá trị chỉ nên chứa các ký tự và dấu - ",
   loggedNotValid:
-    "field should contain a valid decimal value with max 1 digit after dot",
+    "Trường giá trị chứa giá trị thập phân với tối đa 1 ký tự sau dấu ,",
   minLengthMsg: function(minLength) {
-    return "field should be at least " + minLength + " characters long";
+    return "Trường giá trị nên có nhiều hơn " + minLength + " ký tự";
   },
 
   invalidMoneyAmountMsg:
-    "field should contain a positive number with max 2 digits after dot",
-  invalidEmailMsg: "field should contain a valid email address",
-  requiredMsg: "field can not be empty",
-  invalidCharsMsg: "field can not contain '~ < > ^ * ₴' signs",
+    "trường giá trị nên là các số dương với tôi đa 2 ký tự số sau dấu ,",
+  invalidEmailMsg: "trường giá trị nên chính xác là địa chỉ email",
+  requiredMsg: "trường giá trị không thể bỏ trống",
+  invalidCharsMsg: "trường giá trị không thể chứa các ký tự '~ < > ^ * ₴'",
   invalidStreetMsg:
-    "field can contain only letters, numbers and '. , - /' signs",
-  invalidPhoneMsg: "field should contain only numbers and '+ - ( )' signs",
-  invalidZipMsg: "field should contain only letters, numbers and '-' sing",
-  passwordsNotMatchMsg: "Password and confirm password field do not match",
-  invalidCleanUrl: " can only contain real and active domain name",
-  mustToBePositive: "field should has positive value",
-  mustToBeOnlyNubmer: "field should contain only numbers",
-  isOutOfRange: "is out of range "
+    "trường giá trị chỉ chứa các ký tự a-z A-Z, số và các ký tự '. , - /'",
+  invalidPhoneMsg: "trường giá trị chỉ chứa số và các ký tự '+ - ( )' ",
+  invalidZipMsg: "trường giá trị chỉ chứa kí tự, số và dấu '-'",
+  passwordsNotMatchMsg: "Mật khẩu và mật khẩu nhắc lại không giống nhau",
+  invalidCleanUrl: " tên miền không chính xác",
+  mustToBePositive: "trường giá trị là số nguyên dương",
+  mustToBeOnlyNubmer: "trường giá trị là kiểu số",
+  isOutOfRange: "vượt quá giới hạn "
 };
 
 var validateEmail = function(validatedString) {
