@@ -79,7 +79,7 @@ module.exports = {
         "@/plugins/user.js",
         "@/plugins/validation.js",
         "@/plugins/settings.js",
-        "@/plugins/modules.js"
+        "@/plugins/modules.js",
     ],
 
     /*
@@ -87,8 +87,18 @@ module.exports = {
      */
     modules: [
         // Doc: https://github.com/nuxt-community/axios-module#usage
-        "@nuxtjs/axios"
+        "@nuxtjs/axios",
+        '@nuxtjs/webpackmonitor',
+        'nuxt-universal-storage',
+        // '@nuxtjs/vuetify',
+        // ['@nuxtjs/component-cache', {
+        //     maxAge: 1000 * 60 * 60
+        // }],
     ],
+    // vuetify: {
+    //     // Vuetify options
+    //     //  theme: { }
+    // },
 
     router: {
         middleware: "check-auth"
