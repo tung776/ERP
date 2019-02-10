@@ -1,18 +1,20 @@
 <template>
-  <div class="small-box bg-info">
-    <div class="inner">
-      <h4>{{card.title}}</h4>
-
-      <p>{{card.content}}</p>
+  <vs-card style="margin: 10px 10px">
+    <div slot="header">
+      <h3>{{card.title}}</h3>
     </div>
-    <div class="icon">
-      <i :class="card.icon"></i>
+    <div slot="media">
+      <!-- <p>{{card.content}}</p> -->
+      <div>
+        <vs-icon :icon="card.icon" color="primary" size="200px"/>
+      </div>
     </div>
-    <nuxt-link :to="card.link" class="small-box-footer">
-      {{card.footer}}
-      <i class="fa fa-arrow-circle-right"></i>
-    </nuxt-link>
-  </div>
+    <div slot="footer">
+      <vs-row vs-justify="center">
+        <vs-button @click="$router.push(card.link)" color="success" icon="forward">{{card.footer}}</vs-button>
+      </vs-row>
+    </div>
+  </vs-card>
 </template>
 
 <script>

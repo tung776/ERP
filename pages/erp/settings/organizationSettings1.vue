@@ -8,12 +8,12 @@
             <h3 class="card-title">HỒ SƠ TỔ CHỨC</h3>
           </vs-row>
         </div>
-        <div class="form" slot="media">
+        <div slot="media">
           <vs-row style="padding: 10px 20px">
-            <vs-col type="flex" vs-w="3">
+            <vs-col type="flex" vs-w="4">
               <h4>Logo Công ty</h4>
             </vs-col>
-            <vs-col type="flex" vs-w="9">
+            <vs-col type="flex" vs-w="8">
               <div class="info-box logo-box">
                 <span class="info-box-icon">
                   <i class="fa fa-bookmark-o"></i>
@@ -23,7 +23,7 @@
                 </div>
 
                 <div class="info-box-content">
-                  <vs-input type="file" v-on:change="onImageChange" id="inputImg" accept="image/*"/>
+                  <input type="file" v-on:change="onImageChange" id="inputImg" accept="image/*">
                 </div>
                 <!-- /.info-box-content -->
               </div>
@@ -32,7 +32,13 @@
               <label for>Tên tổ chức</label>
             </vs-col>
             <vs-col type="flex" vs-w="8">
-              <vs-input icon="fingerprint" icon-after="true" v-model="form.name"/>
+              <input
+                v-model="form.name"
+                type="text"
+                class="form-control"
+                id="organizationName"
+                placeholder="Tên tổ chức"
+              >
               <error-message
                 v-if="errorArray && errorArray.name.length > 0"
                 :message="{content: errorArray.name[0]}"
@@ -42,30 +48,34 @@
               <label for>Lĩnh Vực</label>
             </vs-col>
             <vs-col type="flex" vs-w="8">
-              {{form.industry}}
-              <vs-select color="primary" label="Lĩnh Vực" v-model="form.industry">
-                <vs-select-item
-                  :value="industry"
-                  :text="industry.name"
-                  v-for="industry in industries"
-                  :key="industry._id"
-                />
-              </vs-select>
+              <label for>Lĩnh Vực</label>
+              <select class="form-control" v-model="form.industry">
+                <template v-for="industry in industries">
+                  <option
+                    v-if="form.industry && form.industry.name == industry.name"
+                    :key="industry._id"
+                    :value="industry"
+                    selected="selected"
+                  >{{industry.name}}</option>
+                  <option v-else :key="industry._id" :value="industry">{{industry.name}}</option>
+                </template>
+              </select>
             </vs-col>
             <vs-col type="flex" vs-w="4">
               <label for>Địa Chỉ</label>
             </vs-col>
-            <vs-col type="flex" vs-w="6">
+            <div class="col-lg-9 col-12">
               <div class="row">
                 <div class="col-lg-12 card-body">
                   <label for>Đường</label>
-                  <vs-input
-                    icon="fingerprint"
-                    icon-after="true"
+                  <input
                     v-model="form.address.street"
                     required
+                    type="text"
+                    class="form-control"
+                    id="address-street"
                     placeholder="Số nhà và tên đường"
-                  />
+                  >
                   <error-message
                     v-if="errorArray && errorArray.address.street.length > 0"
                     :message="{content: errorArray.address.street[0]}"
@@ -75,46 +85,51 @@
               <div class="row">
                 <div class="col-lg-4 card-body">
                   <label for>Quận Huyện</label>
-                  <vs-input
-                    icon="fingerprint"
-                    icon-after="true"
+                  <input
                     v-model="form.address.state"
                     type="text"
+                    class="form-control"
+                    id="address-state"
                     placeholder="Quận Huyện"
-                  />
+                  >
                 </div>
 
                 <div class="col-lg-4 card-body">
                   <label for>Tỉnh/Thành</label>
-                  <vs-input
-                    icon="fingerprint"
-                    icon-after="true"
+                  <input
                     v-model="form.address.city"
                     required
+                    type="text"
+                    class="form-control"
+                    id="address-city"
                     placeholder="Tỉnh / thành phố"
-                  />
+                  >
                 </div>
                 <div class="col-lg-4 card-body">
-                  <vs-select color="primary" label="Quốc Gia" v-model="form.address.country">
-                    <vs-select-item
-                      :value="country.name"
-                      :text="country.name"
-                      v-for="country in countries"
-                      :key="country._id"
-                    />
-                  </vs-select>
+                  <label for>Quốc Gia</label>
+                  <select class="form-control" v-model="form.address.country">Chọn cơ sở dữ liệu
+                    <template v-for="country in countries">
+                      <option
+                        v-if="form.address && form.address.country == country.name"
+                        :value="country.name"
+                        :key="country._id"
+                        selected="selected"
+                      >{{country.name}}</option>
+                      <option v-else :value="country.name" :key="country._id">{{country.name}}</option>
+                    </template>
+                  </select>
                 </div>
               </div>
               <div class="row">
                 <div class="col-lg-6 card-body">
                   <label for>Mã Bưu Chính</label>
-                  <vs-input
-                    icon="fingerprint"
-                    icon-after="true"
+                  <input
                     v-model="form.address.zip"
                     type="text"
+                    class="form-control"
+                    id="address-zip"
                     placeholder="Mã Bưu Chính"
-                  />
+                  >
                   <error-message
                     v-if="errorArray && errorArray.address.zip.length > 0"
                     :message="{content: errorArray.address.zip[0]}"
@@ -122,13 +137,14 @@
                 </div>
                 <div class="col-lg-6 card-body">
                   <label for>Điện Thoại</label>
-                  <vs-input
-                    icon="fingerprint"
-                    icon-after="true"
+                  <input
                     required
                     v-model="form.phone"
+                    type="text"
+                    class="form-control"
+                    id="address-phone"
                     placeholder="Số Điện Thoại"
-                  />
+                  >
                   <error-message
                     v-if="errorArray && errorArray.phone.length > 0"
                     :message="{content: errorArray.phone[0]}"
@@ -138,50 +154,59 @@
               <div class="row">
                 <div class="col-lg-6 card-body">
                   <label for>Fax</label>
-                  <vs-input
-                    icon="fingerprint"
-                    icon-after="true"
+                  <input
                     v-model="form.address.fax"
                     required
+                    type="text"
+                    class="form-control"
+                    id="address-fax"
                     placeholder="Số Fax"
-                  />
+                  >
                 </div>
                 <div class="col-lg-6 card-body">
                   <label for>Website</label>
-                  <vs-input
-                    icon="fingerprint"
-                    icon-after="true"
+                  <input
                     v-model="form.website"
                     required
+                    type="text"
+                    class="form-control"
+                    id="website"
                     placeholder="Website"
-                  />
+                  >
                 </div>
               </div>
-            </vs-col>
+            </div>
 
             <vs-col type="flex" vs-w="4">
               <label for>Địa Chỉ Liên Hệ Chính</label>
             </vs-col>
             <vs-col type="flex" vs-w="8">
-              <vs-row>
+              <div class="row">
                 <div class="col-lg-4 col-6">
                   <label for>Tên Liên Hệ</label>
-                  <vs-input
-                    icon="fingerprint"
-                    icon-after="true"
+                  <input
                     v-model="form.contactName"
+                    type="text"
+                    class="form-control"
+                    id="contactName"
+                    required
                     placeholder="contactName"
-                  />
+                  >
                 </div>
                 <div class="col-lg-4 col-6">
-                  <vs-select color="primary" label="Chọn Liên Hệ Chính" v-model="form.contact">
-                    <vs-select-item
-                      :value="contact._id"
-                      :text="contact.login"
-                      v-for="contact in contacts"
-                      :key="contact._id"
-                    />
-                  </vs-select>
+                  <label for>Chọn Liên Hệ Chính</label>
+                  
+                  <select class="form-control" v-model="form.contact">
+                    <template v-for="contact in contacts">
+                      <option
+                        v-if="form.contact && form.contact == contact._id"
+                        :key="contact._id"
+                        :value="contact._id"
+                        selected="selected"
+                      >{{contact.login}}</option>
+                      <option v-else :key="contact._id" :value="contact._id">{{contact.login}}</option>
+                    </template>
+                  </select>
                 </div>
                 <div class="col-lg-4 col-6">
                   <div class="form-group">
@@ -192,7 +217,7 @@
                     </select>
                   </div>
                 </div>
-              </vs-row>
+              </div>
             </vs-col>
             <vs-col type="flex" vs-w="4">
               <label for>Thiết Lập Khu Vực</label>
@@ -200,14 +225,18 @@
             <vs-col type="flex" vs-w="8">
               <div class="row">
                 <div class="col-lg-6">
-                  <vs-select color="primary" label="Loại Tiền" v-model="form.currency">
-                    <vs-select-item
-                      :value="currency"
-                      :text="currency.name"
-                      v-for="currency in currencies"
-                      :key="currency._id"
-                    />
-                  </vs-select>
+                  <label for>Loại Tiền</label>
+                  <select class="form-control" v-model="form.currency" :required="true">
+                    <template v-for="currency in currencies">
+                      <option
+                        v-if="form.currency && form.currency._id == currency._id"
+                        :key="currency._id"
+                        :value="currency"
+                        selected="selected"
+                      >{{currency.name}}</option>
+                      <option v-else :key="currency._id" :value="currency">{{currency.name}}</option>
+                    </template>
+                  </select>
                   <error-message
                     v-if="errorArray && errorArray.currency.length > 0"
                     :message="{content: errorArray.currency[0]}"
@@ -511,8 +540,5 @@ export default {
 }
 .logo-box {
   height: 180px;
-}
-.vs-input {
-  width: 90%;
 }
 </style>

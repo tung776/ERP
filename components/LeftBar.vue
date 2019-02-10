@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import SideBarMenu from "~/components/SideBarMenu";
+import SideBarMenu from "~/components/SideBarMenu2";
 
 export default {
   components: {

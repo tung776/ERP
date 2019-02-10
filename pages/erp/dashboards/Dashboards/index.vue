@@ -1,131 +1,133 @@
 <template>
   <section class="content">
     <div class="container-fluid">
-      <div class="row">
-        <div class="col-lg-8 col-12">
-          <div class="row">
+      <vs-row>
+        <vs-col type="flex" vs-w="8">
+          <vs-row vs-justify="center">
             <!-- ./col -->
-            <div class="col-lg-4 col-6">
+            <vs-col type="flex" vs-w="3">
               <!-- small box -->
               <small-box
                 :card="{
                 title: 'CRM', 
                 content:'Quản Trị Khách Hàng',
-                icon: 'ion ion-person', 
+                icon: 'person_pin', 
                 link: '/erp/CRM/reportsDashboard', 
                 footer: 'Chi Tiết' }"
               />
-            </div>
+            </vs-col>
             <!-- ./col -->
-            <div class="col-lg-4 col-6">
+            <vs-col type="flex" vs-w="3">
               <!-- small box -->
               <small-box
                 :card="{
                 title: 'HRM', 
-                icon: 'ion ion-person',
+                icon: 'person',
                 content: 'Quản Trị Nhân Sự',
                 link: '/erp/HR/HrDashboard', 
                 footer: 'Chi Tiết' }"
               />
-            </div>
+            </vs-col>
             <!-- ./col -->
-            <div class="col-lg-4 col-6">
+            <vs-col type="flex" vs-w="3">
               <!-- small box -->
               <small-box
                 :card="{
                 title: 'Hóa Đơn', 
                 content: 'Quản Lý Hóa Đơn',
-                icon: 'ion ion-bag', 
+                icon: 'shopping_cart', 
                 link: '#', 
                 footer: 'Chi Tiết' }"
               />
-            </div>
-          </div>
+            </vs-col>
+          </vs-row>
           <!-- row -->
-          <div class="row">
+          <vs-row vs-justify="center">
             <!-- ./col -->
-            <div class="col-lg-4 col-6">
+            <vs-col type="flex" vs-w="3">
               <!-- small box -->
               <small-box
                 :card="{
                 title: 'Hóa Đơn Nhập', 
                 content: 'Quản Lý Hóa Đơn',
-                icon: 'ion ion-bag', 
+                icon: 'store_mall_directory', 
                 link: '/erp/Purchases/purchaseDashboard', 
                 footer: 'Chi Tiết' }"
               />
-            </div>
+            </vs-col>
             <!-- ./col -->
-            <div class="col-lg-4 col-6">
+            <vs-col type="flex" vs-w="3">
               <!-- small box -->
               <small-box
                 :card="{
                 title: 'Quản Trị Kế Toán', 
                 content: 'Quản Trị Kế Toán',
-                icon: 'ion ion-calculator', 
+                icon: 'table_chart', 
                 link: '/erp/Accounting/journal', 
                 footer: 'Chi Tiết' }"
               />
-            </div>
+            </vs-col>
             <!-- ./col -->
-            <div class="col-lg-4 col-6">
+            <vs-col type="flex" vs-w="3">
               <!-- small box -->
               <small-box
                 :card="{
                 title: 'Quản Trị Sản Xuất', 
                 content: 'Quản Trị Sản Xuất',
-                icon: 'ion ion-hammer', 
+                icon: 'view_compact', 
                 link: '/erp/Manufacturing/workCenters', 
                 footer: 'Chi Tiết' }"
               />
-            </div>
-          </div>
+            </vs-col>
+          </vs-row>
           <!-- row -->
-          <div class="row">
+          <vs-row vs-justify="center">
             <!-- ./col -->
-            <div class="col-lg-4 col-6">
+            <vs-col type="flex" vs-w="3">
               <!-- small box -->
               <small-box
                 :card="{
                 title: 'Tồn Kho', 
                 content: 'Quản Trị Kho',
-                icon: 'ion ion-cube', 
+                icon: 'store_mall_directory', 
                 link: '/erp/Inventory/Products', 
                 footer: 'Chi Tiết' }"
               />
-            </div>
+            </vs-col>
             <!-- ./col -->
-            <div class="col-lg-4 col-6">
+            <vs-col type="flex" vs-w="3">
               <!-- small box -->
               <small-box
                 :card="{
                 title: 'Báo Cáo',
                 content: 'Báo Cáo Quản Trị', 
-                icon: 'ion ion-document', 
+                icon: 'receipt', 
                 link: '/erp/Reports/reports', 
                 footer: 'Chi Tiết' }"
               />
-            </div>
+            </vs-col>
             <!-- ./col -->
-            <div class="col-lg-4 col-6">
+            <vs-col type="flex" vs-w="3">
               <!-- small box -->
               <small-box
                 :card="{
                 title: 'Cài Đặt',
                 content: 'Các Cài Đặt',
-                icon: 'ion ion-settings', 
+                icon: 'settings', 
                 link: '/erp/Settings/settingsOverview', 
                 footer: 'Chi Tiết' }"
               />
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-4 col-12">
+            </vs-col>
+          </vs-row>
+        </vs-col>
+        <vs-col type="flex" vs-w="4">
           <!--calendar -->
-          <calendar/>
+          <no-ssr>
+            <v-calendar :attributes="attrs"/>
+          </no-ssr>
           <!--end calendar -->
-        </div>
-      </div>
+        </vs-col>
+      </vs-row>
     </div>
     <!-- /.container-fluid -->
   </section>
@@ -136,6 +138,27 @@ import SmallBox from "@/components/SmallBox";
 import Calendar from "@/components/Calendar";
 
 export default {
+  data() {
+    return {
+      attrs: [
+        {
+          key: "today",
+          highlight: {
+            backgroundColor: "#ff8080"
+          },
+          // Just use a normal style
+          contentStyle: {
+            color: "#fafafa"
+          },
+          dates: new Date(2018, 0, 1)
+        }
+      ],
+      selectedDate: {
+        start: new Date(2018, 10, 9),
+        end: new Date(2018, 10, 10)
+      }
+    };
+  },
   components: {
     SmallBox,
     Calendar

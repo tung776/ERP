@@ -1,85 +1,55 @@
 <template>
-  <div>
-    <div class="login-box">
-      <div class="login-logo">
-        <nuxt-link to="/">SERP</nuxt-link>
-      </div>
-      <!-- /.login-logo -->
-      <div class="card">
-        <div class="card-body login-card-body">
-          <p class="login-box-msg">Đăng nhập để bắt đầu công việc của bạn</p>
-
-          <div class="input-group mb-3">
-            <input
-              type="text"
-              v-model="form.login"
-              class="form-control"
-              placeholder="Tên đăng nhập"
-            >
-            <div class="input-group-append">
-              <span class="fa fa-envelope input-group-text"></span>
-            </div>
-          </div>
-          <div class="input-group mb-3">
-            <input v-model="form.pass" type="password" class="form-control" placeholder="Password">
-            <div class="input-group-append">
-              <span class="fa fa-lock input-group-text"></span>
-            </div>
-          </div>
-          <div class="input-group mb-3">
-            <select class="form-control" v-model="form.dbId">Chọn cơ sở dữ liệu
-              <option v-for="db in dbs" :key="db.DBname">{{db.DBname}}</option>
-            </select>
-          </div>
-          <!--message -->
-          <div slot="message">
-            <message-control :message="message"/>
-          </div>
-          <!--end message -->
-          <div class="row">
-            <div class="col-8">
-              <div class="checkbox icheck">
-                <label>
-                  <div
-                    class="icheckbox_square-blue"
-                    aria-checked="false"
-                    aria-disabled="false"
-                    style="position: relative;"
-                  >
-                    <input
-                      type="checkbox"
-                      style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"
-                    >
-                    <ins
-                      class="iCheck-helper"
-                      style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"
-                    ></ins>
-                  </div>Remember Me
-                </label>
-              </div>
-            </div>
-            <!-- /.col -->
-            <div class="col-4">
-              <button
-                @click="login"
-                type="submit"
-                class="btn btn-primary btn-block btn-flat"
-              >Đăng Nhập</button>
-            </div>
-            <!-- /.col -->
-          </div>
-
-          <p class="mb-1">
-            <a href="#">Bạn quên mật khẩu ?</a>
-          </p>
-          <p class="mb-0">
-            <a href="register" class="text-center">Đăng ký thành viên mới</a>
-          </p>
+  <vs-row vs-justify="center" style="margin:80px 0px">
+    <vs-col type="flex" vs-justify="center" vs-align="center" vs-lg="3">
+      <vs-row type="flex" vs-justify="center" vs-align="center" style="margin-bottom: 20px">
+        <img vs-align="center" src="/img/Logo.png" style="max-width: 120px;" srcset>
+      </vs-row>
+      <vs-card vs-lg="12">
+        <div slot="header">
+          <vs-row vs-justify="center" vs-align="center"></vs-row>
+          <vs-row vs-justify="center" style="padding-top:5px" vs-align="center">
+            <h4 style="color: #5b3cc4; margin-top: 10px">Đăng Nhập</h4>
+          </vs-row>
         </div>
-        <!-- /.login-card-body -->
-      </div>
-    </div>
-  </div>
+        <vs-row class="form" vs-justify="center" vs-align="center" slot="media">
+          <vs-input
+            icon="account_circle"
+            icon-after="true"
+            :warning="false"
+            label="Tên Đăng Nhập"
+            warning-text="The entered data could not be verified"
+            placeholder="Tên đăng nhập"
+            v-model="form.login"
+          />
+
+          <vs-input
+            icon="fingerprint"
+            type="password"
+            icon-after="true"
+            :warning="false"
+            label="Mật Khẩu"
+            warning-text="The entered data could not be verified"
+            placeholder="Mật Khẩu"
+            v-model="form.pass"
+          />
+
+          <vs-select color="primary" label="Cơ sở dữ liệu" v-model="form.dbId">
+            <vs-select-item
+              :value="db.DBname"
+              :text="db.DBname"
+              v-for="db in dbs"
+              :key="db.DBname"
+            />
+          </vs-select>
+        </vs-row>
+        <div slot="footer">
+          <vs-row vs-justify="center">
+            <vs-button @click="login" color="primary" icon="done">Đăng Nhập</vs-button>
+          </vs-row>
+        </div>
+      </vs-card>
+    </vs-col>
+  </vs-row>
 </template>
 
 <script>
@@ -117,10 +87,15 @@ export default {
         this.$router.push("/erp");
       } catch (err) {
         console.log(err);
-        this.message = {
-          content: "Đăng nhập thất bại",
-          type: "error"
-        };
+        this.$vs.notify({
+          title: "Báo Lỗi",
+          text: "Đăng nhập thất bại",
+          color: "danger"
+        });
+        // this.message = {
+        //   content: "Đăng nhập thất bại",
+        //   type: "error"
+        // };
       }
     }
   },
