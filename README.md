@@ -38,3 +38,13 @@ $ npm start
 $ npm run generate
 
 ```
+
+Nếu gặp lỗi:
+
+# MSBUILD : error MSB3428: Could not load the Visual C++
+
+thì chạy lệnh sau:
+
+```
+npm install --global --production windows-build-tools
+```

@@ -597,7 +597,7 @@ var User = function(event, models) {
     lastAccess = new Date();
     session.lastAccess = lastAccess;
 
-    UserModel.findByIdAndUpdate(
+    UserModel.findOneAndUpdate(
       _user._id,
       { $set: { lastAccess: lastAccess } },
       { new: true },
@@ -679,6 +679,7 @@ var User = function(event, models) {
               });
             }
           );
+          req.session = session;
         }
       );
     } else {
