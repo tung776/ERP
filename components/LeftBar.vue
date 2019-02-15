@@ -1,6 +1,6 @@
 <template>
   <div>
-    <aside class="main-sidebar sidebar-dark-primary elevation-4" style="min-height: 512px;">
+    <aside class="main-sidebar sidebar-dark-primary elevation-4">
       <!-- Brand Logo -->
       <nuxt-link to="/erp" class="brand-link">
         <img

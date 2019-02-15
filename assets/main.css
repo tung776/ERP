@@ -1,0 +1,8 @@
+@media (max-width: 991.98px) {
+  .sidebar-open .main-sidebar {
+    top: 56px;
+  }
+  .sidebar-collapse .main-sidebar {
+    top: 56px;
+  }
+}
