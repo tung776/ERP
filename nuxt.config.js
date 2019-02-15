@@ -1,4 +1,5 @@
 const pkg = require("./package");
+const VuetifyLoaderPlugin = require("vuetify-loader/lib/plugin");
 
 module.exports = {
   mode: "universal",
@@ -63,22 +64,21 @@ module.exports = {
   },
 
   /*
-   ** Global CSS
-   */
-  css: [
-    // './assets/main.scss'
-  ],
-
-  /*
    ** Plugins to load before mounting the App
    */
   plugins: [
+    "@/plugins/vuetify",
     "@/plugins/axios.js",
     "@/plugins/user.js",
     "@/plugins/validation.js",
     "@/plugins/settings.js",
     "@/plugins/modules.js"
   ],
+  css: ["~/assets/style/app.styl"],
+
+  // build: {
+  //   vendor: ["vuetify"]
+  // },
 
   /*
    ** Nuxt.js modules
@@ -88,14 +88,23 @@ module.exports = {
     "@nuxtjs/axios",
     "@nuxtjs/webpackmonitor"
     // "nuxt-universal-storage",
-    // '@nuxtjs/vuetify',
+    // "vuetify"
     // ['@nuxtjs/component-cache', {
     //     maxAge: 1000 * 60 * 60
     // }],
   ],
   // vuetify: {
-  //     // Vuetify options
-  //     //  theme: { }
+  //   theme: {
+  //     primary: "#ee44aa",
+  //     secondary: "#424242",
+  //     accent: "#82B1FF",
+  //     error: "#FF5252",
+  //     info: "#2196F3",
+  //     success: "#4CAF50",
+  //     warning: "#FFC107"
+  //   },
+  //   customProperties: true,
+  //   iconfont: "fa4"
   // },
 
   router: {
@@ -138,6 +147,14 @@ module.exports = {
    ** Build configuration
    */
   build: {
+    transpile: ["vuetify/lib"],
+    plugins: [new VuetifyLoaderPlugin()],
+    loaders: {
+      stylus: {
+        import: ["~assets/style/variables.styl"]
+      }
+    },
+
     /*
      ** You can extend webpack config here
      */

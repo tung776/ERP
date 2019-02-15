@@ -7,14 +7,14 @@
 export default {
   head() {
     return {
-      script: [
-        {
-          src: "/plugins/jquery/jquery.min.js"
-        },
-        {
-          src: "/plugins/bootstrap/js/bootstrap.bundle.min.js"
-        }
-      ],
+      // script: [
+      //   {
+      //     src: "/plugins/jquery/jquery.min.js"
+      //   },
+      //   {
+      //     src: "/plugins/bootstrap/js/bootstrap.bundle.min.js"
+      //   }
+      // ],
       link: [
         {
           rel: "icon",

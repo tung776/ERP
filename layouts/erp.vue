@@ -18,10 +18,10 @@
     </div>
     <right-bar/>
     <footer/>
-    <script src="/plugins/jquery/jquery.min.js" defer></script>
+    <!-- <script src="/plugins/jquery/jquery.min.js" defer></script>
     <script src="/plugins/datepicker/bootstrap-datepicker.js" defer></script>
     <script src="/plugins/bootstrap/js/bootstrap.bundle.min.js" defer></script>
-    <script src="/js/adminlte.min.js" defer></script>
+    <script src="/js/adminlte.min.js" defer></script>-->
   </div>
 </template>
 
