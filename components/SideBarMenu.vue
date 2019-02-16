@@ -43,9 +43,9 @@
         </template>
 
         <li class="nav-item">
-          <button @click="logout" class="nav-link">
+          <button @click="logout" class="btn btn-primary btn-flat">
+            Thoát
             <i class="nav-icon fa fa-sign-out"></i>
-            <p>Thoát</p>
           </button>
         </li>
       </ul>

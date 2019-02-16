@@ -17,20 +17,16 @@
           <td>{{item.symbol}}</td>
           <td>{{item.active}}</td>
           <td>
-            <button type="button" class="btn btn-tool btn-success btn-flat" data-widget="collapse">
+            <button type="button" class="btn btn-tool btn-success btn-flat">
               <i class="fa fa-pencil-square-o"></i>
             </button>
-            <button type="button" class="btn btn-tool btn-danger btn-flat" data-widget="remove">
+            <button type="button" class="btn btn-tool btn-danger btn-flat">
               <i class="fa fa-remove"></i>
             </button>
           </td>
         </tr>
       </tbody>
     </table>
-    <button type="button" class="btn btn-tool btn-primary btn-flat" data-widget="collapse">
-      Thêm Mới
-      <i class="fa fa-plus primary"></i>
-    </button>
   </div>
 </template>
 
