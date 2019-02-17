@@ -15,7 +15,6 @@
                 >{{acc.name}}</option>
                 <option v-else :key="acc._id" :value="acc">{{acc.name}}</option>
               </template>
-              <option checked>{{Settings.salesTax ? Settings.salesTax.name : ""}}</option>
             </select>
           </div>
         </div>
@@ -32,7 +31,6 @@
                 >{{acc.name}}</option>
                 <option v-else :key="acc._id" :value="acc">{{acc.name}}</option>
               </template>
-              <option checked>{{Settings.purchaseTax ? Settings.purchaseTax.name : ""}}</option>
             </select>
           </div>
         </div>
@@ -51,7 +49,6 @@
                 >{{acc.name}}</option>
                 <option v-else :key="acc._id" :value="acc">{{acc.name}}</option>
               </template>
-              <option checked>{{Settings.carriedTax ? Settings.carriedTax.name : ""}}</option>
             </select>
           </div>
         </div>
@@ -68,7 +65,6 @@
                 >{{acc.name}}</option>
                 <option v-else :key="acc._id" :value="acc">{{acc.name}}</option>
               </template>
-              <option checked>{{Settings.shipping ? Settings.shipping.name : ""}}</option>
             </select>
           </div>
         </div>
@@ -87,38 +83,88 @@
                 >{{bank.name}}</option>
                 <option v-else :key="bank._id" :value="bank">{{bank.name}}</option>
               </template>
-              <option checked>{{Settings.bankAccount ? Settings.bankAccount.name : ""}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-md-6 col-sm-12">
+          <div class="form-group">
+            <label>Tài Khoản Mặc Định Thuế Phải Trả</label>
+            <select class="form-control" v-model="Settings.payableTax">
+              <template v-for="acc in chartOfAccount">
+                <option
+                  v-if="Settings.payableTax && Settings.payableTax.name == acc.name"
+                  :key="acc.name"
+                  :value="Settings.payableTax"
+                  selected="selected"
+                >{{acc.name}}</option>
+                <option v-else :key="acc._id" :value="acc">{{acc.name}}</option>
+              </template>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 col-sm-12">
+          <div class="form-group">
+            <label>Tài Khoản Mặc Định Chiết Khấu</label>
+            <select class="form-control" v-model="Settings.discount">
+              <template v-for="acc in chartOfAccount">
+                <option
+                  v-if="Settings.discount && Settings.discount.name == acc.name"
+                  :key="acc.name"
+                  :value="Settings.discount"
+                  selected="selected"
+                >{{acc.name}}</option>
+                <option v-else :key="acc._id" :value="acc">{{acc.name}}</option>
+              </template>
+              <option checked>{{Settings.discount ? Settings.discount.name : ""}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-md-6 col-sm-12">
+          <div class="form-group">
+            <label>Tài Khoản Mặc Định Chi Phí Sản Xuất</label>
+            <select class="form-control" v-model="Settings.workInProgress">
+              <template v-for="acc in chartOfAccount">
+                <option
+                  v-if="Settings.workInProgress && Settings.workInProgress.name == acc.name"
+                  :key="acc.name"
+                  :value="Settings.workInProgress"
+                  selected="selected"
+                >{{acc.name}}</option>
+                <option v-else :key="acc._id" :value="acc">{{acc.name}}</option>
+              </template>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 col-sm-12">
+          <div class="form-group">
+            <label>Mặc Định Điều Khoản Thanh Toán</label>
+            <select class="form-control" v-model="Settings.paymentTerms">
+              <template v-for="paymentTerm in paymentTerms" placeholder="Chọn điều khoản">
+                <option
+                  v-if="Settings.paymentTerms && Settings.paymentTerms.name == paymentTerm.name"
+                  :key="paymentTerm.name"
+                  :value="Settings.paymentTerms"
+                  selected="selected"
+                >{{paymentTerm.name}}</option>
+                <option v-else :key="paymentTerm._id" :value="paymentTerm">{{paymentTerm.name}}</option>
+              </template>
             </select>
           </div>
         </div>
       </div>
     </div>
-    <!-- <table class="table table-hover table-dark">
-      <tbody>
-        <tr>
-          <th scope="row">{{defaultSettings.salesTax.name}}</th>
-          <td>{{defaultSettings.purchaseTax.name}}</td>
-          <td>{{defaultSettings.carriedTax.name}}</td>
-          <td>{{defaultSettings.payableTax.name}}</td>
-          <td>{{defaultSettings.shipping.name}}</td>
-          <td>
-            <button type="button" class="btn btn-tool btn-success btn-flat">
-              <i class="fa fa-pencil-square-o"></i>
-            </button>
-            <button type="button" class="btn btn-tool btn-danger btn-flat">
-              <i class="fa fa-remove"></i>
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>-->
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
+
 export default {
-  props: ["defaultSettings", "bankAccounts", "chartOfAccount"],
+  props: ["defaultSettings", "bankAccounts", "chartOfAccount", "paymentTerms"],
   // data() {
   //   return {
   //     Settings: {

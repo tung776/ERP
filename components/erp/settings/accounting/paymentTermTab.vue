@@ -11,7 +11,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(payment, index) in paymentTerm" :key="payment.name">
+        <tr v-for="(payment, index) in paymentTerms" :key="payment.name">
           <th scope="row">{{index+1}}</th>
           <td>{{payment.name}}</td>
           <td>{{payment.count ? payment.count : 0}}</td>
@@ -20,7 +20,7 @@
               class="form-check-input"
               type="checkbox"
               value="option1"
-              :checked="payment.defaultPaymentTerm !== 0"
+              :checked="payment.defaultpaymentTerms !== 0"
             >
           </td>
           <td>
@@ -39,6 +39,6 @@
 
 <script>
 export default {
-  props: ["paymentTerm"]
+  props: ["paymentTerms"]
 };
 </script>
