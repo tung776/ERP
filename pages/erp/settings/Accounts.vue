@@ -122,7 +122,11 @@
       </div>
       <!-- /.card-header -->
       <div class="card-body" style="display: none;">
-        <default-settings-tab :defaultSettings="defaultSettings" :bankAccounts="bankAccounts"/>
+        <default-settings-tab
+          :defaultSettings="defaultSettings"
+          :bankAccounts="bankAccounts"
+          :chartOfAccount="chartOfAccount"
+        />
         <!-- /.row -->
       </div>
       <!-- /.card-body -->
@@ -151,7 +155,8 @@ export default {
       bankAccounts: [],
       tax: [],
       paymentTerm: [],
-      defaultSettings: []
+      defaultSettings: [],
+      chartOfAccount: []
     };
   },
   components: {
@@ -168,6 +173,7 @@ export default {
     this.bankAccounts = result.paymentMethod;
     this.tax = result.taxSettings;
     this.paymentTerm = result.paymentTerm;
+    this.chartOfAccount = result.chartOfAccount;
     this.defaultSettings = this.$store.state.settings.organizationSetting;
     if (result.error) return console.log(error);
   },

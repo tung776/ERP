@@ -21,6 +21,6 @@ export const mutations = {
 
 export const getters = {
     organizationSetting(state) {
-        return state.organizationSetting;
+        return {...state.organizationSetting};
     }
 };
