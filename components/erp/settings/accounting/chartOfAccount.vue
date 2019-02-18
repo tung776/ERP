@@ -11,8 +11,7 @@
         <account-item-tree
           v-for="account in allAccount"
           :account="account"
-          :allAccount="allAccount"
-          :key="account"
+          :key="account._id ? account._id : account.name"
         />
         <!-- Add icons to the links using the .nav-icon class
         with font-awesome or any other icon font library-->
