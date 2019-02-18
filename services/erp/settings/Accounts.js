@@ -1,4 +1,11 @@
 export default {
+  async deleteCurency(axios, currency) {
+    try {
+      await axios.delete(`/currency/${currency._id}`);
+    } catch (err) {
+      console.log(err);
+    }
+  },
   async getInitData(axios, store) {
     const data = {};
     try {
@@ -17,8 +24,11 @@ export default {
       const chartOfAccount = await axios.get("/chartOfAccount/getForDd");
       data.chartOfAccount = chartOfAccount.data.data;
       const allAccount = await axios.get("/accountsCategories/getAll");
-
+      const allExpense = await axios.get("/expensesCategories/getAll");
+      const expenses = await axios.get("/expensesCategories");
       data.allAccount = this.getTreeAccount(allAccount.data.data);
+      data.allExpense = this.getTreeAccount(allExpense.data.data);
+      console.log("data.allExpense = ", data.allExpense);
       const paymentMethod = await axios.get("/paymentMethod");
       data.paymentMethod = paymentMethod.data.data;
       const paymentTerms = await axios.get("/paymentTerm");

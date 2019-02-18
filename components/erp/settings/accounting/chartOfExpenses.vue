@@ -1,7 +1,7 @@
 <template>
   <expander :isExpanded="true">
     <div slot="expander-header">
-      <h3 class="card-title">Biểu Đồ Tài Khoản</h3>
+      <h3 class="card-title">Nhóm Chi Phí</h3>
     </div>
     <div slot="expander-body">
       <nav class="mt-2">
@@ -11,8 +11,8 @@
           role="menu"
           data-accordion="false"
         >
-          <account-item-tree
-            v-for="account in allAccount"
+          <expenses-item-tree
+            v-for="account in allExpense"
             :account="account"
             :key="account._id ? account._id : account.name"
             :marginLeft="0"
@@ -25,12 +25,12 @@
         type="button"
         class="btn btn-primary btn-flat"
         data-toggle="modal"
-        data-target="#chartAccountModal"
+        data-target="#expenseModal"
       >
         Thêm Mới
         <i class="fa fa-plus primary"></i>
       </button>
-      <modal :id="'chartAccountModal'">
+      <modal :id="'expenseModal'">
         <div slot="modal-title">Tiêu đề</div>
         <div slot="modal-body">
           <p>nội dung</p>
@@ -45,11 +45,11 @@
 </template>
 
 <script>
-import accountItemTree from "./accountItemTree.vue";
+import expensesItemTree from "./expensesItemTree.vue";
 import expander from "@/components/expander.vue";
 import modal from "@/components/modal.vue";
 export default {
-  props: ["allAccount"],
+  props: ["allExpense"],
   data() {
     return {
       isClick: [],
@@ -57,7 +57,7 @@ export default {
     };
   },
   components: {
-    accountItemTree,
+    expensesItemTree,
     modal,
     expander
   },

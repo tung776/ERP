@@ -26,6 +26,7 @@
         <i class="fa fa-remove"></i>
       </button>
     </nuxt-link>
+
     <ul
       class="nav nav-treeview"
       style="display: block;"
