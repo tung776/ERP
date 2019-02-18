@@ -1,13 +1,20 @@
 <template>
-  <li>
+  <li
+    class="nav-item"
+    :class="account.child.length > 0 ? 'has-treeview' : ''"
+    style="border-bottom: 1px solid rgba(0,0,0,.125);"
+  >
     <nuxt-link to="#" class="nav-link" name="menu">
-      <i class="nav-icon fa fa-credit-card-alt"></i>
       <p>
         {{account.name}}
-        <i class="right fa fa-angle-left"></i>
+        <i :class="account.child.length > 0 ? 'right fa fa-angle-left': ''"></i>
       </p>
     </nuxt-link>
-    <ul v-if="account.child && account.child.length > 0">
+    <ul
+      class="nav nav-treeview"
+      style="display: block;"
+      v-if="account.child && account.child.length > 0"
+    >
       <node v-for="child in account.child" :account="child" :key="child._id ? child._id : child"/>
     </ul>
   </li>
