@@ -23,10 +23,22 @@
                 <td>{{item.symbol}}</td>
                 <td>{{item.active}}</td>
                 <td>
-                  <button type="button" class="btn btn-tool btn-success btn-flat">
+                  <button
+                    @click="edit(item)"
+                    type="button"
+                    class="btn btn-tool btn-success btn-flat"
+                    data-toggle="modal"
+                    data-target="#currencyModal"
+                  >
                     <i class="fa fa-pencil-square-o"></i>
                   </button>
-                  <button type="button" class="btn btn-tool btn-danger btn-flat">
+                  <button
+                    @click="remove(item)"
+                    type="button"
+                    class="btn btn-tool btn-danger btn-flat"
+                    data-toggle="modal"
+                    data-target="#confirmModal"
+                  >
                     <i class="fa fa-remove"></i>
                   </button>
                 </td>
@@ -53,8 +65,38 @@
           <p>nội dung</p>
         </div>
         <div slot="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
+          <button
+            @click="cancelAction"
+            type="button"
+            class="btn btn-secondary"
+            data-dismiss="modal"
+          >Hủy</button>
+          <button
+            @click="confirmAction"
+            type="button"
+            class="btn btn-primary"
+            data-dismiss="modal"
+          >Lưu Dữ Liệu</button>
+        </div>
+      </modal>
+      <modal :id="'confirmModal'">
+        <div slot="modal-title">Cảnh Báo</div>
+        <div slot="modal-body">
+          <p>Bạn có chắc chắn muốn xóa dữ liệu</p>
+        </div>
+        <div slot="modal-footer">
+          <button
+            @click="cancelAction"
+            type="button"
+            class="btn btn-secondary"
+            data-dismiss="modal"
+          >Close</button>
+          <button
+            @click="confirmAction"
+            type="button"
+            class="btn btn-primary"
+            data-dismiss="modal"
+          >Xác nhận</button>
         </div>
       </modal>
     </div>
@@ -64,8 +106,97 @@
 <script>
 import expander from "@/components/expander.vue";
 import modal from "@/components/modal.vue";
+import service from "@/services/erp/settings/Accounts";
 export default {
   props: ["currencies"],
+  data() {
+    return {
+      selectedtItem: null,
+      confirm: {
+        isShow: false
+      },
+      actions: {
+        isRemove: false,
+        isEdit: false,
+        isNew: false
+      },
+      currencyForm: {}
+    };
+  },
+  methods: {
+    remove(item) {
+      this.confirm.isShow = !this.confirm.isShow;
+      this.switchAction("remove");
+      this.selectedtItem = item;
+      console.log("item removed ", item);
+    },
+    edit(item) {
+      this.confirm.isShow = !this.confirm.isShow;
+      this.switchAction("edit");
+      this.selectedtItem = item;
+      console.log("item editing ", item);
+    },
+    new() {
+      this.confirm.isShow = !this.confirm.isShow;
+      this.switchAction("new");
+      this.selectedtItem = this.currencyForm;
+      console.log("item added ", this.selectedtItem);
+    },
+    cancelAction() {
+      this.confirm.isShow = !this.confirm.isShow;
+      this.selectedtItem = null;
+      this.resetAction();
+      console.log("item canceled ");
+    },
+    async confirmAction() {
+      if (this.actions.isRemove) {
+        if (this.selectedtItem) {
+          await service.deleteCurency(this.$axios, this.selectedtItem);
+          this.selectedtItem = null;
+        } else {
+          console.log("nothing to remove");
+        }
+      }
+      if (this.actions.isEdit) {
+        if (this.selectedtItem) {
+          console.log(`item ${this.selectedtItem.name} edited`);
+          this.selectedtItem = null;
+        } else {
+          console.log("nothing to edit");
+        }
+      }
+      if (this.actions.isNew) {
+        if (this.selectedtItem) {
+          console.log(`item ${this.selectedtItem.name} added`);
+          this.selectedtItem = null;
+        } else {
+          console.log("nothing to edit");
+        }
+      }
+      this.resetAction();
+    },
+    resetAction() {
+      this.actions.isRemove = false;
+      this.actions.isEdit = false;
+      this.actions.isNew = false;
+    },
+    switchAction(name) {
+      if (name == "new") {
+        this.actions.isRemove = false;
+        this.actions.isEdit = false;
+        this.actions.isNew = true;
+      }
+      if (name == "edit") {
+        this.actions.isRemove = false;
+        this.actions.isEdit = true;
+        this.actions.isNew = false;
+      } else {
+        this.actions.isRemove = true;
+        this.actions.isEdit = false;
+        this.actions.isNew = false;
+      }
+    }
+  },
   components: {
     modal,
     expander
