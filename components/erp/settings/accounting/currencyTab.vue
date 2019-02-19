@@ -51,6 +51,7 @@
     </div>
     <div slot="expander-footer">
       <button
+        @click="newCurency"
         type="button"
         class="btn btn-primary btn-flat"
         data-toggle="modal"
@@ -60,9 +61,48 @@
         <i class="fa fa-plus primary"></i>
       </button>
       <modal :id="'currencyModal'">
-        <div slot="modal-title">Tiêu đề</div>
+        <div slot="modal-title">{{actions.isNew ? "Thêm Mới" : "Thay Đổi Thông Tin"}}</div>
         <div slot="modal-body">
-          <p>nội dung</p>
+          <form>
+            <div class="form-group">
+              <label for="exampleFormControlSelect1">Chọn Loại Tiền</label>
+              <select class="form-control" v-model="currencyForm.name">
+                <template v-for="curency in allCurencies">
+                  <option
+                    v-if="currencyForm._id == curency._id"
+                    :key="curency._id"
+                    :value="currencyForm.name"
+                    selected="selected"
+                  >{{curency.name}}</option>
+                  <option v-else :key="curency._id" :value="curency.name">{{curency.name}}</option>
+                </template>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="exampleFormControlInput1">Ký Hiệu</label>
+              <input v-model="currencyForm.symbol" type="text" class="form-control" placeholder="$">
+            </div>
+            <div class="form-group">
+              <label for="exampleFormControlInput1">Số sau dấu "."</label>
+              <input
+                v-model="currencyForm.decPlace"
+                type="text"
+                class="form-control"
+                placeholder="$"
+              >
+            </div>
+            <div class="form-group">
+              <div class="form-group form-check">
+                <input
+                  v-model="currencyForm.active"
+                  type="checkbox"
+                  class="form-check-input"
+                  id="exampleCheck1"
+                >
+                <label class="form-check-label" for="exampleCheck1">Kích Hoạt</label>
+              </div>
+            </div>
+          </form>
         </div>
         <div slot="modal-footer">
           <button
@@ -120,31 +160,41 @@ export default {
         isEdit: false,
         isNew: false
       },
-      currencyForm: {}
+      currencyForm: {
+        name: "",
+        decPlace: "",
+        active: false,
+        symbol: ""
+      },
+      allCurencies: []
     };
+  },
+  async mounted() {
+    const allCurencies = await service.getAllCurencies(this.$axios);
+    this.allCurencies = allCurencies;
   },
   methods: {
     remove(item) {
-      this.confirm.isShow = !this.confirm.isShow;
       this.switchAction("remove");
+      this.confirm.isShow = !this.confirm.isShow;
       this.selectedtItem = item;
       console.log("item removed ", item);
     },
     edit(item) {
-      this.confirm.isShow = !this.confirm.isShow;
       this.switchAction("edit");
-      this.selectedtItem = item;
+      this.confirm.isShow = !this.confirm.isShow;
+      this.currencyForm = { ...item };
       console.log("item editing ", item);
     },
-    new() {
-      this.confirm.isShow = !this.confirm.isShow;
+    newCurency() {
       this.switchAction("new");
-      this.selectedtItem = this.currencyForm;
-      console.log("item added ", this.selectedtItem);
+      this.confirm.isShow = !this.confirm.isShow;
+      // console.log("item added ", this.selectedtItem);
     },
     cancelAction() {
       this.confirm.isShow = !this.confirm.isShow;
       this.selectedtItem = null;
+      this.resetForm();
       this.resetAction();
       console.log("item canceled ");
     },
@@ -158,17 +208,17 @@ export default {
         }
       }
       if (this.actions.isEdit) {
-        if (this.selectedtItem) {
-          console.log(`item ${this.selectedtItem.name} edited`);
-          this.selectedtItem = null;
+        if (this.currencyForm) {
+          console.log(`item ${this.currencyForm.name} edited`);
+          this.resetForm();
         } else {
           console.log("nothing to edit");
         }
       }
       if (this.actions.isNew) {
-        if (this.selectedtItem) {
-          console.log(`item ${this.selectedtItem.name} added`);
-          this.selectedtItem = null;
+        if (this.currencyForm) {
+          await service.saveNewCurrency(this.$axios, this.currencyForm);
+          this.resetForm();
         } else {
           console.log("nothing to edit");
         }
@@ -180,13 +230,20 @@ export default {
       this.actions.isEdit = false;
       this.actions.isNew = false;
     },
+    resetForm() {
+      this.currencyForm = {
+        name: "",
+        decPlace: "",
+        active: false,
+        symbol: ""
+      };
+    },
     switchAction(name) {
       if (name == "new") {
         this.actions.isRemove = false;
         this.actions.isEdit = false;
         this.actions.isNew = true;
-      }
-      if (name == "edit") {
+      } else if (name == "edit") {
         this.actions.isRemove = false;
         this.actions.isEdit = true;
         this.actions.isNew = false;
