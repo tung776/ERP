@@ -23,7 +23,8 @@
 </template>
 
 <script>
-import service from "@/services/erp/settings/Accounts";
+import sv from "@/services/erp/settings/Accounts";
+let service = null;
 import currencyTab from "@/components/erp/settings/accounting/currencyTab.vue";
 import bankAccountTab from "@/components/erp/settings/accounting/bankAccountTab.vue";
 import paymentTermTab from "@/components/erp/settings/accounting/paymentTermTab.vue";
@@ -33,6 +34,7 @@ import chartOfAccount from "@/components/erp/settings/accounting/chartOfAccount.
 import chartOfExpenses from "@/components/erp/settings/accounting/chartOfExpenses.vue";
 import modal from "@/components/modal.vue";
 import expander from "@/components/expander.vue";
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
@@ -47,6 +49,27 @@ export default {
       allExpense: []
     };
   },
+  computed: {
+    ...mapGetters({
+      StateChanged: "accountState/StateChanged"
+    })
+  },
+  watch: {
+    StateChanged: async function(val) {
+      if (val) {
+        const result = await service.getInitData();
+        this.currencies = result.currencies;
+        this.bankAccounts = result.paymentMethod;
+        this.tax = result.taxSettings;
+        this.paymentTerms = result.paymentTerms;
+        this.chartOfAccount = result.chartOfAccount;
+        this.allAccount = result.allAccount;
+        this.allExpense = result.allExpense;
+        this.defaultSettings = this.$store.state.settings.organizationSetting;
+      }
+      this.$store.dispatch("accountState/setStateChanged", false);
+    }
+  },
   components: {
     currencyTab,
     bankAccountTab,
@@ -59,8 +82,8 @@ export default {
     expander
   },
   async mounted() {
-    const result = await service.getInitData(this.$axios, this.$store);
-    console.log("result = ", result);
+    service = sv(this.$axios, this.$store);
+    const result = await service.getInitData();
     this.currencies = result.currencies;
     this.bankAccounts = result.paymentMethod;
     this.tax = result.taxSettings;
@@ -68,7 +91,6 @@ export default {
     this.chartOfAccount = result.chartOfAccount;
     this.allAccount = result.allAccount;
     this.allExpense = result.allExpense;
-    console.log("this.allExpense= ", this.allExpense);
     this.defaultSettings = this.$store.state.settings.organizationSetting;
     if (result.error) return console.log(error);
   },

@@ -146,7 +146,8 @@
 <script>
 import expander from "@/components/expander.vue";
 import modal from "@/components/modal.vue";
-import service from "@/services/erp/settings/Accounts";
+import sv from "@/services/erp/settings/Accounts";
+let service = null;
 import { mapGetters } from "vuex";
 
 export default {
@@ -173,54 +174,49 @@ export default {
 
   computed: {
     ...mapGetters({
-      allCurencies: "currency/allCurrencies"
+      allCurencies: "currency/allCurrencies",
+      StateChanged: "accountState/StateChanged"
     })
   },
 
   async mounted() {
-    const allCurencies = await service2.getAllCurencies(
-      this.$axios,
-      this.$store
-    );
+    service = sv(this.$axios, this.$store);
+    const allCurencies = await service.getAllCurencies();
   },
   methods: {
     remove(item) {
       this.switchAction("remove");
       this.confirm.isShow = !this.confirm.isShow;
       this.selectedtItem = item;
-      console.log("item removed ", item);
     },
     edit(item) {
       this.switchAction("edit");
       this.confirm.isShow = !this.confirm.isShow;
       this.currencyForm = { ...item };
-      console.log("item editing ", item);
     },
     newCurency() {
       this.switchAction("new");
       this.resetForm();
       this.confirm.isShow = !this.confirm.isShow;
-      // console.log("item added ", this.selectedtItem);
     },
     cancelAction() {
       this.confirm.isShow = !this.confirm.isShow;
       this.selectedtItem = null;
       this.resetForm();
       this.resetAction();
-      console.log("item canceled ");
     },
     async confirmAction() {
       if (this.actions.isRemove) {
         if (this.selectedtItem) {
-          await service.deleteCurency(this.$axios, this.selectedtItem);
-          this.selectedtItem = null;
+          await service.deleteCurency(this.selectedtItem);
+          this.resetForm();
         } else {
           console.log("nothing to remove");
         }
       }
       if (this.actions.isEdit) {
         if (this.currencyForm) {
-          console.log(`item ${this.currencyForm.name} edited`);
+          await service.saveCurrency(this.currencyForm);
           this.resetForm();
         } else {
           console.log("nothing to edit");
@@ -228,7 +224,7 @@ export default {
       }
       if (this.actions.isNew) {
         if (this.currencyForm) {
-          await service.saveNewCurrency(this.$axios, this.currencyForm);
+          await service.saveNewCurrency(this.currencyForm);
           this.resetForm();
         } else {
           console.log("nothing to edit");
@@ -248,6 +244,8 @@ export default {
         active: false,
         symbol: ""
       };
+      this.selectedtItem = null;
+      this.$store.dispatch("accountState/setStateChanged", true);
     },
     switchAction(name) {
       if (name == "new") {
