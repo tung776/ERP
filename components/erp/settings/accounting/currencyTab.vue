@@ -147,6 +147,8 @@
 import expander from "@/components/expander.vue";
 import modal from "@/components/modal.vue";
 import service from "@/services/erp/settings/Accounts";
+import { mapGetters } from "vuex";
+
 export default {
   props: ["currencies"],
   data() {
@@ -165,13 +167,21 @@ export default {
         decPlace: "",
         active: false,
         symbol: ""
-      },
-      allCurencies: []
+      }
     };
   },
+
+  computed: {
+    ...mapGetters({
+      allCurencies: "currency/allCurrencies"
+    })
+  },
+
   async mounted() {
-    const allCurencies = await service.getAllCurencies(this.$axios);
-    this.allCurencies = allCurencies;
+    const allCurencies = await service2.getAllCurencies(
+      this.$axios,
+      this.$store
+    );
   },
   methods: {
     remove(item) {
@@ -188,6 +198,7 @@ export default {
     },
     newCurency() {
       this.switchAction("new");
+      this.resetForm();
       this.confirm.isShow = !this.confirm.isShow;
       // console.log("item added ", this.selectedtItem);
     },
