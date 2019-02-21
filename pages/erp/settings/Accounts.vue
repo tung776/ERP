@@ -56,16 +56,28 @@ export default {
   },
   watch: {
     StateChanged: async function(val) {
-      if (val) {
-        const result = await service.getInitData();
-        this.currencies = result.currencies;
-        this.bankAccounts = result.paymentMethod;
-        this.tax = result.taxSettings;
-        this.paymentTerms = result.paymentTerms;
-        this.chartOfAccount = result.chartOfAccount;
-        this.allAccount = result.allAccount;
-        this.allExpense = result.allExpense;
-        this.defaultSettings = this.$store.state.settings.organizationSetting;
+      if (val && val.isChanged) {
+        switch (val.name) {
+          case "currencyTab":
+            service.getCurrencies();
+            break;
+          case "bankAccountTab":
+            service.getPaymentMethod();
+            break;
+          case "chartOfAccount":
+            service.getChartOfAccount();
+            break;
+          default:
+            const result = await service.getInitData();
+            this.currencies = result.currencies;
+            this.bankAccounts = result.paymentMethod;
+            this.tax = result.taxSettings;
+            this.paymentTerms = result.paymentTerms;
+            this.chartOfAccount = result.chartOfAccount;
+            this.allAccount = result.allAccount;
+            this.allExpense = result.allExpense;
+            this.defaultSettings = this.$store.state.settings.organizationSetting;
+        }
       }
       this.$store.dispatch("accountState/setStateChanged", false);
     }

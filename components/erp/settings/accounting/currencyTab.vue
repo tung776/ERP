@@ -245,7 +245,7 @@ export default {
         symbol: ""
       };
       this.selectedtItem = null;
-      this.$store.dispatch("accountState/setStateChanged", true);
+      this.$store.dispatch("accountState/setStateChanged", {isChanged: true, name: "currencyTab"});
     },
     switchAction(name) {
       if (name == "new") {
