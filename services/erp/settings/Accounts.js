@@ -74,6 +74,37 @@ export default (axios, store) => {
             store.dispatch("accountState/paymentTermList", paymentTermList.data);
             return paymentTermList.datat
         },
+        async getAccountsCategories() {
+            const accountsCategories = await axios.get("/accountsCategories");
+            store.dispatch("accountState/accountCategories", accountsCategories.data);
+            return accountsCategories.data
+        },
+        async getExpensesCategories() {
+            const expensesCategories = await axios.get("/expensesCategories");
+            store.dispatch("accountState/expensesCategories", expensesCategories.data);
+            return expensesCategories.data
+        },
+        async getTaxSettings() {
+            const taxSettings = await axios.get("/taxSettings");
+            store.dispatch("accountState/taxSettings", taxSettings.data.data);
+            return taxSettings.data.data
+        },
+        async getAllAccount() {
+            const result = await axios.get("/accountsCategories/getAll");
+            const allAccount = this.getTreeAccount(result.data.data);
+            store.dispatch("accountState/allAccount", allAccount);
+            return allAccount;
+        },
+        async getAllExpenses() {
+            const result = await axios.get("/expensesCategories/getAll");
+            const allExpenses = this.getTreeAccount(result.data.data);
+            return allExpenses;
+        },
+        async getPaymentTerms() {
+            const paymentTerms = await axios.get("/paymentTerm");
+            store.dispatch('accountState/paymentTerms', paymentTerms.data.data);
+            return paymentTerms.data.data;
+        },
         async getInitData() {
             const data = {};
             try {
@@ -81,26 +112,15 @@ export default (axios, store) => {
                 data.paymentMethods = await this.getPaymentMethods();
                 data.bankAndCash = await this.getBankAndCash();
                 data.chartOfAccount = await this.getChartOfAccount;
-
-
-                data.paymentTermList = await getPaymentTermList;
-                const accountsCategories = await axios.get("/accountsCategories");
-                data.accountsCategories = accountsCategories.data;
-                const expensesCategories = await axios.get("/expensesCategories");
-                data.expensesCategories = expensesCategories.data;
-                const taxSettings = await axios.get("/taxSettings");
-                data.taxSettings = taxSettings.data.data;
-
-                const allAccount = await axios.get("/accountsCategories/getAll");
-                const allExpense = await axios.get("/expensesCategories/getAll");
-                const expenses = await axios.get("/expensesCategories");
-                data.allAccount = this.getTreeAccount(allAccount.data.data);
-                data.allExpense = this.getTreeAccount(allExpense.data.data);
-
+                data.paymentTermList = await this.getPaymentTermList;
+                data.accountsCategories = await this.getAccountsCategories
+                data.expensesCategories = await this.getExpensesCategories
+                data.taxSettings = await this.getTaxSettings;
+                data.allAccount = await this.getAllAccount();
+                data.allExpense = await this.getAllExpenses();
+                // const expenses = await axios.get("/expensesCategories");
                 data.paymentMethod = await this.getPaymentMethod();
-
-                const paymentTerms = await axios.get("/paymentTerm");
-                data.paymentTerms = paymentTerms.data.data;
+                data.paymentTerms = await this.getPaymentTerms();
                 if (store.state.settings || store.state.settings.organizationSetting) {
                     try {
                         const organizationSetting = await axios.get("organizationSettings");
