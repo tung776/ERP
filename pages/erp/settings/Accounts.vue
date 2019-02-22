@@ -67,6 +67,18 @@ export default {
           case "chartOfAccount":
             service.getChartOfAccount();
             break;
+          case "chartOfExpenses":
+            service.getAllExpenses();
+            break;
+          case "defaultSettingsTab":
+            service.getOranizationSettings();
+            break;
+          case "paymentTermTab":
+            service.getPaymentTerms();
+            break;
+          case "taxTab":
+            service.getTaxSettings();
+            break;
           default:
             const result = await service.getInitData();
             this.currencies = result.currencies;

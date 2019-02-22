@@ -76,34 +76,42 @@ export default (axios, store) => {
         },
         async getAccountsCategories() {
             const accountsCategories = await axios.get("/accountsCategories");
-            store.dispatch("accountState/accountCategories", accountsCategories.data);
+            store.dispatch("accountState/setAccountCategories", accountsCategories.data);
             return accountsCategories.data
         },
         async getExpensesCategories() {
             const expensesCategories = await axios.get("/expensesCategories");
-            store.dispatch("accountState/expensesCategories", expensesCategories.data);
+            store.dispatch("accountState/setExpensesCategories", expensesCategories.data);
             return expensesCategories.data
         },
         async getTaxSettings() {
             const taxSettings = await axios.get("/taxSettings");
-            store.dispatch("accountState/taxSettings", taxSettings.data.data);
+            store.dispatch("accountState/setTaxSettings", taxSettings.data.data);
             return taxSettings.data.data
         },
         async getAllAccount() {
             const result = await axios.get("/accountsCategories/getAll");
             const allAccount = this.getTreeAccount(result.data.data);
-            store.dispatch("accountState/allAccount", allAccount);
+            store.dispatch("accountState/setAllAccount", allAccount);
             return allAccount;
         },
         async getAllExpenses() {
             const result = await axios.get("/expensesCategories/getAll");
             const allExpenses = this.getTreeAccount(result.data.data);
+            store.dispatch("accountState/setAllExpenses", allExpenses)
             return allExpenses;
         },
         async getPaymentTerms() {
             const paymentTerms = await axios.get("/paymentTerm");
-            store.dispatch('accountState/paymentTerms', paymentTerms.data.data);
+            store.dispatch('accountState/setPaymentTerms', paymentTerms.data.data);
             return paymentTerms.data.data;
+        },
+        async getOranizationSettings() {
+            const organizationSetting = await axios.get("organizationSettings");
+            await store.dispatch(
+                "settings/setOrganizationSetting",
+                organizationSetting.data.data
+            );
         },
         async getInitData() {
             const data = {};
@@ -111,11 +119,11 @@ export default (axios, store) => {
                 data.currencies = await this.getCurrencies();
                 data.paymentMethods = await this.getPaymentMethods();
                 data.bankAndCash = await this.getBankAndCash();
-                data.chartOfAccount = await this.getChartOfAccount;
-                data.paymentTermList = await this.getPaymentTermList;
-                data.accountsCategories = await this.getAccountsCategories
-                data.expensesCategories = await this.getExpensesCategories
-                data.taxSettings = await this.getTaxSettings;
+                data.chartOfAccount = await this.getChartOfAccount();
+                data.paymentTermList = await this.getPaymentTermList();
+                data.accountsCategories = await this.getAccountsCategories()
+                data.expensesCategories = await this.getExpensesCategories()
+                data.taxSettings = await this.getTaxSettings();
                 data.allAccount = await this.getAllAccount();
                 data.allExpense = await this.getAllExpenses();
                 // const expenses = await axios.get("/expensesCategories");
@@ -123,11 +131,7 @@ export default (axios, store) => {
                 data.paymentTerms = await this.getPaymentTerms();
                 if (store.state.settings || store.state.settings.organizationSetting) {
                     try {
-                        const organizationSetting = await axios.get("organizationSettings");
-                        await store.dispatch(
-                            "settings/setOrganizationSetting",
-                            organizationSetting.data.data
-                        );
+                        await this.getOranizationSettings()
                     } catch (err) {
                         console.log(err);
                     }
