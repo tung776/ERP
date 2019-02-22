@@ -70,11 +70,17 @@
 <script>
 import expander from "@/components/expander.vue";
 import modal from "@/components/modal.vue";
+import { mapGetters } from "vuex";
 export default {
-  props: ["paymentTerms"],
   components: {
     modal,
     expander
+  },
+  computed: {
+    ...mapGetters({
+      paymentTerms: "accountState/paymentTerms",
+      StateChanged: "accountState/StateChanged"
+    })
   }
 };
 </script>

@@ -48,13 +48,19 @@
 import accountItemTree from "./accountItemTree.vue";
 import expander from "@/components/expander.vue";
 import modal from "@/components/modal.vue";
+import { mapGetters } from "vuex";
 export default {
-  props: ["allAccount"],
   data() {
     return {
       isClick: [],
       selected: null
     };
+  },
+  computed: {
+    ...mapGetters({
+      allAccount: "accountState/allAccount",
+      StateChanged: "accountState/StateChanged"
+    })
   },
   components: {
     accountItemTree,

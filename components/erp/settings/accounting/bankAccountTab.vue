@@ -168,7 +168,6 @@ import sv from "@/services/erp/settings/Accounts";
 import { mapGetters } from "vuex";
 let service = null;
 export default {
-  props: ["bankAccounts"],
   data() {
     return {
       selectedtItem: null,
@@ -199,7 +198,7 @@ export default {
     ...mapGetters({
       bankAnhCash: "accountState/bankAnhCash",
       currencies: "accountState/currency",
-      bankAccount: "accountState/bankAccount",
+      bankAccounts: "accountState/bankAccount",
       StateChanged: "accountState/StateChanged"
     })
   },

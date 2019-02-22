@@ -49,12 +49,17 @@ import expensesItemTree from "./expensesItemTree.vue";
 import expander from "@/components/expander.vue";
 import modal from "@/components/modal.vue";
 export default {
-  props: ["allExpense"],
   data() {
     return {
       isClick: [],
       selected: null
     };
+  },
+  computed: {
+    ...mapGetters({
+      allExpense: "accountState/allExpense",
+      StateChanged: "accountState/StateChanged"
+    })
   },
   components: {
     expensesItemTree,

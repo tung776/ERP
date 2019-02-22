@@ -79,6 +79,12 @@ export default {
   components: {
     modal,
     expander
+  },
+  computed: {
+    ...mapGetters({
+      tax: "accountState/taxSettings",
+      StateChanged: "accountState/StateChanged"
+    })
   }
 };
 </script>
