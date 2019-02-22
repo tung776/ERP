@@ -195,14 +195,16 @@ import expander from "@/components/expander.vue";
 import modal from "@/components/modal.vue";
 
 export default {
-  props: ["defaultSettings", "bankAccounts", "chartOfAccount", "paymentTerms"],
   components: {
     modal,
     expander
   },
   computed: {
     ...mapGetters({
-      Settings: "settings/organizationSetting"
+      Settings: "settings/organizationSetting",
+      bankAccounts: "accountState/paymentMethods",
+      paymentTerms: "accountState/paymentTerms",
+      chartOfAccount: "accountState/chartOfAccount"
     })
   }
 };

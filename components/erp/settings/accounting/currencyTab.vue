@@ -151,7 +151,6 @@ let service = null;
 import { mapGetters } from "vuex";
 
 export default {
-  props: ["currencies"],
   data() {
     return {
       selectedtItem: null,
@@ -175,6 +174,7 @@ export default {
   computed: {
     ...mapGetters({
       allCurencies: "currency/allCurrencies",
+      currencies: "accountState/currencies",
       StateChanged: "accountState/StateChanged"
     })
   },
@@ -245,7 +245,10 @@ export default {
         symbol: ""
       };
       this.selectedtItem = null;
-      this.$store.dispatch("accountState/setStateChanged", {isChanged: true, name: "currencyTab"});
+      this.$store.dispatch("accountState/setStateChanged", {
+        isChanged: true,
+        name: "currencyTab"
+      });
     },
     switchAction(name) {
       if (name == "new") {

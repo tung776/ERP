@@ -12,7 +12,7 @@
           data-accordion="false"
         >
           <expenses-item-tree
-            v-for="account in allExpense"
+            v-for="account in allExpenses"
             :account="account"
             :key="account._id ? account._id : account.name"
             :marginLeft="0"
@@ -48,6 +48,7 @@
 import expensesItemTree from "./expensesItemTree.vue";
 import expander from "@/components/expander.vue";
 import modal from "@/components/modal.vue";
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
@@ -57,7 +58,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      allExpense: "accountState/allExpense",
+      allExpenses: "accountState/allExpenses",
       StateChanged: "accountState/StateChanged"
     })
   },

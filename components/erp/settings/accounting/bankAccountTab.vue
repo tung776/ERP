@@ -197,8 +197,8 @@ export default {
   computed: {
     ...mapGetters({
       bankAnhCash: "accountState/bankAnhCash",
-      currencies: "accountState/currency",
-      bankAccounts: "accountState/bankAccount",
+      currencies: "accountState/currencies",
+      bankAccounts: "accountState/paymentMethods",
       StateChanged: "accountState/StateChanged"
     })
   },

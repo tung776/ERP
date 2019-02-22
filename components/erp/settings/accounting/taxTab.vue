@@ -74,8 +74,8 @@
 <script>
 import expander from "@/components/expander.vue";
 import modal from "@/components/modal.vue";
+import { mapGetters } from "vuex";
 export default {
-  props: ["tax"],
   components: {
     modal,
     expander
