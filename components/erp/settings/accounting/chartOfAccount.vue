@@ -36,8 +36,18 @@
           <p>nội dung</p>
         </div>
         <div slot="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
+          <button
+            @click="cancelAction"
+            type="button"
+            class="btn btn-secondary"
+            data-dismiss="modal"
+          >Hủy</button>
+          <button
+            @click="confirmAction"
+            type="button"
+            class="btn btn-primary"
+            data-dismiss="modal"
+          >Lưu Dữ Liệu</button>
         </div>
       </modal>
     </div>
