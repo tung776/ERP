@@ -172,17 +172,22 @@
         data-toggle="modal"
         data-target="#defaultSettingsModal"
       >
-        Thêm Mới
+        Lưu Thay Đổi
         <i class="fa fa-plus primary"></i>
       </button>
       <modal :id="'defaultSettingsModal'">
-        <div slot="modal-title">Tiêu đề</div>
+        <div slot="modal-title">Xác Nhận</div>
         <div slot="modal-body">
-          <p>nội dung</p>
+          <p>Bạn chắc chắn muốn lưu dữ liệu ?</p>
         </div>
         <div slot="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+          <button
+            @click="confirmAction"
+            data-dismiss="modal"
+            type="button"
+            class="btn btn-primary"
+          >Xác Nhận</button>
         </div>
       </modal>
     </div>
@@ -193,11 +198,25 @@
 import { mapGetters } from "vuex";
 import expander from "@/components/expander.vue";
 import modal from "@/components/modal.vue";
+import sv from "@/services/erp/settings/Accounts";
+let service = null;
 
 export default {
-  components: {
-    modal,
-    expander
+  async mounted() {
+    service = sv(this.$axios, this.$store);
+  },
+  methods: {
+    async confirmAction() {
+      await service.saveDefaltSettings(this.Settings);
+      this.resetForm();
+    },
+
+    resetForm() {
+      this.$store.dispatch("accountState/setStateChanged", {
+        isChanged: true,
+        name: "taxTab"
+      });
+    }
   },
   computed: {
     ...mapGetters({
@@ -206,6 +225,10 @@ export default {
       paymentTerms: "accountState/paymentTerms",
       chartOfAccount: "accountState/chartOfAccount"
     })
+  },
+  components: {
+    modal,
+    expander
   }
 };
 </script>

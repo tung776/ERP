@@ -23,7 +23,7 @@
                 <th scope="row">{{index+1}}</th>
                 <td>{{item.code}}</td>
                 <td>{{item.name}}</td>
-                <td>{{item.rate}}</td>
+                <td>{{item.rate * 100}} %</td>
                 <td>{{item.country}}</td>
                 <td>
                   <input
@@ -61,7 +61,7 @@
     </div>
     <div slot="expander-footer">
       <button
-        @click="newtax"
+        @click="newTax"
         type="button"
         class="btn btn-primary btn-flat"
         data-toggle="modal"
@@ -76,15 +76,39 @@
         <div slot="modal-body">
           <form>
             <div class="form-group">
+              <label for="exampleFormControlInput1">Code</label>
+              <input v-model="taxForm.code" type="text" class="form-control">
+            </div>
+            <div class="form-group">
               <label for="exampleFormControlInput1">Tên</label>
               <input v-model="taxForm.name" type="text" class="form-control">
             </div>
             <div class="form-group">
-              <label for="exampleFormControlInput1">Thời Hạn Thanh Toán</label>
-              <input v-model="taxForm.count" type="text" class="form-control">
+              <label for="exampleFormControlInput1">Tỷ lệ</label>
+              <input v-model="taxForm.rate" type="text" class="form-control">
             </div>
             <div class="form-group">
-              <label for="exampleFormControlInput1">Mặc Định</label>
+              <label for="exampleFormControlSelect1">Quốc Gia</label>
+              <select class="form-control" v-model="taxForm.country">
+                <template v-for="country in countries">
+                  <option
+                    v-if="taxForm.country && taxForm.country._id == country._id"
+                    :key="country._id"
+                    :value="taxForm.country"
+                    selected="selected"
+                  >{{country.name}}</option>
+                  <option v-else :key="country._id" :value="country.name">{{country.name}}</option>
+                </template>
+              </select>
+            </div>
+            <div class="form-group form-check">
+              <input
+                v-model="taxForm.isDefault"
+                type="checkbox"
+                class="form-check-input"
+                id="exampleCheck1"
+              >
+              <label class="form-check-label" for="exampleCheck1">Mặc định</label>
             </div>
           </form>
         </div>
@@ -132,6 +156,8 @@
 import expander from "@/components/expander.vue";
 import modal from "@/components/modal.vue";
 import { mapGetters } from "vuex";
+import sv from "@/services/erp/settings/Accounts";
+let service = null;
 export default {
   data() {
     return {
@@ -149,9 +175,13 @@ export default {
         name: "",
         rate: 0,
         country: null,
-        default: false
+        isDefault: false
       }
     };
+  },
+  async mounted() {
+    service = sv(this.$axios, this.$store);
+    await service.getCountries();
   },
   methods: {
     remove(item) {
@@ -164,7 +194,7 @@ export default {
       this.confirm.isShow = !this.confirm.isShow;
       this.taxForm = { ...item };
     },
-    newtaxAccount() {
+    newTax() {
       this.switchAction("new");
       this.resetForm();
       this.confirm.isShow = !this.confirm.isShow;
@@ -186,7 +216,7 @@ export default {
       }
       if (this.actions.isEdit) {
         if (this.taxForm) {
-          await service.savetax(this.taxForm);
+          await service.saveTax(this.taxForm);
           this.resetForm();
         } else {
           console.log("nothing to edit");
@@ -244,6 +274,7 @@ export default {
   computed: {
     ...mapGetters({
       tax: "accountState/taxSettings",
+      countries: "accountState/countries",
       StateChanged: "accountState/StateChanged"
     })
   }

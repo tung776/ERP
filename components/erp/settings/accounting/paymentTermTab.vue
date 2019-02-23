@@ -26,7 +26,7 @@
                     class="form-check-input"
                     type="checkbox"
                     value="option1"
-                    :checked="payment.defaultpaymentTerms !== 0"
+                    :checked="payment.defaultpaymentTerms"
                   >
                 </td>
                 <td>
@@ -61,7 +61,7 @@
         type="button"
         class="btn btn-primary btn-flat"
         data-toggle="modal"
-        data-target="#peymentTermModal"
+        data-target="#paymentTermModal"
       >
         Thêm Mới
         <i class="fa fa-plus primary"></i>
@@ -79,14 +79,14 @@
               <label for="exampleFormControlInput1">Thời Hạn Thanh Toán</label>
               <input v-model="paymentTermForm.count" type="text" class="form-control">
             </div>
-            <div class="form-group">
-              <label for="exampleFormControlInput1">Mặc Định</label>
+            <div class="form-group form-check">
               <input
-                class="form-check-input"
+                v-model="paymentTermForm.defaultpaymentTerms"
                 type="checkbox"
-                :value="paymentTermForm.defaultpaymentTerms"
-                :checked="paymentTermForm.defaultpaymentTerms !== 0"
+                class="form-check-input"
+                id="exampleCheck1"
               >
+              <label class="form-check-label" for="exampleCheck1">Mặc định</label>
             </div>
           </form>
         </div>
@@ -134,6 +134,8 @@
 import expander from "@/components/expander.vue";
 import modal from "@/components/modal.vue";
 import { mapGetters } from "vuex";
+import sv from "@/services/erp/settings/Accounts";
+let service = null;
 export default {
   data() {
     return {
@@ -153,6 +155,9 @@ export default {
       }
     };
   },
+  async mounted() {
+    service = sv(this.$axios, this.$store);
+  },
   methods: {
     remove(item) {
       this.switchAction("remove");
@@ -164,7 +169,7 @@ export default {
       this.confirm.isShow = !this.confirm.isShow;
       this.paymentTermForm = { ...item };
     },
-    newpaymentTermAccount() {
+    newPaymentTerm() {
       this.switchAction("new");
       this.resetForm();
       this.confirm.isShow = !this.confirm.isShow;
