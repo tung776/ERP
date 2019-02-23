@@ -34,10 +34,22 @@
                   >
                 </td>
                 <td>
-                  <button type="button" class="btn btn-tool btn-success btn-flat">
+                  <button
+                    @click="edit(item)"
+                    type="button"
+                    class="btn btn-tool btn-success btn-flat"
+                    data-toggle="modal"
+                    data-target="#taxModal"
+                  >
                     <i class="fa fa-pencil-square-o"></i>
                   </button>
-                  <button type="button" class="btn btn-tool btn-danger btn-flat">
+                  <button
+                    @click="remove(item)"
+                    type="button"
+                    class="btn btn-tool btn-danger btn-flat"
+                    data-toggle="modal"
+                    data-target="#taxConfirmModal"
+                  >
                     <i class="fa fa-remove"></i>
                   </button>
                 </td>
@@ -49,22 +61,67 @@
     </div>
     <div slot="expander-footer">
       <button
+        @click="newtax"
         type="button"
         class="btn btn-primary btn-flat"
         data-toggle="modal"
-        data-target="#taxModal"
+        data-target="#peymentTermModal"
       >
         Thêm Mới
         <i class="fa fa-plus primary"></i>
       </button>
+      <!-- tax modal form-->
       <modal :id="'taxModal'">
-        <div slot="modal-title">Tiêu đề</div>
+        <div slot="modal-title">{{actions.isNew ? "Thêm Mới" : "Thay Đổi Thông Tin"}}</div>
         <div slot="modal-body">
-          <p>nội dung</p>
+          <form>
+            <div class="form-group">
+              <label for="exampleFormControlInput1">Tên</label>
+              <input v-model="taxForm.name" type="text" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="exampleFormControlInput1">Thời Hạn Thanh Toán</label>
+              <input v-model="taxForm.count" type="text" class="form-control">
+            </div>
+            <div class="form-group">
+              <label for="exampleFormControlInput1">Mặc Định</label>
+            </div>
+          </form>
         </div>
         <div slot="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
+          <button
+            @click="cancelAction"
+            type="button"
+            class="btn btn-secondary"
+            data-dismiss="modal"
+          >Hủy</button>
+          <button
+            @click="confirmAction"
+            type="button"
+            class="btn btn-primary"
+            data-dismiss="modal"
+          >Lưu Dữ Liệu</button>
+        </div>
+      </modal>
+      <!--taxConfirm Modal -->
+      <modal :id="'taxConfirmModal'">
+        <div slot="modal-title">Cảnh Báo</div>
+        <div slot="modal-body">
+          <p>Bạn có chắc chắn muốn xóa dữ liệu</p>
+        </div>
+        <div slot="modal-footer">
+          <button
+            @click="cancelAction"
+            type="button"
+            class="btn btn-secondary"
+            data-dismiss="modal"
+          >Close</button>
+          <button
+            @click="confirmAction"
+            type="button"
+            class="btn btn-primary"
+            data-dismiss="modal"
+          >Xác nhận</button>
         </div>
       </modal>
     </div>
@@ -76,6 +133,110 @@ import expander from "@/components/expander.vue";
 import modal from "@/components/modal.vue";
 import { mapGetters } from "vuex";
 export default {
+  data() {
+    return {
+      selectedtItem: null,
+      confirm: {
+        isShow: false
+      },
+      actions: {
+        isRemove: false,
+        isEdit: false,
+        isNew: false
+      },
+      taxForm: {
+        code: "",
+        name: "",
+        rate: 0,
+        country: null,
+        default: false
+      }
+    };
+  },
+  methods: {
+    remove(item) {
+      this.switchAction("remove");
+      this.confirm.isShow = !this.confirm.isShow;
+      this.selectedtItem = item;
+    },
+    edit(item) {
+      this.switchAction("edit");
+      this.confirm.isShow = !this.confirm.isShow;
+      this.taxForm = { ...item };
+    },
+    newtaxAccount() {
+      this.switchAction("new");
+      this.resetForm();
+      this.confirm.isShow = !this.confirm.isShow;
+    },
+    cancelAction() {
+      this.confirm.isShow = !this.confirm.isShow;
+      this.selectedtItem = null;
+      this.resetForm();
+      this.resetAction();
+    },
+    async confirmAction() {
+      if (this.actions.isRemove) {
+        if (this.selectedtItem) {
+          await service.deletetax(this.selectedtItem);
+          this.resetForm();
+        } else {
+          console.log("nothing to remove");
+        }
+      }
+      if (this.actions.isEdit) {
+        if (this.taxForm) {
+          await service.savetax(this.taxForm);
+          this.resetForm();
+        } else {
+          console.log("nothing to edit");
+        }
+      }
+      if (this.actions.isNew) {
+        if (this.taxForm) {
+          await service.saveNewtax(this.taxForm);
+          this.resetForm();
+        } else {
+          console.log("nothing to edit");
+        }
+      }
+      this.resetAction();
+    },
+    resetAction() {
+      this.actions.isRemove = false;
+      this.actions.isEdit = false;
+      this.actions.isNew = false;
+    },
+    resetForm() {
+      this.taxForm = {
+        code: "",
+        name: "",
+        rate: 0,
+        country: null,
+        default: false
+      };
+      this.selectedtItem = null;
+      this.$store.dispatch("accountState/setStateChanged", {
+        isChanged: true,
+        name: "taxTab"
+      });
+    },
+    switchAction(name) {
+      if (name == "new") {
+        this.actions.isRemove = false;
+        this.actions.isEdit = false;
+        this.actions.isNew = true;
+      } else if (name == "edit") {
+        this.actions.isRemove = false;
+        this.actions.isEdit = true;
+        this.actions.isNew = false;
+      } else {
+        this.actions.isRemove = true;
+        this.actions.isEdit = false;
+        this.actions.isNew = false;
+      }
+    }
+  },
   components: {
     modal,
     expander

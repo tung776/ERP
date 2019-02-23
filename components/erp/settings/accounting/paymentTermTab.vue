@@ -210,14 +210,13 @@ export default {
     resetForm() {
       this.paymentTermForm = {
         name: "",
-        decPlace: "",
-        active: false,
-        symbol: ""
+        defaultpaymentTerms: 0,
+        count: 0
       };
       this.selectedtItem = null;
       this.$store.dispatch("accountState/setStateChanged", {
         isChanged: true,
-        name: "paymentTermAccountTab"
+        name: "paymentTermTab"
       });
     },
     switchAction(name) {
