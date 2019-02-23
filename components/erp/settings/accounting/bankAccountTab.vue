@@ -63,7 +63,7 @@
         Thêm Mới
         <i class="fa fa-plus primary"></i>
       </button>
-      <!-- modal form-->
+      <!-- bank modal form-->
       <modal :id="'bankModal'">
         <div slot="modal-title">{{actions.isNew ? "Thêm Mới" : "Thay Đổi Thông Tin"}}</div>
         <div slot="modal-body">
@@ -137,6 +137,7 @@
           >Lưu Dữ Liệu</button>
         </div>
       </modal>
+      <!--bankConfirm Modal -->
       <modal :id="'bankConfirmModal'">
         <div slot="modal-title">Cảnh Báo</div>
         <div slot="modal-body">
@@ -228,7 +229,7 @@ export default {
     async confirmAction() {
       if (this.actions.isRemove) {
         if (this.selectedtItem) {
-          await service.deleteCurency(this.selectedtItem);
+          await service.deleteBankAccount(this.selectedtItem);
           this.resetForm();
         } else {
           console.log("nothing to remove");
@@ -236,7 +237,7 @@ export default {
       }
       if (this.actions.isEdit) {
         if (this.bankForm) {
-          await service.saveCurrency(this.bankForm);
+          await service.saveBankAccount(this.bankForm);
           this.resetForm();
         } else {
           console.log("nothing to edit");
@@ -244,7 +245,7 @@ export default {
       }
       if (this.actions.isNew) {
         if (this.bankForm) {
-          await service.saveNewCurrency(this.bankForm);
+          await service.saveNewBankAccount(this.bankForm);
           this.resetForm();
         } else {
           console.log("nothing to edit");
