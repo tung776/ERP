@@ -12,18 +12,13 @@
         <i :class="account.child.length > 0 ? 'right fa fa-angle-left': ''"></i>
       </p>
       <button
-        v-on:click.stop.prevent="editClick(account)"
+        v-on:click="editClick(account)"
         type="button"
         class="btn btn-tool btn-success btn-flat"
+        data-toggle="modal"
+        data-target="#chartAccountModal"
       >
         <i class="fa fa-pencil-square-o"></i>
-      </button>
-      <button
-        v-on:click.stop.prevent="removeClick(account)"
-        type="button"
-        class="btn btn-tool btn-danger btn-flat"
-      >
-        <i class="fa fa-remove"></i>
       </button>
     </nuxt-link>
     <ul
@@ -36,6 +31,7 @@
         :account="child"
         :marginLeft="marginLeft + 20"
         :key="child._id ? child._id : child"
+        :editItem="editItem"
       />
     </ul>
   </li>
@@ -43,14 +39,16 @@
 <script>
 export default {
   name: "node",
-  props: ["account", "marginLeft"],
+  props: ["account", "marginLeft", "editItem"],
   components: {},
   methods: {
     removeClick(account) {
       console.log("remove clicked", account.name);
+      this.editItem(account);
     },
     editClick(account) {
       console.log("edit clicked", account.name);
+      this.editItem(account);
     }
   }
 };

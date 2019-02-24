@@ -16,6 +16,7 @@
             :account="account"
             :key="account._id ? account._id : account.name"
             :marginLeft="0"
+            :editItem="editItem"
           />
         </ul>
       </nav>
@@ -31,9 +32,26 @@
         <i class="fa fa-plus primary"></i>
       </button>
       <modal :id="'chartAccountModal'">
-        <div slot="modal-title">Tiêu đề</div>
+        <div slot="modal-title">Thông tin tài khoản</div>
         <div slot="modal-body">
-          <p>nội dung</p>
+          <div class="form-group">
+            <label for="exampleFormControlInput1">Tên tài khoản</label>
+            <input v-model="chartAccountForm.name" type="text" class="form-control">
+          </div>
+          <div class="form-group">
+            <label for="exampleFormControlSelect1">Quốc Gia</label>
+            <select class="form-control" v-model="chartAccountForm.parent">
+              <template v-for="account in accounts">
+                <option
+                  v-if="chartAccountForm.parent && chartAccountForm.parent._id == account._id"
+                  :key="account._id"
+                  :value="chartAccountForm.parent"
+                  selected="selected"
+                >{{account.name}}</option>
+                <option v-else :key="account._id" :value="account.name">{{account.name}}</option>
+              </template>
+            </select>
+          </div>
         </div>
         <div slot="modal-footer">
           <button
@@ -65,10 +83,27 @@ export default {
   data() {
     return {
       isClick: [],
-      selected: null
+      selectedtItem: null,
+      confirm: {
+        isShow: false
+      },
+      actions: {
+        isRemove: false,
+        isEdit: false,
+        isNew: false
+      },
+      accounts: [],
+      chartAccountForm: {
+        name: "",
+        parent: 0
+      }
     };
   },
   methods: {
+    editItem(val) {
+      this.selected = val;
+      console.log("val = ", val);
+    },
     remove(item) {
       this.switchAction("remove");
       this.confirm.isShow = !this.confirm.isShow;
@@ -77,7 +112,7 @@ export default {
     edit(item) {
       this.switchAction("edit");
       this.confirm.isShow = !this.confirm.isShow;
-      this.taxForm = { ...item };
+      this.chartAccountForm = { ...item };
     },
     newTax() {
       this.switchAction("new");
@@ -100,16 +135,16 @@ export default {
         }
       }
       if (this.actions.isEdit) {
-        if (this.taxForm) {
-          await service.saveTax(this.taxForm);
+        if (this.chartAccountForm) {
+          await service.saveTax(this.chartAccountForm);
           this.resetForm();
         } else {
           console.log("nothing to edit");
         }
       }
       if (this.actions.isNew) {
-        if (this.taxForm) {
-          await service.saveNewtax(this.taxForm);
+        if (this.chartAccountForm) {
+          await service.saveNewtax(this.chartAccountForm);
           this.resetForm();
         } else {
           console.log("nothing to edit");
@@ -123,17 +158,14 @@ export default {
       this.actions.isNew = false;
     },
     resetForm() {
-      this.taxForm = {
-        code: "",
+      this.chartAccountForm = {
         name: "",
-        rate: 0,
-        country: null,
-        default: false
+        parent: 0
       };
       this.selectedtItem = null;
       this.$store.dispatch("accountState/setStateChanged", {
         isChanged: true,
-        name: "taxTab"
+        name: "chartOfAccount"
       });
     },
     switchAction(name) {
