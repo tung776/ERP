@@ -34,21 +34,21 @@
       <modal :id="'chartAccountModal'">
         <div slot="modal-title">Thông tin tài khoản</div>
         <div slot="modal-body">
-          <div class="form-group">
+          <div class="form-group" v-if="selectedItem">
             <label for="exampleFormControlInput1">Tên tài khoản</label>
-            <input v-model="chartAccountForm.name" type="text" class="form-control">
+            <input v-model="selectedItem.name" type="text" class="form-control">
           </div>
-          <div class="form-group">
-            <label for="exampleFormControlSelect1">Quốc Gia</label>
-            <select class="form-control" v-model="chartAccountForm.parent">
+          <div class="form-group" v-if="selectedItem">
+            <label for="exampleFormControlSelect1">Tài Khoản</label>
+            <select class="form-control" v-model="selectedItem.parent">
               <template v-for="account in accounts">
                 <option
-                  v-if="chartAccountForm.parent && chartAccountForm.parent._id == account._id"
+                  v-if="selectedItem.parent && selectedItem.parent._id == account._id"
                   :key="account._id"
-                  :value="chartAccountForm.parent"
+                  :value="selectedItem.parent"
                   selected="selected"
                 >{{account.name}}</option>
-                <option v-else :key="account._id" :value="account.name">{{account.name}}</option>
+                <option v-else :key="account._id" :value="account">{{account.name}}</option>
               </template>
             </select>
           </div>
@@ -83,7 +83,10 @@ export default {
   data() {
     return {
       isClick: [],
-      selectedtItem: null,
+      selectedItem: {
+        name: "",
+        parent: null
+      },
       confirm: {
         isShow: false
       },
@@ -91,66 +94,63 @@ export default {
         isRemove: false,
         isEdit: false,
         isNew: false
-      },
-      accounts: [],
-      chartAccountForm: {
-        name: "",
-        parent: 0
       }
     };
   },
   methods: {
     editItem(val) {
-      this.selected = val;
-      console.log("val = ", val);
-    },
-    remove(item) {
-      this.switchAction("remove");
-      this.confirm.isShow = !this.confirm.isShow;
-      this.selectedtItem = item;
-    },
-    edit(item) {
+      this.selectedItem = { ...val };
+      console.log("this.selectedItem.parent = ", this.selectedItem.parent.name);
       this.switchAction("edit");
-      this.confirm.isShow = !this.confirm.isShow;
-      this.chartAccountForm = { ...item };
     },
-    newTax() {
+
+    newAccount() {
       this.switchAction("new");
       this.resetForm();
       this.confirm.isShow = !this.confirm.isShow;
     },
     cancelAction() {
       this.confirm.isShow = !this.confirm.isShow;
-      this.selectedtItem = null;
+      this.selectedItem = null;
       this.resetForm();
       this.resetAction();
     },
     async confirmAction() {
+      let selectedAccount = null;
+      this.accounts.forEach(el => {
+        if (el._id == this.selectedItem._id) {
+          selectedAccount = { ...el };
+          selectedAccount.name = this.selectedItem.name;
+          selectedAccount.fullName =
+            this.selectedItem.parent.name + " / " + this.selectedItem.name;
+          selectedAccount.parent = this.selectedItem.parent._id;
+          selectedAccount.isAllUpdate = true;
+        }
+      });
+
       if (this.actions.isRemove) {
-        if (this.selectedtItem) {
-          await service.deletetax(this.selectedtItem);
-          this.resetForm();
+        if (selectedAccount) {
+          // await service.deleteAccount(this.selectedItem);
         } else {
           console.log("nothing to remove");
         }
       }
       if (this.actions.isEdit) {
-        if (this.chartAccountForm) {
-          await service.saveTax(this.chartAccountForm);
-          this.resetForm();
+        if (selectedAccount) {
+          await service.saveAccount(selectedAccount);
         } else {
           console.log("nothing to edit");
         }
       }
       if (this.actions.isNew) {
-        if (this.chartAccountForm) {
-          await service.saveNewtax(this.chartAccountForm);
-          this.resetForm();
+        if (selectedAccount) {
+          await service.saveNewAccount(selectedAccount);
         } else {
           console.log("nothing to edit");
         }
       }
       this.resetAction();
+      this.resetForm();
     },
     resetAction() {
       this.actions.isRemove = false;
@@ -158,11 +158,10 @@ export default {
       this.actions.isNew = false;
     },
     resetForm() {
-      this.chartAccountForm = {
+      this.selectedItem = {
         name: "",
-        parent: 0
+        parent: null
       };
-      this.selectedtItem = null;
       this.$store.dispatch("accountState/setStateChanged", {
         isChanged: true,
         name: "chartOfAccount"
@@ -190,6 +189,8 @@ export default {
   computed: {
     ...mapGetters({
       allAccount: "accountState/allAccount",
+      accounts: "accountState/accountCategories",
+      chartOfAccount: "accountState/chartOfAccount",
       StateChanged: "accountState/StateChanged"
     })
   },
@@ -198,17 +199,5 @@ export default {
     modal,
     expander
   }
-  // methods: {
-  //   itemClicked(account) {
-  //     const name = account.name;
-  //     if (this.isClick[name]) {
-  //       this.isClick[name] = false;
-  //       this.selected = null;
-  //     } else {
-  //       this.isClick[name] = true;
-  //       this.selected = account;
-  //     }
-  //   }
-  // }
 };
 </script>

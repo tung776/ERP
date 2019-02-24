@@ -1,5 +1,19 @@
 export default (axios, store) => {
   return {
+    async saveAccount(account) {
+      try {
+        await axios.patch(`/accountsCategories/${account._id}`, account);
+      } catch (err) {
+        console.log("error: ", err);
+      }
+    },
+    async saveNewAccount(account) {
+      try {
+        await axios.post("/accountsCategories", account);
+      } catch (err) {
+        console.log("error: ", err);
+      }
+    },
     async saveDefaltSettings(setting) {
       try {
         await axios.patch(`/organizationSettings/${setting._id}`, setting);
@@ -9,7 +23,6 @@ export default (axios, store) => {
     },
     async getCountries() {
       const result = await axios.get("/countries/getForDD");
-      console.log("result.data = ", result.data.data);
       store.dispatch("accountState/setCountries", result.data.data);
     },
     async saveTax(tax) {
