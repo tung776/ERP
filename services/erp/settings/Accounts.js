@@ -1,5 +1,19 @@
 export default (axios, store) => {
   return {
+    async saveExpresses(express) {
+      try {
+        await axios.patch(`/expensesCategories/${express._id}`, express);
+      } catch (err) {
+        console.log("error: ", err);
+      }
+    },
+    async saveNewExpresses(express) {
+      try {
+        await axios.post("/expensesCategories", express);
+      } catch (err) {
+        console.log("error: ", err);
+      }
+    },
     async saveAccount(account) {
       try {
         await axios.patch(`/accountsCategories/${account._id}`, account);
@@ -194,6 +208,7 @@ export default (axios, store) => {
       const result = await axios.get("/expensesCategories/getAll");
       const allExpenses = this.getTreeAccount(result.data.data);
       store.dispatch("accountState/setAllExpenses", allExpenses);
+      store.dispatch("accountState/setExpresses", result.data.data);
       return allExpenses;
     },
     async getPaymentTerms() {

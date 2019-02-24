@@ -38,6 +38,9 @@ export const actions = {
   setAllExpenses({ commit }, allExpenses) {
     commit("set_allExpenses", allExpenses);
   },
+  setExpresses({ commit }, expresses) {
+    commit("set_expresses", expresses);
+  },
   setCountries({ commit }, countries) {
     commit("set_countries", countries);
   }
@@ -60,6 +63,7 @@ export const state = () => ({
   taxSettings: null,
   allAccount: null,
   allExpenses: null,
+  expresses: null,
   countries: null
 });
 
@@ -102,6 +106,9 @@ export const mutations = {
   },
   set_allExpenses(state, allExpenses) {
     state.allExpenses = allExpenses;
+  },
+  set_expresses(state, expresses) {
+    state.expresses = expresses;
   },
   set_paymentTerms(state, paymentTerms) {
     state.paymentTerms = paymentTerms;
@@ -150,6 +157,9 @@ export const getters = {
   },
   allExpenses(state) {
     return state.allExpenses;
+  },
+  expresses(state) {
+    return state.expresses;
   },
   countries(state) {
     return state.countries;
