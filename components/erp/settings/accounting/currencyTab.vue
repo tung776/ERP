@@ -12,7 +12,7 @@
                 <th scope="col">#</th>
                 <th scope="col">Tên</th>
                 <th scope="col">Ký Hiệu</th>
-                <th scope="col">Tình Trạng</th>
+                <th scope="col">Kích Hoạt</th>
                 <th scope="col">Hành Động</th>
               </tr>
             </thead>
@@ -21,7 +21,15 @@
                 <th scope="row">{{index+1}}</th>
                 <td>{{item.name}}</td>
                 <td>{{item.symbol}}</td>
-                <td>{{item.active}}</td>
+                <td>
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    value="option1"
+                    disabled
+                    :checked="item.active"
+                  >
+                </td>
                 <td>
                   <button
                     @click="edit(item)"

@@ -26,6 +26,7 @@
                     class="form-check-input"
                     type="checkbox"
                     value="option1"
+                    disabled
                     :checked="payment.defaultpaymentTerms"
                   >
                 </td>

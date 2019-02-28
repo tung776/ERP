@@ -10,29 +10,42 @@
             <thead>
               <tr>
                 <th scope="col">#</th>
-                <th scope="col">Mã</th>
-                <th scope="col">Tên Thuế</th>
-                <th scope="col">Tỷ lệ thuế</th>
-                <th scope="col">Quốc Gia</th>
-                <th scope="col">Mặc Định</th>
+                <th scope="col">Tên</th>
+                <th scope="col">Thuộc Sở Hữu</th>
+                <th scope="col">Kho Chính</th>
+                <th scope="col">Khu Vực</th>
                 <th scope="col">Hành Động</th>
               </tr>
             </thead>
             <tbody>
-              <tr v-for="(item, index) in wareHouse" :key="item.name">
+              <tr v-for="(item, index) in wareHouses" :key="item.name">
                 <th scope="row">{{index+1}}</th>
-                <td>{{item.code}}</td>
                 <td>{{item.name}}</td>
-                <td>{{item.rate * 100}} %</td>
-                <td>{{item.country}}</td>
                 <td>
                   <input
                     class="form-check-input"
                     type="checkbox"
                     value="option1"
-                    :checked="item.isDefault"
+                    disabled
+                    :checked="item.isOwn"
                   >
                 </td>
+                <td>
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    value="option1"
+                    disabled
+                    :checked="item.main"
+                  >
+                </td>
+                <td>
+                  <span
+                    class="badge badge-warning"
+                    style="font-size: 14px"
+                  >{{item.locations[0].name}}</span>
+                </td>
+                <td>{{(item.zone && item.zone.length > 0) ? item.zone[0] : ""}}</td>
                 <td>
                   <button
                     @click="edit(item)"
@@ -71,62 +84,13 @@
         <i class="fa fa-plus primary"></i>
       </button>
       <!-- wareHouse modal form-->
-      <modal :id="'wareHouseModal'">
-        <div slot="modal-title">{{actions.isNew ? "Thêm Mới" : "Thay Đổi Thông Tin"}}</div>
-        <div slot="modal-body">
-          <form>
-            <div class="form-group">
-              <label for="exampleFormControlInput1">Code</label>
-              <input v-model="wareHouseForm.code" type="text" class="form-control">
-            </div>
-            <div class="form-group">
-              <label for="exampleFormControlInput1">Tên</label>
-              <input v-model="wareHouseForm.name" type="text" class="form-control">
-            </div>
-            <div class="form-group">
-              <label for="exampleFormControlInput1">Tỷ lệ</label>
-              <input v-model="wareHouseForm.rate" type="text" class="form-control">
-            </div>
-            <div class="form-group">
-              <label for="exampleFormControlSelect1">Quốc Gia</label>
-              <select class="form-control" v-model="wareHouseForm.country">
-                <template v-for="country in countries">
-                  <option
-                    v-if="wareHouseForm.country && wareHouseForm.country._id == country._id"
-                    :key="country._id"
-                    :value="wareHouseForm.country"
-                    selected="selected"
-                  >{{country.name}}</option>
-                  <option v-else :key="country._id" :value="country.name">{{country.name}}</option>
-                </template>
-              </select>
-            </div>
-            <div class="form-group form-check">
-              <input
-                v-model="wareHouseForm.isDefault"
-                type="checkbox"
-                class="form-check-input"
-                id="exampleCheck1"
-              >
-              <label class="form-check-label" for="exampleCheck1">Mặc định</label>
-            </div>
-          </form>
-        </div>
-        <div slot="modal-footer">
-          <button
-            @click="cancelAction"
-            type="button"
-            class="btn btn-secondary"
-            data-dismiss="modal"
-          >Hủy</button>
-          <button
-            @click="confirmAction"
-            type="button"
-            class="btn btn-primary"
-            data-dismiss="modal"
-          >Lưu Dữ Liệu</button>
-        </div>
-      </modal>
+      <ware-house-modal
+        v-if="wareHouseForm"
+        :wareHouseForm="wareHouseForm"
+        :title="actions.isNew ? 'Thêm Mới' : 'Thay Đổi Thông Tin'"
+        :confirmAction="confirmAction"
+        :cancelAction="cancelAction"
+      />
       <!--wareHouseConfirm Modal -->
       <modal :id="'wareHouseConfirmModal'">
         <div slot="modal-title">Cảnh Báo</div>
@@ -155,9 +119,12 @@
 <script>
 import expander from "@/components/expander.vue";
 import modal from "@/components/modal.vue";
+import wareHouseModal from "@/components/erp/settings/products/wareHouse/wareHouseModal.vue";
 import { mapGetters } from "vuex";
 import sv from "@/services/erp/settings/Product";
+import sv_account from "@/services/erp/settings/Accounts";
 let service = null;
+let service_account = null;
 export default {
   data() {
     return {
@@ -183,6 +150,7 @@ export default {
   },
   async mounted() {
     service = sv(this.$axios, this.$store);
+    service_account = sv_account(this.$axios, this.$store);
   },
   methods: {
     remove(item) {
@@ -190,15 +158,21 @@ export default {
       this.confirm.isShow = !this.confirm.isShow;
       this.selectedtItem = item;
     },
-    edit(item) {
+    async edit(item) {
+      this.wareHouseForm = { ...item };
       this.switchAction("edit");
       this.confirm.isShow = !this.confirm.isShow;
-      this.wareHouseForm = { ...item };
+      await this.loadMoreDate();
     },
-    newWareHouse() {
+    async newWareHouse() {
       this.switchAction("new");
       this.resetForm();
       this.confirm.isShow = !this.confirm.isShow;
+      await this.loadMoreDate();
+    },
+    async loadMoreDate() {
+      await service.getAccountInventory();
+      await service_account.getCountries();
     },
     cancelAction() {
       this.confirm.isShow = !this.confirm.isShow;
@@ -206,26 +180,28 @@ export default {
       this.resetForm();
       this.resetAction();
     },
-    async confirmAction() {
+    async confirmAction(data) {
+      console.log("data = ", data);
+      return;
       if (this.actions.isRemove) {
-        if (this.selectedtItem) {
-          await service.deleteWareHouse(this.selectedtItem);
+        if (data) {
+          await service.deleteWareHouse(data);
           this.resetForm();
         } else {
           console.log("nothing to remove");
         }
       }
       if (this.actions.isEdit) {
-        if (this.wareHouseForm) {
-          await service.saveWareHouse(this.wareHouseForm);
+        if (data) {
+          await service.saveWareHouse(data);
           this.resetForm();
         } else {
           console.log("nothing to edit");
         }
       }
       if (this.actions.isNew) {
-        if (this.wareHouseForm) {
-          await service.newWareHouse(this.wareHouseForm);
+        if (data) {
+          await service.newWareHouse(data);
           this.resetForm();
         } else {
           console.log("nothing to edit");
@@ -272,12 +248,15 @@ export default {
   },
   components: {
     modal,
-    expander
+    expander,
+    wareHouseModal
   },
   computed: {
     ...mapGetters({
       StateChanged: "settings/products/StateChanged",
-      warehouse: "settings/products/warehouse"
+      wareHouses: "settings/products/warehouse",
+      accountInventories: "settings/products/accountInventory",
+      countries: "accountState/countries"
     })
   }
 };

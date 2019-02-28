@@ -1,11 +1,11 @@
 <template>
   <div>
-    <ware_house_tab/>
-    <price_list_tab/>
-    <product_type_tab/>
-    <product_option_tab/>
-    <product_categories_tab/>
-    <shipping_methods_tab/>
+    <ware-house-tab/>
+    <!-- <price-list-tab/> -->
+    <!-- <product-type-tab/> -->
+    <!-- <product-option-tab/> -->
+    <!-- <product-categories-tab/> -->
+    <!-- <shipping-methods-tab/> -->
   </div>
 </template>
 
@@ -13,12 +13,12 @@
 import sv from "@/services/erp/settings/Product";
 let service = null;
 import { mapGetters } from "vuex";
-import priceListTab from "@/components/settings/products/priceList";
-import productCategoriesTab from "@/components/settings/products/productCategories";
-import productOptionTab from "@/components/settings/products/productOption";
-import productTypeTab from "@/components/settings/products/productType";
-import shippingMethodsTab from "@/components/settings/products/shippingMethods";
-import wareHouseTab from "@/components/settings/products/wareHouse";
+import priceListTab from "@/components/erp/settings/products/priceList";
+import productCategoriesTab from "@/components/erp/settings/products/productCategories";
+import productOptionTab from "@/components/erp/settings/products/productOption";
+import productTypeTab from "@/components/erp/settings/products/productType";
+import shippingMethodsTab from "@/components/erp/settings/products/shippingMethods";
+import wareHouseTab from "@/components/erp/settings/products/wareHouse";
 export default {
   data() {
     return {};
@@ -51,10 +51,12 @@ export default {
             await service.getWareHouse();
             break;
           default:
-            const result = await service.getInitData();
+            await service.getInitData();
         }
+      } else {
+        await service.getInitData();
+        this.$store.dispatch("settings/products/setStateChanged", false);
       }
-      this.$store.dispatch("accountState/setStateChanged", false);
     }
   },
   components: {
@@ -67,6 +69,7 @@ export default {
   },
   async mounted() {
     service = sv(this.$axios, this.$store);
+    await service.getInitData();
   },
   layout(contex) {
     return "erp";

@@ -30,6 +30,7 @@
                     class="form-check-input"
                     type="checkbox"
                     value="option1"
+                    disabled
                     :checked="item.isDefault"
                   >
                 </td>
