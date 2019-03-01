@@ -13,6 +13,7 @@
                 <th scope="col">Tên</th>
                 <th scope="col">Thuộc Sở Hữu</th>
                 <th scope="col">Kho Chính</th>
+                <th scope="col">Vị Trí</th>
                 <th scope="col">Khu Vực</th>
                 <th scope="col">Hành Động</th>
               </tr>
@@ -45,7 +46,11 @@
                     style="font-size: 14px"
                   >{{item.locations[0].name}}</span>
                 </td>
-                <td>{{(item.zone && item.zone.length > 0) ? item.zone[0] : ""}}</td>
+                <td>
+                  <div v-for="zone in item.zones" :key="zone.name">
+                    <span class="badge badge-warning" style="font-size: 14px">{{zone.name}}</span>
+                  </div>
+                </td>
                 <td>
                   <button
                     @click="edit(item)"
