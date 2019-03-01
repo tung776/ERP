@@ -123,7 +123,7 @@
     </modal>
     <location-modal/>
     <zone-modal :wareHouseId="wareHouseForm._id"/>
-    <confirm/>
+    <confirm/>`
   </div>
 </template>
 <script>
