@@ -1,7 +1,7 @@
 <template>
   <expander :isExpanded="true">
     <div slot="expander-header">
-      <h3 class="card-title">Thuế</h3>
+      <h3 class="card-title">Thiết Lập Kho</h3>
     </div>
     <div slot="expander-body">
       <div class="row">

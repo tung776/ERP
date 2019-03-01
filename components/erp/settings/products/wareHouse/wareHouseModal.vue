@@ -62,13 +62,33 @@
         </select>
       </div>
       <div class="form-group form-check">
-        <input
-          v-model="wareHouseForm.isDefault"
-          type="checkbox"
-          class="form-check-input"
-          id="exampleCheck1"
-        >
-        <label class="form-check-label" for="exampleCheck1">Mặc định</label>
+        <label class="form-check-label" for="exampleCheck1">Khu Vực</label>
+        <span
+          v-for="item in wareHouseForm.locations"
+          class="badge badge-warning"
+          style="font-size: 14px"
+          :key="item.name"
+        >{{item.name}}</span>
+        <button
+          @click="newLocation"
+          type="button"
+          class="btn btn-primary"
+          data-toggle="modal"
+          data-target="#locationModal"
+        >Thêm Vị Trí</button>
+      </div>
+      <div class="form-group form-check">
+        <div v-for="item in wareHouseForm.zone" :key="item.name">
+          <label class="form-check-label" for="exampleCheck1">Vùng</label>
+          <span>{{(item && item.name) ? item.name : ""}}</span>
+        </div>
+        <button
+          @click="newZone"
+          type="button"
+          class="btn btn-primary"
+          data-toggle="modal"
+          data-target="#zoneModal"
+        >Thêm Khu Vực</button>
       </div>
     </div>
     <div slot="modal-footer">
@@ -79,12 +99,16 @@
         class="btn btn-primary"
         data-dismiss="modal"
       >Lưu Dữ Liệu</button>
+      <location-modal/>
+      <zone-modal/>
     </div>
   </modal>
 </template>
 <script>
 import expander from "@/components/expander.vue";
 import modal from "@/components/modal.vue";
+import locationModal from "@/components/erp/settings/products/wareHouse/locationModal.vue";
+import zoneModal from "@/components/erp/settings/products/wareHouse/zoneModal.vue";
 import { mapGetters } from "vuex";
 import sv from "@/services/erp/settings/Product";
 import sv_account from "@/services/erp/settings/Accounts";
@@ -99,13 +123,19 @@ export default {
   },
   components: {
     modal,
-    expander
+    expander,
+    zoneModal,
+    locationModal
   },
   computed: {
     ...mapGetters({
       accountInventories: "settings/products/accountInventory",
       countries: "accountState/countries"
     })
+  },
+  methods: {
+    newZone() {},
+    newLocation() {}
   }
 };
 </script>
