@@ -50,7 +50,7 @@ export default {
     cancelAction() {},
     saveNewZone() {
       zoneService.newZone(this.wareHouseId, this.zoneForm.name);
-      stateChanged();
+      this.stateChanged();
     },
     stateChanged() {
       this.$store.dispatch("settings/products/setStateChanged", {

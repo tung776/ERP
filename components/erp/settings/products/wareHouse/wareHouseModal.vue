@@ -66,7 +66,7 @@
           <label class="form-check-label" for="exampleCheck1">Khu Vực</label>
           <div class="zone" v-for="item in wareHouseForm.locations" :key="item.name">
             <button
-              @click="removeLocation(item)"
+              @click="confirmRemoveLocation(item)"
               type="button"
               class="btn btn-tool btn-danger btn-flat"
               data-toggle="modal"
@@ -88,10 +88,11 @@
           <label for="exampleCheck1">Vùng</label>
           <div class="zone" v-for="item in wareHouseForm.zones" :key="item.name">
             <button
+              @click="confirmRemoveZone(item)"
               type="button"
               class="btn btn-tool btn-danger btn-flat"
               data-toggle="modal"
-              data-target="#wareHouseConfirmModal"
+              data-target="#zoneConfirm"
             >
               <i class="fa fa-remove"></i>
             </button>
@@ -123,7 +124,18 @@
     </modal>
     <location-modal/>
     <zone-modal :wareHouseId="wareHouseForm._id"/>
-    <confirm/>`
+    <confirm
+      :cancelAction="item=>{selectedZone = null}"
+      :confirmAction="removeZone"
+      :title="'Xác Nhận'"
+      :id="'zoneConfirm'"
+    />`
+    <confirm
+      :cancelAction="item=>{selectedLocation = null}"
+      :confirmAction="removeLocation"
+      :title="'Xác Nhận'"
+      :id="'locationConfirm'"
+    />`
   </div>
 </template>
 <script>
@@ -134,18 +146,21 @@ import locationModal from "@/components/erp/settings/products/wareHouse/location
 import zoneModal from "@/components/erp/settings/products/wareHouse/zoneModal.vue";
 import { mapGetters } from "vuex";
 import sv from "@/services/erp/settings/Product";
-import sv_account from "@/services/erp/settings/Accounts";
 import zoneSv from "@/services/erp/settings/zone";
 let service = null;
-let service_account = null;
 let zoneService = null;
 export default {
   props: ["title", "wareHouseForm", "cancelAction", "confirmAction"],
+  data() {
+    return {
+      selectedZone: null,
+      selectedLocation: null
+    };
+  },
 
   async mounted() {
     service = sv(this.$axios, this.$store);
-    service_account = sv_account(this.$axios, this.$store);
-    zoneService = sv_account(this.$axios, this.$store);
+    zoneService = zoneSv(this.$axios, this.$store);
   },
   components: {
     modal,
@@ -163,11 +178,21 @@ export default {
   methods: {
     newZone() {},
     newLocation() {},
-    async removeZone(zone) {
-      await zoneService.deleteZone(zone._id);
-      stateChanged();
+    confirmRemoveZone(item) {
+      this.selectedZone = item;
+      console.log("this.selectedZone", this.selectedZone);
     },
-    removeLocation() {},
+    confirmRemoveLocation(item) {
+      this.selectedLocation = item;
+    },
+    async removeZone() {
+      await zoneService.deleteZone(this.selectedZone._id);
+      this.stateChanged();
+      this.selectedZone = null;
+    },
+    removeLocation(location) {
+      this.selected = null;
+    },
     stateChanged() {
       this.$store.dispatch("settings/products/setStateChanged", {
         isChanged: true,
