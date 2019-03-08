@@ -133,7 +133,6 @@ let service_account = null;
 export default {
   data() {
     return {
-      selectedtItem: null,
       confirm: {
         isShow: false
       },
@@ -141,15 +140,6 @@ export default {
         isRemove: false,
         isEdit: false,
         isNew: false
-      },
-      wareHouseForm: {
-        account: null,
-        address: "",
-        isOwn: false,
-        locations: null,
-        main: false,
-        name: "",
-        zones: []
       }
     };
   },
@@ -161,10 +151,11 @@ export default {
     remove(item) {
       this.switchAction("remove");
       this.confirm.isShow = !this.confirm.isShow;
-      this.selectedtItem = item;
+      this.$store.dispatch("settings/products/selectedtItem", item);
     },
     async edit(item) {
-      this.wareHouseForm = { ...item };
+      this.$store.dispatch("settings/products/setWarehouseForm", item);
+
       this.switchAction("edit");
       this.confirm.isShow = !this.confirm.isShow;
       await this.loadMoreDate();
@@ -181,7 +172,6 @@ export default {
     },
     cancelAction() {
       this.confirm.isShow = !this.confirm.isShow;
-      this.selectedtItem = null;
       this.resetForm();
       this.resetAction();
     },
@@ -220,7 +210,7 @@ export default {
       this.actions.isNew = false;
     },
     resetForm() {
-      this.wareHouseForm = {
+      this.$store.dispatch("settings/products/setWarehouseForm", {
         account: null,
         address: "",
         isOwn: false,
@@ -228,8 +218,8 @@ export default {
         main: false,
         name: "",
         zones: []
-      };
-      this.selectedtItem = null;
+      });
+      this.$store.dispatch("settings/products/setSelectedItem", null);
       this.$store.dispatch("settings/products/setStateChanged", {
         isChanged: true,
         name: "wareHouseTab"
@@ -258,6 +248,8 @@ export default {
   },
   computed: {
     ...mapGetters({
+      selectedtItem: "settings/products/selectedItem",
+      wareHouseForm: "settings/products/wareHouseForm",
       StateChanged: "settings/products/StateChanged",
       wareHouses: "settings/products/warehouse",
       accountInventories: "settings/products/accountInventory",
